@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparing TFP equations — AI, Productivity &amp; Work</title>
+<meta name="description" content="An interactive version of the task-based TFP formula behind Acemoglu (2024) and Aghion &amp; Bunel (2024).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== shared tokens and components (inlined so each page stands alone) ===== */
+/* ============================================================
+   Shared styles — AI, Productivity & Work
+   Palette sampled from shapingwork.mit.edu.
+   ============================================================ */
+:root{
+  --navy:#15265B;
+  --navy-deep:#0E1B44;
+  --blue:#2456C8;
+  --blue-light:#6E96E8;
+  --sage:#A8BC9A;
+  --sage-dark:#5F7A4F;
+  --maroon:#8B2226;
+  --page:#EFEFEF;
+  --pale:#EEF2FA;
+  --white:#FFFFFF;
+  --near-black:#111111;
+  --gray-line:#D8D8D8;
+  --gray-text:#54585C;
+
+  --sans:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk Text Pro","Helvetica Now Text","Inter Tight","Helvetica Neue",Arial,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --acemoglu:var(--navy);
+  --aghion:var(--sage-dark);
+  --live:var(--maroon);
+  --shell:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--near-black);font-family:var(--sans);font-size:16px;line-height:1.5}
+a{color:var(--blue)}
+.inner{max-width:var(--shell);margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px)}
+
+/* ---------- masthead + tabs ---------- */
+.masthead{background:var(--white);border-bottom:1px solid var(--gray-line)}
+.masthead .inner{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px}
+.sitename{text-decoration:none;color:var(--navy);font-weight:800;font-size:1.05rem;letter-spacing:-.01em;line-height:1.15;padding-bottom:14px;display:block}
+.sitename small{display:block;font-family:var(--mono);font-size:.66rem;font-weight:400;letter-spacing:.13em;text-transform:uppercase;color:var(--gray-text);margin-top:4px}
+.tabs{display:flex;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap}
+.tabs a{
+  text-decoration:none;color:var(--blue);font-weight:700;font-size:.9rem;text-transform:uppercase;
+  letter-spacing:.01em;padding:0 0 12px;border-bottom:3px solid transparent;white-space:nowrap;
+}
+.tabs a:hover{border-bottom-color:var(--blue-light)}
+.tabs a[aria-current]{color:var(--sage-dark);border-bottom-color:var(--sage-dark)}
+.tabs a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(90deg,var(--navy-deep) 0%,#2C4160 38%,#5E7370 65%,var(--sage) 100%);color:var(--white)}
+.hero .inner{padding-top:clamp(38px,6vw,74px);padding-bottom:clamp(38px,6vw,74px)}
+.hero .theme{font-size:.86rem;font-weight:600;letter-spacing:.02em;opacity:.92;margin:0 0 14px}
+.hero h1{font-weight:800;font-size:clamp(1.9rem,5.2vw,3.4rem);line-height:.95;letter-spacing:-.025em;margin:0;max-width:28ch;text-transform:uppercase}
+
+/* ---------- page furniture ---------- */
+.wrap{max-width:var(--shell);margin:0 auto;padding:clamp(28px,4.5vw,54px) clamp(16px,4vw,40px) 84px}
+.pill{display:inline-block;background:var(--maroon);color:var(--white);font-weight:700;font-size:.82rem;padding:7px 16px;border-radius:999px}
+.kicker{color:var(--sage-dark);font-weight:500;font-size:1rem}
+.intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+h2.headline{font-weight:800;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1;letter-spacing:-.03em;margin:26px 0 20px;max-width:26ch}
+.standfirst{max-width:66ch;font-size:1.05rem;margin:0}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-text)}
+.block{background:var(--white);padding:clamp(20px,3vw,34px);margin-top:32px}
+.block h3.sec{font-weight:800;font-size:clamp(1.35rem,2.8vw,1.95rem);letter-spacing:-.025em;line-height:1.05;margin:.35em 0 .4em}
+.block .lede{max-width:68ch;color:var(--gray-text);font-size:.95rem;margin:0}
+.note{background:var(--pale);padding:14px 16px;font-size:.87rem;margin:20px 0 0}
+.note b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.35em}
+.btn{
+  display:inline-flex;align-items:stretch;border:1px solid var(--navy);background:var(--white);
+  color:var(--navy);text-decoration:none;font-family:var(--sans);cursor:pointer;padding:0;
+}
+.btn .lab{padding:11px 16px;font-weight:700;font-size:.86rem;text-transform:uppercase;letter-spacing:.01em}
+.btn .chip{display:flex;align-items:center;justify-content:center;width:42px;background:var(--sage);color:var(--navy-deep)}
+.btn:hover{background:var(--pale)}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- controls ---------- */
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:26px;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--gray-line)}
+input[type=range]::-moz-range-track{height:4px;background:var(--gray-line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:24px;background:var(--navy);border:none;margin-top:-10px}
+input[type=range]::-moz-range-thumb{width:14px;height:24px;background:var(--navy);border:none;border-radius:0}
+input[type=range]:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.num,select.control,input.control{
+  font-family:var(--mono);font-size:.95rem;padding:9px 10px;border:1px solid var(--navy);
+  background:var(--white);color:var(--near-black);border-radius:0;max-width:100%;
+}
+.num{width:84px}
+.num:focus-visible,select.control:focus-visible,input.control:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+/* ---------- bars ---------- */
+.bar{position:relative;height:28px;background:var(--page);margin-top:6px;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--navy);display:block}
+.bar i.sg{background:var(--sage-dark)}
+@media(prefers-reduced-motion:no-preference){.bar i{transition:width .18s ease-out}}
+.step{margin:18px 0 0}
+.step-top{display:flex;justify-content:space-between;align-items:baseline;font-size:.86rem;gap:12px}
+.step-top .name{font-weight:600}
+.step-top .frac{font-family:var(--mono);color:var(--gray-text);font-size:.79rem;text-align:right}
+
+/* ---------- tables ---------- */
+table.compare{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+table.compare th,table.compare td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--gray-line);vertical-align:top}
+table.compare thead th{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--navy);border:none}
+table.compare td.n,table.compare th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.compare .ace{color:var(--navy);font-weight:600}
+table.compare .agh{color:var(--sage-dark);font-weight:600}
+
+/* ---------- notes grid ---------- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;margin-top:24px}
+.notes h4{font-weight:700;font-size:1rem;margin:0 0 .5em;color:var(--navy)}
+.notes p{margin:0;font-size:.89rem;color:var(--gray-text)}
+.notes .src{font-family:var(--mono);font-size:.76rem;line-height:1.65}
+
+/* ---------- footer ---------- */
+footer.site{background:var(--navy);color:#fff}
+footer.site .inner{padding-top:38px;padding-bottom:38px}
+footer.site p{margin:0 0 10px;font-size:.85rem;color:#D7DEEE;max-width:70ch}
+footer.site a{color:#fff}
+footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16px;font-size:.78rem;color:#B9C4DC}
+
+</style>
+<style>
+.cols{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(22px,3.5vw,44px);align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.formula{background:var(--navy);color:#fff;margin:34px 0 40px;padding:20px clamp(14px,3vw,26px);font-family:var(--mono);font-size:clamp(.75rem,2vw,1rem);display:flex;flex-wrap:wrap;align-items:center;gap:.55em}
+.formula .v{font-weight:500;padding:.14em .4em;background:#ffffff1f;white-space:nowrap}
+.formula .op{opacity:.55}
+.formula .out{margin-left:auto;white-space:nowrap}
+.formula .out b{background:var(--sage);color:var(--navy-deep);padding:.16em .5em;font-weight:600}
+.dial{background:var(--white);padding:24px clamp(16px,2.4vw,26px);margin-bottom:14px}
+.dial-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.dial h3{font-weight:700;font-size:1.14rem;letter-spacing:-.015em;margin:0;color:var(--navy)}
+.dial .q{margin:.35em 0 0;font-size:.92rem;color:var(--gray-text);max-width:48ch}
+.readout{font-family:var(--mono);font-weight:600;font-size:1.4rem;color:var(--maroon);font-variant-numeric:tabular-nums}
+.field{display:flex;align-items:center;gap:14px;margin-top:18px}
+.ticks{position:relative;height:22px}
+.tick{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:.68rem;white-space:nowrap;cursor:pointer;background:none;border:0;padding:2px 3px;color:var(--gray-text)}
+.tick::before{content:"";display:block;width:1px;height:6px;margin:0 auto 2px;background:currentColor}
+.tick:hover,.tick:focus-visible{text-decoration:underline}
+.tick.a{color:var(--navy)}
+.tick.g{color:var(--sage-dark)}
+.tick.a.near{transform:translateX(-100%)}
+.tick.g.near{transform:translateX(0)}
+details.prov{margin-top:16px;border-top:1px solid var(--gray-line);padding-top:12px}
+details.prov summary{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);cursor:pointer;list-style:none;font-weight:500}
+details.prov summary::-webkit-details-marker{display:none}
+details.prov summary::before{content:"+ "}
+details.prov[open] summary::before{content:"\2212 "}
+details.prov summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.prov-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:580px){.prov-grid{grid-template-columns:1fr}}
+.prov-card{padding:12px 14px;background:var(--page)}
+.prov-card.a{border-top:3px solid var(--navy)}
+.prov-card.g{border-top:3px solid var(--sage-dark)}
+.prov-card .who{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-text);margin:0}
+.prov-card .val{font-family:var(--mono);font-weight:600;font-size:1.05rem;margin:.2em 0 .4em}
+.prov-card p:last-child{margin:0;font-size:.84rem;line-height:1.45;color:var(--gray-text)}
+.diff{margin:14px 0 0;font-size:.88rem;background:var(--pale);padding:12px 14px}
+.diff b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.35em}
+.panel{position:sticky;top:20px;background:var(--white);padding:26px}
+@media(max-width:900px){.panel{position:static}}
+.panel .rule{height:4px;background:var(--sage);margin:0 0 18px;width:52px}
+.big{font-weight:900;letter-spacing:-.045em;font-size:clamp(3rem,10vw,4.4rem);line-height:.88;margin:.1em 0 0;color:var(--maroon);font-variant-numeric:tabular-nums}
+.big span{font-size:.34em;letter-spacing:0}
+.pair{display:flex;gap:20px;flex-wrap:wrap;margin:20px 0 0;padding-top:18px;border-top:1px solid var(--gray-line)}
+.pair div{flex:1;min-width:116px}
+.pair .n{font-family:var(--mono);font-size:1.2rem;font-weight:600;font-variant-numeric:tabular-nums;margin:0;color:var(--navy)}
+.pair .l{font-size:.78rem;color:var(--gray-text);line-height:1.35;margin:.25em 0 0}
+.presets{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.presets .btn{width:100%;justify-content:space-between}
+.presets .btn .lab{text-transform:none}
+.presets .who{display:block;font-weight:700;font-size:.86rem;text-transform:uppercase}
+.presets .res{display:block;font-family:var(--mono);font-size:.76rem;color:var(--gray-text);margin-top:2px;font-weight:400}
+.panel .foot{font-size:.78rem;color:var(--gray-text);margin:18px 0 0}
+.final{margin-top:26px;padding:18px;background:var(--pale)}
+.final .bar{background:var(--white)}
+.final .sliver{background:var(--maroon);min-width:1px}
+.final p{margin:12px 0 0;font-size:.86rem;color:var(--gray-text)}
+table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="inner">
+    <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
+    <nav class="tabs">
+      <a href="index.html" aria-current="page">Comparing TFP Equations</a>
+      <a href="world.html">AI Throughout the World</a>
+      <a href="agentic.html">Agentic AI</a>
+      <a href="occupations.html">AI Throughout Occupations</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="inner">
+    <p class="theme">Labor Market Consequences of Technological Change</p>
+    <h1>Four inputs, ten times apart</h1>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="intro">
+    <span class="pill">AI and Total Factor Productivity</span>
+    <span class="kicker">Interactive</span>
+  </div>
+
+  <h2 class="headline">Same formula. Ten times apart.</h2>
+  <p class="standfirst">Acemoglu (2024) and Aghion &amp; Bunel (2024) run an identical task-based equation for what AI does to US total factor productivity over a decade. Three inputs differ substantially, the fourth barely at all, and multiplication turns that into a tenfold gap. Turn the dials yourself.</p>
+
+  <div class="formula" aria-hidden="true">
+    <span>TFP gain</span><span class="op">=</span>
+    <span class="v" id="f1">20.0%</span><span class="op">×</span>
+    <span class="v" id="f2">23.0%</span><span class="op">×</span>
+    <span class="v" id="f3">27.0%</span><span class="op">×</span>
+    <span class="v" id="f4">53.5%</span>
+    <span class="out">= <b id="fOut">0.66%</b></span>
+  </div>
+
+  <div class="cols">
+    <div>
+      <section class="dial">
+        <div class="dial-head">
+          <div>
+            <h3>GDP share of exposed tasks</h3>
+            <p class="q">How much of the economy's work does AI touch at all?</p>
+          </div>
+          <output class="readout" id="r-exposure">20.0%</output>
+        </div>
+        <div class="field">
+          <input type="range" id="s-exposure" min="0" max="100" step="0.5" value="20" aria-label="GDP share of exposed tasks, percent">
+          <input type="number" class="num" id="n-exposure" min="0" max="100" step="0.1" value="20" aria-label="GDP share of exposed tasks, percent, exact value">
+        </div>
+        <div class="ticks">
+          <button class="tick a" data-set="exposure" data-val="20" style="left:20%">Acemoglu 20%</button>
+          <button class="tick g" data-set="exposure" data-val="60" style="left:60%">Aghion 60%</button>
+        </div>
+        <details class="prov">
+          <summary>How each side gets there</summary>
+          <div class="prov-grid">
+            <div class="prov-card a">
+              <p class="who">Acemoglu</p>
+              <p class="val">20%</p>
+              <p>Tasks exposed to AI and computer vision, from Eloundou et al. (2024), combined into occupations using BLS wage bills. The wage-bill-weighted share of exposed occupations is read as a GDP share.</p>
+            </div>
+            <div class="prov-card g">
+              <p class="who">Aghion &amp; Bunel</p>
+              <p class="val">60%</p>
+              <p>Employment exposed to AI in the US, from Pizzinelli et al. (2023), who measure exposure by abilities. Abilities are weighted by prevalence and importance and aggregated to an AIOE score per occupation, then to employment shares by country. US-specific, and includes both high- and low-complementarity employment.</p>
+            </div>
+          </div>
+          <p class="diff"><b>Key difference</b>Acemoglu uses task exposure, Aghion ability exposure. Aghion flags every occupation above the AIOE median as exposed; Acemoglu uses each occupation's share of exposed tasks and weights by wage bill to reach a GDP share. Aghion applies no weighting, assuming the GDP share of exposed tasks is similar in magnitude to the task share — despite working from abilities.</p>
+        </details>
+      </section>
+
+      <section class="dial">
+        <div class="dial-head">
+          <div>
+            <h3>Share profitable to automate</h3>
+            <p class="q">Of the computer-vision tasks AI touches, how many are feasible and profitable to hand over within ten years?</p>
+          </div>
+          <output class="readout" id="r-automatable">23.0%</output>
+        </div>
+        <div class="field">
+          <input type="range" id="s-automatable" min="0" max="100" step="0.5" value="23" aria-label="Share profitable to automate, percent">
+          <input type="number" class="num" id="n-automatable" min="0" max="100" step="0.1" value="23" aria-label="Share profitable to automate, percent, exact value">
+        </div>
+        <div class="ticks">
+          <button class="tick a" data-set="automatable" data-val="23" style="left:23%">Acemoglu 23%</button>
+          <button class="tick g" data-set="automatable" data-val="50" style="left:50%">Aghion 50%</button>
+        </div>
+        <details class="prov">
+          <summary>How each side gets there</summary>
+          <div class="prov-grid">
+            <div class="prov-card a">
+              <p class="who">Acemoglu</p>
+              <p class="val">23%</p>
+              <p>Svanberg et al. (2024), baseline scenario.</p>
+            </div>
+            <div class="prov-card g">
+              <p class="who">Aghion &amp; Bunel</p>
+              <p class="val">50%</p>
+              <p>Svanberg et al. (2024) cost-decline scenarios, under a 22% annual decline in computing costs from Besiroglu &amp; Hobbhahn (2022).</p>
+            </div>
+          </div>
+          <p class="diff"><b>Key difference</b>Aghion incorporates projected computing-cost declines. Acemoglu excludes them from his baseline, arguing that a doubling of GPU capacity will not necessarily translate into a 50% fall in costs, citing diminishing returns, bottlenecks from other inputs, and current architectural limits.</p>
+        </details>
+      </section>
+
+      <section class="dial">
+        <div class="dial-head">
+          <div>
+            <h3>Average cost savings</h3>
+            <p class="q">Where a task is automated, how much cheaper does the labour get?</p>
+          </div>
+          <output class="readout" id="r-savings">27.0%</output>
+        </div>
+        <div class="field">
+          <input type="range" id="s-savings" min="0" max="100" step="0.5" value="27" aria-label="Average labour cost savings, percent">
+          <input type="number" class="num" id="n-savings" min="0" max="100" step="0.1" value="27" aria-label="Average labour cost savings, percent, exact value">
+        </div>
+        <div class="ticks">
+          <button class="tick a" data-set="savings" data-val="27" style="left:27%">Acemoglu 27%</button>
+          <button class="tick g" data-set="savings" data-val="40" style="left:40%">Aghion 40%</button>
+        </div>
+        <details class="prov">
+          <summary>How each side gets there</summary>
+          <div class="prov-grid">
+            <div class="prov-card a">
+              <p class="who">Acemoglu</p>
+              <p class="val">27%</p>
+              <p>Average of two experimental studies: Noy &amp; Zhang (2023) and Brynjolfsson et al. (2023).</p>
+            </div>
+            <div class="prov-card g">
+              <p class="who">Aghion &amp; Bunel</p>
+              <p class="val">40%</p>
+              <p>Average of three: Noy &amp; Zhang (2023), Brynjolfsson et al. (2023) and Peng et al. (2023).</p>
+            </div>
+          </div>
+          <p class="diff"><b>Key difference</b>Aghion includes Peng et al. Acemoglu excludes it because he believes its setting — computer programmers using GitHub Copilot — is less likely to be relevant to other tasks and occupations.</p>
+        </details>
+      </section>
+
+      <section class="dial">
+        <div class="dial-head">
+          <div>
+            <h3>AI-exposure-adjusted labour share</h3>
+            <p class="q">Tasks run on labour and capital together, so only the labour slice of the cost can be saved.</p>
+          </div>
+          <output class="readout" id="r-labshare">53.5%</output>
+        </div>
+        <div class="field">
+          <input type="range" id="s-labshare" min="0" max="100" step="0.5" value="53.5" aria-label="AI-exposure-adjusted labour share, percent">
+          <input type="number" class="num" id="n-labshare" min="0" max="100" step="0.1" value="53.5" aria-label="AI-exposure-adjusted labour share, percent, exact value">
+        </div>
+        <div class="ticks">
+          <button class="tick a near" data-set="labshare" data-val="53.5" style="left:53.5%">Acemoglu 53.5%</button>
+          <button class="tick g near" data-set="labshare" data-val="57" style="left:57%">Aghion 57%</button>
+        </div>
+        <details class="prov">
+          <summary>How each side gets there</summary>
+          <div class="prov-grid">
+            <div class="prov-card a">
+              <p class="who">Acemoglu</p>
+              <p class="val">53.5%</p>
+              <p>Industry-level AI exposure from Eloundou et al. (2024) combined with industry labour shares from the BEA.</p>
+            </div>
+            <div class="prov-card g">
+              <p class="who">Aghion &amp; Bunel</p>
+              <p class="val">57%</p>
+              <p>Taken straight from Acemoglu's April 2024 draft.</p>
+            </div>
+          </div>
+          <p class="diff"><b>Key difference</b>None in methodology — the same construction, one draft apart. This is the input the two sides effectively agree on, and the only place where the gap is rounding rather than argument.</p>
+        </details>
+      </section>
+
+      <section class="dial">
+        <div class="dial-head">
+          <div>
+            <h3>Horizon</h3>
+            <p class="q">Not a driver of the gap. It only sets the window the cumulative gain is spread across to get an annual rate.</p>
+          </div>
+          <output class="readout" id="r-years">10 yr</output>
+        </div>
+        <div class="field">
+          <input type="range" id="s-years" min="1" max="30" step="1" value="10" aria-label="Horizon in years">
+          <input type="number" class="num" id="n-years" min="1" max="30" step="1" value="10" aria-label="Horizon in years, exact value">
+        </div>
+      </section>
+    </div>
+
+    <aside class="panel" aria-live="polite">
+      <div class="rule"></div>
+      <p class="eyebrow">Cumulative TFP gain</p>
+      <p class="big" id="out-cum">0.66<span>%</span></p>
+      <div class="pair">
+        <div>
+          <p class="n" id="out-annual">0.07pp</p>
+          <p class="l">Added TFP growth per year</p>
+        </div>
+        <div>
+          <p class="n" id="out-mult">1.0×</p>
+          <p class="l">Versus Acemoglu's baseline</p>
+        </div>
+      </div>
+      <div class="presets">
+        <button class="btn" data-key="acemoglu"><span class="lab"><span class="who">Acemoglu (2024)</span><span class="res">0.07pp / year</span></span><span class="chip" aria-hidden="true">→</span></button>
+        <button class="btn" data-key="aghion"><span class="lab"><span class="who">Aghion &amp; Bunel (2024)</span><span class="res">0.68pp / year</span></span><span class="chip" aria-hidden="true">→</span></button>
+        <button class="btn" data-key="split"><span class="lab"><span class="who">Split the difference</span><span class="res">midpoints</span></span><span class="chip" aria-hidden="true">→</span></button>
+      </div>
+      <p class="foot">Average overall cost saving — the last two inputs multiplied — is currently <span id="out-overall">14.4%</span>.</p>
+    </aside>
+  </div>
+
+  <section class="block">
+    <p class="eyebrow">The whittling</p>
+    <h3 class="sec">Each input keeps a fraction of what the one above it left</h3>
+    <p class="lede">Every bar is redrawn at full width, so you see each factor on its own terms. The multiplication is what turns three moderate disagreements into an order of magnitude.</p>
+
+    <div class="step">
+      <div class="step-top"><span class="name">Tasks in the economy</span><span class="frac">100% — the starting point</span></div>
+      <div class="bar"><i style="width:100%"></i></div>
+    </div>
+    <div class="step">
+      <div class="step-top"><span class="name">…exposed to AI</span><span class="frac" id="c1f">20.0% of the above</span></div>
+      <div class="bar"><i id="c1" style="width:20%"></i></div>
+    </div>
+    <div class="step">
+      <div class="step-top"><span class="name">…profitable to automate</span><span class="frac" id="c2f">23.0% of the above</span></div>
+      <div class="bar"><i id="c2" style="width:23%"></i></div>
+    </div>
+    <div class="step">
+      <div class="step-top"><span class="name">…saved in labour cost</span><span class="frac" id="c3f">27.0% of the above</span></div>
+      <div class="bar"><i id="c3" style="width:27%"></i></div>
+    </div>
+    <div class="step">
+      <div class="step-top"><span class="name">…that was labour, not capital</span><span class="frac" id="c4f">53.5% of the above</span></div>
+      <div class="bar"><i class="sg" id="c4" style="width:53.5%"></i></div>
+    </div>
+
+    <div class="final">
+      <div class="step-top"><span class="name">What survives, drawn to scale against the whole economy</span><span class="frac" id="finf">0.66% of all tasks</span></div>
+      <div class="bar"><i class="sliver" id="fin" style="width:0.66%"></i></div>
+      <p>At Acemoglu's numbers the sliver is almost invisible — that is his argument. At Aghion &amp; Bunel's it is roughly a tenth of the bar.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">Published values</p>
+    <h3 class="sec">The two sets, side by side</h3>
+    <table class="compare">
+      <thead>
+        <tr><th scope="col">Component</th><th scope="col" class="n">Acemoglu</th><th scope="col" class="n">Aghion &amp; Bunel</th><th scope="col" class="n">Ratio</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GDP share of exposed tasks</td><td class="n ace">20%</td><td class="n agh">60%</td><td class="n">3.0×</td></tr>
+        <tr><td>Share profitable to automate</td><td class="n ace">23%</td><td class="n agh">50%</td><td class="n">2.2×</td></tr>
+        <tr><td>Average cost savings</td><td class="n ace">27%</td><td class="n agh">40%</td><td class="n">1.5×</td></tr>
+        <tr><td>AI-exposure-adjusted labour share</td><td class="n ace">53.5%</td><td class="n agh">57%</td><td class="n">1.07×</td></tr>
+        <tr><td>Resulting TFP gain</td><td class="n ace">0.07pp/yr</td><td class="n agh">0.68pp/yr</td><td class="n">≈10×</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">Notes</p>
+    <div class="notes">
+      <div>
+        <h4>Reading the gap</h4>
+        <p>None of the three real disagreements is extreme on its own: 3×, 2.2× and 1.5×. Multiplied, they are roughly tenfold, and the labour-share rounding adds a further 7%. A formula this short leaves nowhere for the differences to be absorbed.</p>
+      </div>
+      <div>
+        <h4>What the dials cannot show</h4>
+        <p>Both figures are cumulative gains within a decade, spread evenly to reach an annual rate. Neither side is modelling adoption timing, new tasks AI might create, or reallocation across industries — the formula prices only cost savings in tasks that already exist.</p>
+      </div>
+      <div>
+        <h4>Sources</h4>
+        <p class="src">Acemoglu, “The Simple Macroeconomics of AI”, NBER WP 32487 (2024).<br>
+        Aghion &amp; Bunel, “AI and Growth: Where Do We Stand?” (2024).<br>
+        Inputs from Eloundou et al. (2024), Pizzinelli et al. (2023), Svanberg et al. (2024), Besiroglu &amp; Hobbhahn (2022), Noy &amp; Zhang (2023), Brynjolfsson et al. (2023), Peng et al. (2023).</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="site">
+  <div class="inner">
+    <p>Annual figures divide the cumulative gain evenly across the horizon, following both papers. Illustrative of the formula, not a forecast.</p>
+    <p class="copy">© 2026</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEYS=["exposure","automatable","savings","labshare"];
+  var state={exposure:20,automatable:23,savings:27,labshare:53.5,years:10};
+  var PRESETS={
+    acemoglu:{exposure:20,automatable:23,savings:27,labshare:53.5},
+    aghion:{exposure:60,automatable:50,savings:40,labshare:57},
+    split:{exposure:40,automatable:36.5,savings:33.5,labshare:55.25}
+  };
+  var BASE=0.20*0.23*0.27*0.535;
+  function el(id){return document.getElementById(id);}
+  function fmt(n,d){return n.toFixed(d===undefined?1:d);}
+
+  function render(){
+    KEYS.concat(["years"]).forEach(function(k){
+      el("s-"+k).value=state[k];
+      if(document.activeElement!==el("n-"+k)) el("n-"+k).value=state[k];
+    });
+    el("r-exposure").textContent=fmt(state.exposure)+"%";
+    el("r-automatable").textContent=fmt(state.automatable)+"%";
+    el("r-savings").textContent=fmt(state.savings)+"%";
+    el("r-labshare").textContent=fmt(state.labshare)+"%";
+    el("r-years").textContent=state.years+" yr";
+    el("f1").textContent=fmt(state.exposure)+"%";
+    el("f2").textContent=fmt(state.automatable)+"%";
+    el("f3").textContent=fmt(state.savings)+"%";
+    el("f4").textContent=fmt(state.labshare)+"%";
+
+    var cum=(state.exposure/100)*(state.automatable/100)*(state.savings/100)*(state.labshare/100);
+    var cumPct=cum*100, annual=cumPct/state.years;
+    el("fOut").textContent=fmt(cumPct,2)+"%";
+    el("out-cum").innerHTML=fmt(cumPct,2)+"<span>%</span>";
+    el("out-annual").textContent=fmt(annual,2)+"pp";
+    el("out-mult").textContent=(cum/BASE).toFixed(1)+"\u00D7";
+    el("out-overall").textContent=fmt(state.savings*state.labshare/100)+"%";
+    [["c1","exposure"],["c2","automatable"],["c3","savings"],["c4","labshare"]].forEach(function(p){
+      el(p[0]).style.width=state[p[1]]+"%";
+      el(p[0]+"f").textContent=fmt(state[p[1]])+"% of the above";
+    });
+    el("fin").style.width=Math.max(cumPct,0)+"%";
+    el("finf").textContent=fmt(cumPct,2)+"% of all tasks";
+  }
+  function set(k,v){
+    var max=(k==="years")?30:100, min=(k==="years")?1:0;
+    v=parseFloat(v); if(isNaN(v))return;
+    state[k]=Math.min(max,Math.max(min,v)); render();
+  }
+  KEYS.concat(["years"]).forEach(function(k){
+    el("s-"+k).addEventListener("input",function(){set(k,this.value);});
+    el("n-"+k).addEventListener("input",function(){set(k,this.value);});
+    el("n-"+k).addEventListener("blur",render);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".tick[data-set]"),function(b){
+    b.addEventListener("click",function(){set(b.dataset.set,b.dataset.val);});
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".presets .btn"),function(b){
+    b.addEventListener("click",function(){
+      var p=PRESETS[b.dataset.key];
+      Object.keys(p).forEach(function(k){state[k]=p[k];});
+      render();
+    });
+  });
+  render();
+})();
+</script>
+</body>
+</html>

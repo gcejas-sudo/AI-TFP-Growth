@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic AI — AI, Productivity &amp; Work</title>
+<meta name="description" content="Two models for agentic AI: adviser versus autonomous decision-maker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== shared tokens and components (inlined so each page stands alone) ===== */
+/* ============================================================
+   Shared styles — AI, Productivity & Work
+   Palette sampled from shapingwork.mit.edu.
+   ============================================================ */
+:root{
+  --navy:#15265B;
+  --navy-deep:#0E1B44;
+  --blue:#2456C8;
+  --blue-light:#6E96E8;
+  --sage:#A8BC9A;
+  --sage-dark:#5F7A4F;
+  --maroon:#8B2226;
+  --page:#EFEFEF;
+  --pale:#EEF2FA;
+  --white:#FFFFFF;
+  --near-black:#111111;
+  --gray-line:#D8D8D8;
+  --gray-text:#54585C;
+
+  --sans:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk Text Pro","Helvetica Now Text","Inter Tight","Helvetica Neue",Arial,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --acemoglu:var(--navy);
+  --aghion:var(--sage-dark);
+  --live:var(--maroon);
+  --shell:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--near-black);font-family:var(--sans);font-size:16px;line-height:1.5}
+a{color:var(--blue)}
+.inner{max-width:var(--shell);margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px)}
+
+/* ---------- masthead + tabs ---------- */
+.masthead{background:var(--white);border-bottom:1px solid var(--gray-line)}
+.masthead .inner{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px}
+.sitename{text-decoration:none;color:var(--navy);font-weight:800;font-size:1.05rem;letter-spacing:-.01em;line-height:1.15;padding-bottom:14px;display:block}
+.sitename small{display:block;font-family:var(--mono);font-size:.66rem;font-weight:400;letter-spacing:.13em;text-transform:uppercase;color:var(--gray-text);margin-top:4px}
+.tabs{display:flex;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap}
+.tabs a{
+  text-decoration:none;color:var(--blue);font-weight:700;font-size:.9rem;text-transform:uppercase;
+  letter-spacing:.01em;padding:0 0 12px;border-bottom:3px solid transparent;white-space:nowrap;
+}
+.tabs a:hover{border-bottom-color:var(--blue-light)}
+.tabs a[aria-current]{color:var(--sage-dark);border-bottom-color:var(--sage-dark)}
+.tabs a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(90deg,var(--navy-deep) 0%,#2C4160 38%,#5E7370 65%,var(--sage) 100%);color:var(--white)}
+.hero .inner{padding-top:clamp(38px,6vw,74px);padding-bottom:clamp(38px,6vw,74px)}
+.hero .theme{font-size:.86rem;font-weight:600;letter-spacing:.02em;opacity:.92;margin:0 0 14px}
+.hero h1{font-weight:800;font-size:clamp(1.9rem,5.2vw,3.4rem);line-height:.95;letter-spacing:-.025em;margin:0;max-width:28ch;text-transform:uppercase}
+
+/* ---------- page furniture ---------- */
+.wrap{max-width:var(--shell);margin:0 auto;padding:clamp(28px,4.5vw,54px) clamp(16px,4vw,40px) 84px}
+.pill{display:inline-block;background:var(--maroon);color:var(--white);font-weight:700;font-size:.82rem;padding:7px 16px;border-radius:999px}
+.kicker{color:var(--sage-dark);font-weight:500;font-size:1rem}
+.intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+h2.headline{font-weight:800;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1;letter-spacing:-.03em;margin:26px 0 20px;max-width:26ch}
+.standfirst{max-width:66ch;font-size:1.05rem;margin:0}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-text)}
+.block{background:var(--white);padding:clamp(20px,3vw,34px);margin-top:32px}
+.block h3.sec{font-weight:800;font-size:clamp(1.35rem,2.8vw,1.95rem);letter-spacing:-.025em;line-height:1.05;margin:.35em 0 .4em}
+.block .lede{max-width:68ch;color:var(--gray-text);font-size:.95rem;margin:0}
+.note{background:var(--pale);padding:14px 16px;font-size:.87rem;margin:20px 0 0}
+.note b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.35em}
+.btn{
+  display:inline-flex;align-items:stretch;border:1px solid var(--navy);background:var(--white);
+  color:var(--navy);text-decoration:none;font-family:var(--sans);cursor:pointer;padding:0;
+}
+.btn .lab{padding:11px 16px;font-weight:700;font-size:.86rem;text-transform:uppercase;letter-spacing:.01em}
+.btn .chip{display:flex;align-items:center;justify-content:center;width:42px;background:var(--sage);color:var(--navy-deep)}
+.btn:hover{background:var(--pale)}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- controls ---------- */
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:26px;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--gray-line)}
+input[type=range]::-moz-range-track{height:4px;background:var(--gray-line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:24px;background:var(--navy);border:none;margin-top:-10px}
+input[type=range]::-moz-range-thumb{width:14px;height:24px;background:var(--navy);border:none;border-radius:0}
+input[type=range]:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.num,select.control,input.control{
+  font-family:var(--mono);font-size:.95rem;padding:9px 10px;border:1px solid var(--navy);
+  background:var(--white);color:var(--near-black);border-radius:0;max-width:100%;
+}
+.num{width:84px}
+.num:focus-visible,select.control:focus-visible,input.control:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+/* ---------- bars ---------- */
+.bar{position:relative;height:28px;background:var(--page);margin-top:6px;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--navy);display:block}
+.bar i.sg{background:var(--sage-dark)}
+@media(prefers-reduced-motion:no-preference){.bar i{transition:width .18s ease-out}}
+.step{margin:18px 0 0}
+.step-top{display:flex;justify-content:space-between;align-items:baseline;font-size:.86rem;gap:12px}
+.step-top .name{font-weight:600}
+.step-top .frac{font-family:var(--mono);color:var(--gray-text);font-size:.79rem;text-align:right}
+
+/* ---------- tables ---------- */
+table.compare{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+table.compare th,table.compare td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--gray-line);vertical-align:top}
+table.compare thead th{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--navy);border:none}
+table.compare td.n,table.compare th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.compare .ace{color:var(--navy);font-weight:600}
+table.compare .agh{color:var(--sage-dark);font-weight:600}
+
+/* ---------- notes grid ---------- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;margin-top:24px}
+.notes h4{font-weight:700;font-size:1rem;margin:0 0 .5em;color:var(--navy)}
+.notes p{margin:0;font-size:.89rem;color:var(--gray-text)}
+.notes .src{font-family:var(--mono);font-size:.76rem;line-height:1.65}
+
+/* ---------- footer ---------- */
+footer.site{background:var(--navy);color:#fff}
+footer.site .inner{padding-top:38px;padding-bottom:38px}
+footer.site p{margin:0 0 10px;font-size:.85rem;color:#D7DEEE;max-width:70ch}
+footer.site a{color:#fff}
+footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16px;font-size:.78rem;color:#B9C4DC}
+
+</style>
+<style>
+.readcard{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;background:var(--pale);padding:24px clamp(18px,3vw,28px);margin-top:26px}
+.readcard .meta{max-width:52ch}
+.readcard .src{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-text);margin:0}
+.readcard h3{font-weight:800;font-size:clamp(1.3rem,2.6vw,1.7rem);letter-spacing:-.025em;line-height:1.1;margin:.35em 0 .3em;color:var(--navy)}
+.readcard p.by{margin:0 0 14px;font-size:.9rem;color:var(--gray-text)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.model{background:var(--white);padding:22px clamp(16px,2.4vw,24px);border-top:5px solid var(--navy)}
+.model.risk{border-top-color:var(--maroon)}
+.model .tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-text);margin:0}
+.model h4{font-weight:800;font-size:1.25rem;letter-spacing:-.02em;margin:.3em 0 .5em;color:var(--navy)}
+.model.risk h4{color:var(--maroon)}
+.model p{font-size:.92rem;margin:0 0 .8em}
+.model ul{margin:.2em 0 0;padding-left:1.1em;font-size:.9rem;color:var(--gray-text)}
+.model li{margin-bottom:.45em}
+.slot{background:var(--white);padding:clamp(20px,3vw,30px);margin-top:20px;border-left:5px solid var(--sage)}
+.slot h4{margin:0 0 .5em;font-size:1rem;font-weight:700;color:var(--navy)}
+.slot .placeholder{color:var(--gray-text);font-style:italic;font-size:.9rem;margin:0}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="inner">
+    <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
+    <nav class="tabs">
+      <a href="index.html">Comparing TFP Equations</a>
+      <a href="world.html">AI Throughout the World</a>
+      <a href="agentic.html" aria-current="page">Agentic AI</a>
+      <a href="occupations.html">AI Throughout Occupations</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="inner">
+    <p class="theme">Applying AI to Extend Worker Expertise</p>
+    <h1>Agentic AI</h1>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro">
+    <span class="pill">Adviser or decision-maker</span>
+    <span class="kicker">Commentary</span>
+  </div>
+
+  <h2 class="headline">A fork in the road, not a speed setting.</h2>
+  <p class="standfirst">The question is not how fast agents arrive but which kind the industry chooses to build. An agent that supplies a human with timely, reliable information is a different technology — economically and institutionally — from one that acts on its own authority.</p>
+
+  <div class="readcard">
+    <div class="meta">
+      <p class="src">Project Syndicate · 28 March 2025</p>
+      <h3>Two Models for Agentic AI</h3>
+      <p class="by">Daron Acemoglu</p>
+      <p style="margin:0;font-size:.92rem">Acemoglu argues that agentic AI presents a crossroads: as an adviser to human decision-makers it could deliver real gains, while fully autonomous agents bring foreseeable problems that would erode much of the benefit the technology might otherwise offer.</p>
+    </div>
+    <a class="btn" href="https://www.project-syndicate.org/commentary/ai-agents-promising-as-advisers-but-problematic-as-autonomous-decision-makers-by-daron-acemoglu-2025-03" target="_blank" rel="noopener">
+      <span class="lab">Read the commentary</span><span class="chip" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <div class="two">
+    <div class="model">
+      <p class="tag">Model one</p>
+      <h4>AI as adviser</h4>
+      <p>The agent gathers, filters and presents. A person still decides, and still carries the consequences.</p>
+      <ul>
+        <li>Human judgment stays in the loop, so accountability has somewhere to sit</li>
+        <li>Gains show up as better-informed decisions rather than removed headcount</li>
+        <li>Errors surface as bad advice a person can reject</li>
+      </ul>
+    </div>
+    <div class="model risk">
+      <p class="tag">Model two</p>
+      <h4>AI as autonomous decision-maker</h4>
+      <p>The agent transacts, commits and acts. The human is downstream of the decision, not upstream of it.</p>
+      <ul>
+        <li>Accountability becomes diffuse when no person authorised the action</li>
+        <li>Errors compound before anyone is positioned to catch them</li>
+        <li>The displacement case strengthens without the productivity case improving</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slot">
+    <h4>Notes</h4>
+    <p class="placeholder">Space for your own commentary — how the two models map onto the TFP inputs on the first tab, or onto the occupational picture on the fourth.</p>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="inner">
+    <p>Summary of the linked commentary is paraphrased; read the original at Project Syndicate for the argument in full.</p>
+    <p class="copy">© 2026</p>
+  </div>
+</footer>
+</body>
+</html>

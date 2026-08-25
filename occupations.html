@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI throughout occupations — AI, Productivity &amp; Work</title>
+<meta name="description" content="Search occupations for AI exposure, and compare exposure at the top and bottom of organisations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== shared tokens and components (inlined so each page stands alone) ===== */
+/* ============================================================
+   Shared styles — AI, Productivity & Work
+   Palette sampled from shapingwork.mit.edu.
+   ============================================================ */
+:root{
+  --navy:#15265B;
+  --navy-deep:#0E1B44;
+  --blue:#2456C8;
+  --blue-light:#6E96E8;
+  --sage:#A8BC9A;
+  --sage-dark:#5F7A4F;
+  --maroon:#8B2226;
+  --page:#EFEFEF;
+  --pale:#EEF2FA;
+  --white:#FFFFFF;
+  --near-black:#111111;
+  --gray-line:#D8D8D8;
+  --gray-text:#54585C;
+
+  --sans:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk Text Pro","Helvetica Now Text","Inter Tight","Helvetica Neue",Arial,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --acemoglu:var(--navy);
+  --aghion:var(--sage-dark);
+  --live:var(--maroon);
+  --shell:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--near-black);font-family:var(--sans);font-size:16px;line-height:1.5}
+a{color:var(--blue)}
+.inner{max-width:var(--shell);margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px)}
+
+/* ---------- masthead + tabs ---------- */
+.masthead{background:var(--white);border-bottom:1px solid var(--gray-line)}
+.masthead .inner{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px}
+.sitename{text-decoration:none;color:var(--navy);font-weight:800;font-size:1.05rem;letter-spacing:-.01em;line-height:1.15;padding-bottom:14px;display:block}
+.sitename small{display:block;font-family:var(--mono);font-size:.66rem;font-weight:400;letter-spacing:.13em;text-transform:uppercase;color:var(--gray-text);margin-top:4px}
+.tabs{display:flex;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap}
+.tabs a{
+  text-decoration:none;color:var(--blue);font-weight:700;font-size:.9rem;text-transform:uppercase;
+  letter-spacing:.01em;padding:0 0 12px;border-bottom:3px solid transparent;white-space:nowrap;
+}
+.tabs a:hover{border-bottom-color:var(--blue-light)}
+.tabs a[aria-current]{color:var(--sage-dark);border-bottom-color:var(--sage-dark)}
+.tabs a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(90deg,var(--navy-deep) 0%,#2C4160 38%,#5E7370 65%,var(--sage) 100%);color:var(--white)}
+.hero .inner{padding-top:clamp(38px,6vw,74px);padding-bottom:clamp(38px,6vw,74px)}
+.hero .theme{font-size:.86rem;font-weight:600;letter-spacing:.02em;opacity:.92;margin:0 0 14px}
+.hero h1{font-weight:800;font-size:clamp(1.9rem,5.2vw,3.4rem);line-height:.95;letter-spacing:-.025em;margin:0;max-width:28ch;text-transform:uppercase}
+
+/* ---------- page furniture ---------- */
+.wrap{max-width:var(--shell);margin:0 auto;padding:clamp(28px,4.5vw,54px) clamp(16px,4vw,40px) 84px}
+.pill{display:inline-block;background:var(--maroon);color:var(--white);font-weight:700;font-size:.82rem;padding:7px 16px;border-radius:999px}
+.kicker{color:var(--sage-dark);font-weight:500;font-size:1rem}
+.intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+h2.headline{font-weight:800;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1;letter-spacing:-.03em;margin:26px 0 20px;max-width:26ch}
+.standfirst{max-width:66ch;font-size:1.05rem;margin:0}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-text)}
+.block{background:var(--white);padding:clamp(20px,3vw,34px);margin-top:32px}
+.block h3.sec{font-weight:800;font-size:clamp(1.35rem,2.8vw,1.95rem);letter-spacing:-.025em;line-height:1.05;margin:.35em 0 .4em}
+.block .lede{max-width:68ch;color:var(--gray-text);font-size:.95rem;margin:0}
+.note{background:var(--pale);padding:14px 16px;font-size:.87rem;margin:20px 0 0}
+.note b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.35em}
+.btn{
+  display:inline-flex;align-items:stretch;border:1px solid var(--navy);background:var(--white);
+  color:var(--navy);text-decoration:none;font-family:var(--sans);cursor:pointer;padding:0;
+}
+.btn .lab{padding:11px 16px;font-weight:700;font-size:.86rem;text-transform:uppercase;letter-spacing:.01em}
+.btn .chip{display:flex;align-items:center;justify-content:center;width:42px;background:var(--sage);color:var(--navy-deep)}
+.btn:hover{background:var(--pale)}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- controls ---------- */
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:26px;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--gray-line)}
+input[type=range]::-moz-range-track{height:4px;background:var(--gray-line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:24px;background:var(--navy);border:none;margin-top:-10px}
+input[type=range]::-moz-range-thumb{width:14px;height:24px;background:var(--navy);border:none;border-radius:0}
+input[type=range]:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.num,select.control,input.control{
+  font-family:var(--mono);font-size:.95rem;padding:9px 10px;border:1px solid var(--navy);
+  background:var(--white);color:var(--near-black);border-radius:0;max-width:100%;
+}
+.num{width:84px}
+.num:focus-visible,select.control:focus-visible,input.control:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+/* ---------- bars ---------- */
+.bar{position:relative;height:28px;background:var(--page);margin-top:6px;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--navy);display:block}
+.bar i.sg{background:var(--sage-dark)}
+@media(prefers-reduced-motion:no-preference){.bar i{transition:width .18s ease-out}}
+.step{margin:18px 0 0}
+.step-top{display:flex;justify-content:space-between;align-items:baseline;font-size:.86rem;gap:12px}
+.step-top .name{font-weight:600}
+.step-top .frac{font-family:var(--mono);color:var(--gray-text);font-size:.79rem;text-align:right}
+
+/* ---------- tables ---------- */
+table.compare{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+table.compare th,table.compare td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--gray-line);vertical-align:top}
+table.compare thead th{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--navy);border:none}
+table.compare td.n,table.compare th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.compare .ace{color:var(--navy);font-weight:600}
+table.compare .agh{color:var(--sage-dark);font-weight:600}
+
+/* ---------- notes grid ---------- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;margin-top:24px}
+.notes h4{font-weight:700;font-size:1rem;margin:0 0 .5em;color:var(--navy)}
+.notes p{margin:0;font-size:.89rem;color:var(--gray-text)}
+.notes .src{font-family:var(--mono);font-size:.76rem;line-height:1.65}
+
+/* ---------- footer ---------- */
+footer.site{background:var(--navy);color:#fff}
+footer.site .inner{padding-top:38px;padding-bottom:38px}
+footer.site p{margin:0 0 10px;font-size:.85rem;color:#D7DEEE;max-width:70ch}
+footer.site a{color:#fff}
+footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16px;font-size:.78rem;color:#B9C4DC}
+
+</style>
+<style>
+.warn{background:#F6E7E7;border-left:5px solid var(--maroon);padding:14px 16px;font-size:.87rem;margin:0 0 20px}
+.warn b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--maroon);margin-bottom:.35em}
+.searchrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.searchrow input.control{flex:1;min-width:220px;font-family:var(--sans)}
+.count{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-text)}
+ul.occ{list-style:none;margin:14px 0 0;padding:0}
+ul.occ li{padding:14px 0;border-bottom:1px solid var(--gray-line)}
+ul.occ .top{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+ul.occ .t{font-weight:600;font-size:.98rem}
+ul.occ .m{font-family:var(--mono);font-size:.72rem;color:var(--gray-text);margin-left:8px;font-weight:400}
+ul.occ .pct{font-family:var(--mono);font-weight:600;font-size:1.05rem;color:var(--maroon);font-variant-numeric:tabular-nums;white-space:nowrap}
+ul.occ .track{position:relative;height:14px;background:var(--page);margin-top:8px}
+ul.occ .track i{position:absolute;top:0;bottom:0;left:0;background:var(--navy)}
+ul.occ .track i.hard{background:var(--sage-dark)}
+ul.occ .sub{font-size:.78rem;color:var(--gray-text);margin:6px 0 0}
+.empty{padding:24px 0;color:var(--gray-text);font-style:italic}
+.keys{display:flex;gap:18px;flex-wrap:wrap;font-size:.78rem;color:var(--gray-text);margin-top:14px}
+.keys i{display:inline-block;width:13px;height:13px;margin-right:7px;vertical-align:-2px}
+
+.ladder{margin-top:22px}
+.rung{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--gray-line)}
+@media(max-width:640px){.rung{grid-template-columns:1fr;gap:6px}}
+.rung .who{font-weight:700;font-size:.95rem;color:var(--navy)}
+.rung .who small{display:block;font-weight:400;font-size:.78rem;color:var(--gray-text);margin-top:2px}
+.rung .metrics{display:flex;flex-direction:column;gap:7px}
+.rung .row{display:flex;align-items:center;gap:10px}
+.rung .row .lab{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-text);width:120px;flex:none}
+.rung .row .track{position:relative;flex:1;height:16px;background:var(--page)}
+.rung .row .track i{position:absolute;inset:0 auto 0 0;background:var(--navy)}
+.rung .row .track i.hard{background:var(--sage-dark)}
+.rung .row .v{font-family:var(--mono);font-size:.8rem;width:44px;text-align:right;font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:22px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.two h4{font-weight:700;font-size:1rem;color:var(--navy);margin:0 0 .5em}
+.two p{font-size:.9rem;margin:0 0 .7em}
+.two ul{margin:.2em 0 0;padding-left:1.1em;font-size:.89rem;color:var(--gray-text)}
+.two li{margin-bottom:.45em}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="inner">
+    <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
+    <nav class="tabs">
+      <a href="index.html">Comparing TFP Equations</a>
+      <a href="world.html">AI Throughout the World</a>
+      <a href="agentic.html">Agentic AI</a>
+      <a href="occupations.html" aria-current="page">AI Throughout Occupations</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="inner">
+    <p class="theme">Labor Market Consequences of Technological Change</p>
+    <h1>AI throughout occupations</h1>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro">
+    <span class="pill">Exposure by occupation</span>
+    <span class="kicker">Search and compare</span>
+  </div>
+
+  <h2 class="headline">Exposure is not the same as replaceability.</h2>
+  <p class="standfirst">An occupation can have most of its tasks touched by AI and still be hard to displace, because what remains is the part with no objective outcome to learn from. Search a profession for its exposed share, then look at how that share is distributed across the levels of an organisation.</p>
+
+  <section class="block">
+    <div class="warn" id="warn"><b>Placeholder data</b>The figures on this page are round illustrative values in <code>occupations.js</code>, not derived from O*NET. Replace them with your own build before publishing; the schema is documented at the top of that file.</div>
+
+    <p class="eyebrow">Search</p>
+    <h3 class="sec">Find a profession</h3>
+    <div class="searchrow">
+      <input class="control" id="q" type="search" placeholder="Search occupations — e.g. nurse, accountant, driver" aria-label="Search occupations">
+      <select class="control" id="fam" aria-label="Filter by occupation group"><option value="">All groups</option></select>
+      <select class="control" id="sort" aria-label="Sort by">
+        <option value="exposure">Most exposed first</option>
+        <option value="exposure-asc">Least exposed first</option>
+        <option value="hard">Hardest to learn first</option>
+        <option value="title">A–Z</option>
+      </select>
+    </div>
+    <p class="count" id="count"></p>
+    <ul class="occ" id="list"></ul>
+    <div class="keys">
+      <span><i style="background:var(--navy)"></i>Share of tasks exposed to AI</span>
+      <span><i style="background:var(--sage-dark)"></i>Of that, the hard-to-learn part</span>
+    </div>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">Up and down the org chart</p>
+    <h3 class="sec">The same exposure, different consequences</h3>
+    <p class="lede">Averages across the occupations in the list, grouped by where they sit in an organisation. The upper bar is the exposed share; the lower bar is how much of that exposure sits in tasks that are hard to learn — context-dependent, with no clean outcome measure to train on.</p>
+
+    <div class="ladder" id="ladder"></div>
+
+    <div class="two">
+      <div>
+        <h4>Why the top is harder to replace</h4>
+        <p>Seniority concentrates exactly the work that automation handles worst.</p>
+        <ul>
+          <li>Decisions with no objective outcome measure to learn from, made under genuine ambiguity</li>
+          <li>Accountability that has to attach to a person, not a system</li>
+          <li>Relationship capital and institutional memory held outside any document</li>
+          <li>Tasks that are rare, high-stakes and therefore thin on training data</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Why firms invest more in them anyway</h4>
+        <p>The investment case runs on what the marginal hour is worth, not on how exposed it is.</p>
+        <ul>
+          <li>A high wage bill means a small time saving returns more per person</li>
+          <li>Complementary tools raise the value of judgment rather than substituting for it</li>
+          <li>Errors at the top are expensive, so better information pays for itself quickly</li>
+          <li>At the bottom, the same exposure resolves as substitution, and the saving shows up as fewer roles rather than better ones</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="note"><b>Planned build</b>Pull the O*NET abilities and tasks files, score each ability against the AI applications used in the AIOE construction, aggregate to occupations by prevalence and importance, then join SOC codes to BLS employment and wage data. The <code>hard</code> field is where the easy-to-learn / hard-to-learn split enters, and it is the lever that separates exposure from replaceability.</p>
+  </section>
+</div>
+
+<footer class="site">
+  <div class="inner">
+    <p>Exposure measures which tasks AI can touch. Whether a touched task is automated, and whether that shows up as displacement or as higher productivity, are separate questions.</p>
+    <p class="copy">© 2026</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Occupation data for occupations.html
+   ------------------------------------------------------------
+   PLACEHOLDER VALUES. The numbers below are round illustrative
+   figures so the page renders — they are not derived from O*NET
+   and should not be cited. Replace with your own build.
+
+   Set DEMO to false once real values are in; that hides the
+   warning banner on the page.
+
+   Row schema:
+     title    occupation name shown in the list
+     soc      SOC code (string, optional)
+     family   occupation group, used for the filter
+     exposure % of the occupation's tasks/abilities exposed to AI
+     hard     % of those exposed tasks that are hard-to-learn
+              (context-dependent, no objective outcome measure to
+              train on — Acemoglu's distinction)
+     tier     1 = top of the organisation … 5 = entry level
+     wage     median annual wage, USD (optional, for weighting)
+   ============================================================ */
+window.OCC_DEMO = true;
+
+window.OCC_TIERS = [
+  { tier: 1, label: "Executive and senior leadership", note: "Sets direction, carries accountability" },
+  { tier: 2, label: "Senior professional and manager", note: "Owns outcomes, supervises judgment" },
+  { tier: 3, label: "Professional and specialist",     note: "Applies expertise to defined problems" },
+  { tier: 4, label: "Technician and associate",        note: "Executes within established procedure" },
+  { tier: 5, label: "Entry and routine",               note: "Standardised, closely specified tasks" }
+];
+
+window.OCCUPATIONS = [
+  { title: "Chief executives",                        soc: "11-1011", family: "Management",      exposure: 45, hard: 80, tier: 1, wage: 206680 },
+  { title: "General and operations managers",         soc: "11-1021", family: "Management",      exposure: 50, hard: 65, tier: 2, wage: 101280 },
+  { title: "Financial managers",                      soc: "11-3031", family: "Management",      exposure: 60, hard: 60, tier: 2, wage: 156100 },
+  { title: "Human resources specialists",             soc: "13-1071", family: "Business",        exposure: 65, hard: 45, tier: 3, wage: 67650 },
+  { title: "Accountants and auditors",                soc: "13-2011", family: "Business",        exposure: 70, hard: 40, tier: 3, wage: 79880 },
+  { title: "Software developers",                      soc: "15-1252", family: "Computing",       exposure: 75, hard: 45, tier: 3, wage: 132270 },
+  { title: "Computer support specialists",            soc: "15-1232", family: "Computing",       exposure: 70, hard: 30, tier: 4, wage: 60810 },
+  { title: "Lawyers",                                  soc: "23-1011", family: "Legal",           exposure: 65, hard: 70, tier: 2, wage: 145760 },
+  { title: "Paralegals and legal assistants",         soc: "23-2011", family: "Legal",           exposure: 75, hard: 30, tier: 4, wage: 60970 },
+  { title: "Registered nurses",                        soc: "29-1141", family: "Health",          exposure: 35, hard: 60, tier: 3, wage: 86070 },
+  { title: "Medical secretaries",                      soc: "43-6013", family: "Office support",  exposure: 70, hard: 20, tier: 5, wage: 40350 },
+  { title: "Customer service representatives",        soc: "43-4051", family: "Office support",  exposure: 80, hard: 20, tier: 5, wage: 39680 },
+  { title: "Bookkeeping and accounting clerks",        soc: "43-3031", family: "Office support",  exposure: 80, hard: 15, tier: 5, wage: 47440 },
+  { title: "Data entry keyers",                        soc: "43-9021", family: "Office support",  exposure: 85, hard: 10, tier: 5, wage: 37790 },
+  { title: "Market research analysts",                 soc: "13-1161", family: "Business",        exposure: 75, hard: 35, tier: 3, wage: 74680 },
+  { title: "Teachers, secondary school",               soc: "25-2031", family: "Education",       exposure: 45, hard: 65, tier: 3, wage: 64780 },
+  { title: "Construction labourers",                   soc: "47-2061", family: "Construction",    exposure: 15, hard: 35, tier: 5, wage: 45300 },
+  { title: "Heavy truck drivers",                      soc: "53-3032", family: "Transport",       exposure: 25, hard: 40, tier: 5, wage: 54320 },
+  { title: "Industrial machinery mechanics",           soc: "49-9041", family: "Maintenance",     exposure: 30, hard: 50, tier: 4, wage: 61170 },
+  { title: "Retail salespersons",                      soc: "41-2031", family: "Sales",           exposure: 55, hard: 25, tier: 5, wage: 33900 }
+];
+
+</script>
+<script>
+(function(){
+  var DATA = window.OCCUPATIONS || [];
+  var TIERS = window.OCC_TIERS || [];
+  if (!window.OCC_DEMO) document.getElementById('warn').remove();
+
+  var q = document.getElementById('q');
+  var fam = document.getElementById('fam');
+  var sort = document.getElementById('sort');
+  var list = document.getElementById('list');
+  var count = document.getElementById('count');
+
+  Array.from(new Set(DATA.map(function(d){return d.family;}))).sort().forEach(function(f){
+    var o = document.createElement('option'); o.value = f; o.textContent = f; fam.appendChild(o);
+  });
+
+  function tierLabel(t){
+    var m = TIERS.filter(function(x){return x.tier === t;})[0];
+    return m ? m.label : 'Level ' + t;
+  }
+
+  function render(){
+    var term = q.value.trim().toLowerCase();
+    var group = fam.value;
+    var rows = DATA.filter(function(d){
+      if (group && d.family !== group) return false;
+      if (!term) return true;
+      return (d.title + ' ' + d.family + ' ' + (d.soc||'')).toLowerCase().indexOf(term) > -1;
+    });
+
+    var mode = sort.value;
+    rows.sort(function(a,b){
+      if (mode === 'title') return a.title.localeCompare(b.title);
+      if (mode === 'exposure-asc') return a.exposure - b.exposure;
+      if (mode === 'hard') return b.hard - a.hard;
+      return b.exposure - a.exposure;
+    });
+
+    count.textContent = rows.length + (rows.length === 1 ? ' occupation' : ' occupations');
+    list.innerHTML = '';
+    if (!rows.length){
+      var e = document.createElement('li');
+      e.className = 'empty';
+      e.textContent = 'No occupation matches that search. Try a shorter term, or clear the group filter.';
+      list.appendChild(e);
+      return;
+    }
+    rows.forEach(function(d){
+      var li = document.createElement('li');
+      var hardOfAll = d.exposure * d.hard / 100;
+      li.innerHTML =
+        '<div class="top"><span class="t">' + d.title +
+        '<span class="m">' + (d.soc || '') + ' · ' + d.family + '</span></span>' +
+        '<span class="pct">' + d.exposure + '%</span></div>' +
+        '<div class="track"><i style="width:' + d.exposure + '%"></i>' +
+        '<i class="hard" style="width:' + hardOfAll.toFixed(1) + '%"></i></div>' +
+        '<p class="sub">' + tierLabel(d.tier) + ' · ' + d.hard + '% of the exposed tasks are hard to learn' +
+        (d.wage ? ' · median $' + d.wage.toLocaleString() : '') + '</p>';
+      list.appendChild(li);
+    });
+  }
+
+  function ladder(){
+    var host = document.getElementById('ladder');
+    host.innerHTML = '';
+    TIERS.forEach(function(t){
+      var rows = DATA.filter(function(d){return d.tier === t.tier;});
+      if (!rows.length) return;
+      var exp = rows.reduce(function(s,d){return s + d.exposure;}, 0) / rows.length;
+      var hard = rows.reduce(function(s,d){return s + d.hard;}, 0) / rows.length;
+      var div = document.createElement('div');
+      div.className = 'rung';
+      div.innerHTML =
+        '<div class="who">' + t.label + '<small>' + t.note + ' · ' + rows.length + ' in list</small></div>' +
+        '<div class="metrics">' +
+          '<div class="row"><span class="lab">Exposed</span><span class="track"><i style="width:' + exp + '%"></i></span><span class="v">' + exp.toFixed(0) + '%</span></div>' +
+          '<div class="row"><span class="lab">Hard to learn</span><span class="track"><i class="hard" style="width:' + hard + '%"></i></span><span class="v">' + hard.toFixed(0) + '%</span></div>' +
+        '</div>';
+      host.appendChild(div);
+    });
+  }
+
+  q.addEventListener('input', render);
+  fam.addEventListener('change', render);
+  sort.addEventListener('change', render);
+  render(); ladder();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI throughout the world — AI, Productivity &amp; Work</title>
+<meta name="description" content="Three layers of country-level exposure — AI and cognitive work, robotics and manual work, labour scarcity — plus a technology explorer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== shared tokens and components (inlined so each page stands alone) ===== */
+/* ============================================================
+   Shared styles — AI, Productivity & Work
+   Palette sampled from shapingwork.mit.edu.
+   ============================================================ */
+:root{
+  --navy:#15265B;
+  --navy-deep:#0E1B44;
+  --blue:#2456C8;
+  --blue-light:#6E96E8;
+  --sage:#A8BC9A;
+  --sage-dark:#5F7A4F;
+  --maroon:#8B2226;
+  --page:#EFEFEF;
+  --pale:#EEF2FA;
+  --white:#FFFFFF;
+  --near-black:#111111;
+  --gray-line:#D8D8D8;
+  --gray-text:#54585C;
+
+  --sans:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk Text Pro","Helvetica Now Text","Inter Tight","Helvetica Neue",Arial,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --acemoglu:var(--navy);
+  --aghion:var(--sage-dark);
+  --live:var(--maroon);
+  --shell:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--near-black);font-family:var(--sans);font-size:16px;line-height:1.5}
+a{color:var(--blue)}
+.inner{max-width:var(--shell);margin:0 auto;padding-left:clamp(16px,4vw,40px);padding-right:clamp(16px,4vw,40px)}
+
+/* ---------- masthead + tabs ---------- */
+.masthead{background:var(--white);border-bottom:1px solid var(--gray-line)}
+.masthead .inner{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px}
+.sitename{text-decoration:none;color:var(--navy);font-weight:800;font-size:1.05rem;letter-spacing:-.01em;line-height:1.15;padding-bottom:14px;display:block}
+.sitename small{display:block;font-family:var(--mono);font-size:.66rem;font-weight:400;letter-spacing:.13em;text-transform:uppercase;color:var(--gray-text);margin-top:4px}
+.tabs{display:flex;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap}
+.tabs a{
+  text-decoration:none;color:var(--blue);font-weight:700;font-size:.9rem;text-transform:uppercase;
+  letter-spacing:.01em;padding:0 0 12px;border-bottom:3px solid transparent;white-space:nowrap;
+}
+.tabs a:hover{border-bottom-color:var(--blue-light)}
+.tabs a[aria-current]{color:var(--sage-dark);border-bottom-color:var(--sage-dark)}
+.tabs a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(90deg,var(--navy-deep) 0%,#2C4160 38%,#5E7370 65%,var(--sage) 100%);color:var(--white)}
+.hero .inner{padding-top:clamp(38px,6vw,74px);padding-bottom:clamp(38px,6vw,74px)}
+.hero .theme{font-size:.86rem;font-weight:600;letter-spacing:.02em;opacity:.92;margin:0 0 14px}
+.hero h1{font-weight:800;font-size:clamp(1.9rem,5.2vw,3.4rem);line-height:.95;letter-spacing:-.025em;margin:0;max-width:28ch;text-transform:uppercase}
+
+/* ---------- page furniture ---------- */
+.wrap{max-width:var(--shell);margin:0 auto;padding:clamp(28px,4.5vw,54px) clamp(16px,4vw,40px) 84px}
+.pill{display:inline-block;background:var(--maroon);color:var(--white);font-weight:700;font-size:.82rem;padding:7px 16px;border-radius:999px}
+.kicker{color:var(--sage-dark);font-weight:500;font-size:1rem}
+.intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+h2.headline{font-weight:800;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1;letter-spacing:-.03em;margin:26px 0 20px;max-width:26ch}
+.standfirst{max-width:66ch;font-size:1.05rem;margin:0}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-text)}
+.block{background:var(--white);padding:clamp(20px,3vw,34px);margin-top:32px}
+.block h3.sec{font-weight:800;font-size:clamp(1.35rem,2.8vw,1.95rem);letter-spacing:-.025em;line-height:1.05;margin:.35em 0 .4em}
+.block .lede{max-width:68ch;color:var(--gray-text);font-size:.95rem;margin:0}
+.note{background:var(--pale);padding:14px 16px;font-size:.87rem;margin:20px 0 0}
+.note b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.35em}
+.btn{
+  display:inline-flex;align-items:stretch;border:1px solid var(--navy);background:var(--white);
+  color:var(--navy);text-decoration:none;font-family:var(--sans);cursor:pointer;padding:0;
+}
+.btn .lab{padding:11px 16px;font-weight:700;font-size:.86rem;text-transform:uppercase;letter-spacing:.01em}
+.btn .chip{display:flex;align-items:center;justify-content:center;width:42px;background:var(--sage);color:var(--navy-deep)}
+.btn:hover{background:var(--pale)}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- controls ---------- */
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:26px;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--gray-line)}
+input[type=range]::-moz-range-track{height:4px;background:var(--gray-line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:24px;background:var(--navy);border:none;margin-top:-10px}
+input[type=range]::-moz-range-thumb{width:14px;height:24px;background:var(--navy);border:none;border-radius:0}
+input[type=range]:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.num,select.control,input.control{
+  font-family:var(--mono);font-size:.95rem;padding:9px 10px;border:1px solid var(--navy);
+  background:var(--white);color:var(--near-black);border-radius:0;max-width:100%;
+}
+.num{width:84px}
+.num:focus-visible,select.control:focus-visible,input.control:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+/* ---------- bars ---------- */
+.bar{position:relative;height:28px;background:var(--page);margin-top:6px;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--navy);display:block}
+.bar i.sg{background:var(--sage-dark)}
+@media(prefers-reduced-motion:no-preference){.bar i{transition:width .18s ease-out}}
+.step{margin:18px 0 0}
+.step-top{display:flex;justify-content:space-between;align-items:baseline;font-size:.86rem;gap:12px}
+.step-top .name{font-weight:600}
+.step-top .frac{font-family:var(--mono);color:var(--gray-text);font-size:.79rem;text-align:right}
+
+/* ---------- tables ---------- */
+table.compare{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+table.compare th,table.compare td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--gray-line);vertical-align:top}
+table.compare thead th{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--white);background:var(--navy);border:none}
+table.compare td.n,table.compare th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.compare .ace{color:var(--navy);font-weight:600}
+table.compare .agh{color:var(--sage-dark);font-weight:600}
+
+/* ---------- notes grid ---------- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;margin-top:24px}
+.notes h4{font-weight:700;font-size:1rem;margin:0 0 .5em;color:var(--navy)}
+.notes p{margin:0;font-size:.89rem;color:var(--gray-text)}
+.notes .src{font-family:var(--mono);font-size:.76rem;line-height:1.65}
+
+/* ---------- footer ---------- */
+footer.site{background:var(--navy);color:#fff}
+footer.site .inner{padding-top:38px;padding-bottom:38px}
+footer.site p{margin:0 0 10px;font-size:.85rem;color:#D7DEEE;max-width:70ch}
+footer.site a{color:#fff}
+footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16px;font-size:.78rem;color:#B9C4DC}
+
+</style>
+<style>
+/* ---------- layer switcher ---------- */
+.layers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 18px}
+@media(max-width:980px){.layers{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.layers{grid-template-columns:1fr}}
+.layers button{text-align:left;background:var(--white);border:1px solid var(--gray-line);border-top:4px solid var(--gray-line);padding:13px 15px;cursor:pointer;font-family:var(--sans);color:var(--near-black)}
+.layers button .v{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-text);display:block}
+.layers button .n{display:block;font-weight:700;font-size:.95rem;margin:.25em 0 .2em;letter-spacing:-.01em}
+.layers button .d{display:block;font-size:.77rem;color:var(--gray-text);line-height:1.35}
+.layers button:hover{background:var(--pale)}
+.layers button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.layers button[aria-pressed=true]{background:var(--pale)}
+.layers button[data-layer=ai][aria-pressed=true]{border-top-color:var(--navy)}
+.layers button[data-layer=robotics][aria-pressed=true]{border-top-color:var(--maroon)}
+.layers button[data-layer=scarcity][aria-pressed=true]{border-top-color:var(--sage-dark)}
+.layers button[data-layer=tech][aria-pressed=true]{border-top-color:#2B3540}
+
+/* ---------- toolbar ---------- */
+.maptools{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0 0 14px}
+.maptools label{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-text)}
+.maptools select.control{min-width:200px}
+.weight{display:flex;align-items:center;gap:9px;font-size:.85rem;cursor:pointer;padding:8px 12px;border:1px solid var(--navy);background:var(--white)}
+.weight input{width:16px;height:16px;accent-color:var(--maroon);margin:0}
+.weight[data-off=true]{opacity:.45;cursor:not-allowed}
+
+/* ---------- technology search (version 4) ---------- */
+.techpanel{background:var(--pale);padding:18px clamp(14px,2.4vw,22px);margin:0 0 18px}
+.techpanel[hidden]{display:none}
+.searchrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.searchrow input.control{flex:1;min-width:230px;font-family:var(--sans)}
+.searchrow select.control{min-width:150px}
+.results{list-style:none;margin:14px 0 0;padding:0;max-height:290px;overflow:auto;background:var(--white);border:1px solid var(--gray-line)}
+.results:empty{display:none}
+.results li{border-bottom:1px solid var(--gray-line)}
+.results li:last-child{border-bottom:none}
+.results button{display:flex;justify-content:space-between;gap:14px;align-items:baseline;width:100%;text-align:left;background:none;border:0;padding:11px 14px;cursor:pointer;font-family:var(--sans);color:var(--near-black)}
+.results button:hover{background:var(--pale)}
+.results button:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.results button[aria-pressed=true]{background:var(--pale);box-shadow:inset 4px 0 0 var(--navy)}
+.results .nm{font-weight:600;font-size:.93rem}
+.results .meta{display:block;font-weight:400;font-size:.76rem;color:var(--gray-text);margin-top:2px}
+.results .st{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-dark);white-space:nowrap}
+.results .none{padding:14px;font-size:.85rem;color:var(--gray-text);font-style:italic}
+.panelfoot{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:14px 0 0;font-size:.82rem}
+.panelfoot .count{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-text)}
+.linkish{background:none;border:0;padding:0;font-family:var(--sans);font-size:.82rem;color:var(--blue);cursor:pointer;text-decoration:underline}
+.linkish:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- directory ---------- */
+.directory{margin-top:16px;background:var(--white);border:1px solid var(--gray-line)}
+.directory[hidden]{display:none}
+.directory .dhead{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--gray-line)}
+.directory .dhead h4{margin:0;font-size:.95rem;font-weight:700;color:var(--navy)}
+.dscroll{max-height:420px;overflow:auto}
+table.dir{width:100%;border-collapse:collapse;font-size:.85rem}
+table.dir th{position:sticky;top:0;background:var(--navy);color:#fff;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:500}
+table.dir td{padding:9px 12px;border-bottom:1px solid var(--gray-line);vertical-align:top}
+table.dir tbody tr{cursor:pointer}
+table.dir tbody tr:hover{background:var(--pale)}
+table.dir tbody tr.on{background:var(--pale);box-shadow:inset 4px 0 0 var(--navy)}
+table.dir td.occ{font-family:var(--mono);font-size:.72rem;color:var(--gray-text)}
+
+/* ---------- map ---------- */
+.mapstage{position:relative;background:var(--pale)}
+svg.world{display:block;width:100%;height:auto}
+svg.world path.c{stroke:var(--white);stroke-width:.5;cursor:pointer}
+svg.world path.c:hover{stroke:var(--near-black);stroke-width:1.2}
+svg.world path.sel{stroke:var(--near-black);stroke-width:1.6}
+svg.world path.origin{stroke:var(--sage-dark);stroke-width:2.2}
+svg.world path:focus{outline:none}
+svg.world path:focus-visible{stroke:var(--blue);stroke-width:2}
+
+.scale{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;margin:16px 0 0}
+.ramp{display:flex;align-items:stretch;height:34px}
+.ramp:empty{display:none}
+.ramp div{width:52px;position:relative}
+.ramp div span{position:absolute;top:100%;left:0;font-family:var(--mono);font-size:.62rem;color:var(--gray-text);padding-top:4px;white-space:nowrap}
+.scale .unit{font-size:.78rem;color:var(--gray-text);max-width:34ch;line-height:1.35}
+.nodata{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--gray-text)}
+.nodata i{display:inline-block;width:20px;height:20px;background:repeating-linear-gradient(45deg,#DADDE1,#DADDE1 3px,#F2F4F8 3px,#F2F4F8 6px);border:1px solid var(--gray-line)}
+
+/* ---------- bubble ---------- */
+.bubble{position:absolute;z-index:5;width:min(330px,88vw);background:var(--white);border:1px solid var(--navy);box-shadow:0 10px 26px #0e1b4433;padding:16px 18px 18px}
+.bubble[hidden]{display:none}
+.bubble::after{content:"";position:absolute;left:var(--tail,50%);bottom:-9px;width:16px;height:16px;background:var(--white);border-right:1px solid var(--navy);border-bottom:1px solid var(--navy);transform:translateX(-50%) rotate(45deg)}
+.bubble.below::after{bottom:auto;top:-9px;border:none;border-left:1px solid var(--navy);border-top:1px solid var(--navy)}
+.bubble h4{margin:0 26px .3em 0;font-size:1.1rem;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+.bubble .close{position:absolute;top:8px;right:8px;width:28px;height:28px;border:0;background:none;color:var(--gray-text);font-size:1rem;cursor:pointer;line-height:1}
+.bubble .close:hover{color:var(--maroon)}
+.bubble .close:focus-visible{outline:2px solid var(--blue)}
+.bubble .tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 0}
+.bubble .tags span{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;background:var(--pale);color:var(--navy);padding:3px 7px}
+.metrics{margin:12px 0 0;padding-top:10px;border-top:1px solid var(--gray-line)}
+.metrics div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:4px 0;font-size:.82rem}
+.metrics div.on{font-weight:700}
+.metrics .k{color:var(--gray-text)}
+.metrics div.on .k{color:var(--near-black)}
+.metrics .v{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.metrics .v.na{color:var(--gray-text)}
+.bubble .body{margin:12px 0 0;font-size:.86rem;line-height:1.5}
+.bubble .empty{margin:12px 0 0;font-size:.82rem;color:var(--gray-text);font-style:italic}
+
+/* ---------- selected-technology bar ---------- */
+.techbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:var(--navy);color:#fff;padding:12px 16px;margin-top:16px;font-size:.86rem}
+.techbar[hidden]{display:none}
+.techbar b{font-weight:700}
+.techbar .origin-key{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;color:#D7DEEE}
+.techbar .origin-key i{width:14px;height:14px;border:2px solid var(--sage);display:inline-block}
+.techbar button{background:none;border:1px solid #ffffff66;color:#fff;font-family:var(--sans);font-size:.78rem;padding:6px 12px;cursor:pointer}
+.techbar button:hover{background:#ffffff1f}
+
+.warn{background:#F6E7E7;border-left:5px solid var(--maroon);padding:14px 16px;font-size:.87rem;margin:0 0 22px}
+.warn b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--maroon);margin-bottom:.35em}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="inner">
+    <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
+    <nav class="tabs">
+      <a href="index.html">Comparing TFP Equations</a>
+      <a href="world.html" aria-current="page">AI Throughout the World</a>
+      <a href="agentic.html">Agentic AI</a>
+      <a href="occupations.html">AI Throughout Occupations</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="inner">
+    <p class="theme">Labor Market Consequences of Technological Change</p>
+    <h1>AI throughout the world</h1>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro">
+    <span class="pill">Exposure by country</span>
+    <span class="kicker">Interactive map</span>
+  </div>
+
+  <h2 class="headline">Two technologies, two kinds of work, two geographies.</h2>
+  <p class="standfirst">AI reaches cognitive work, which is concentrated in rich countries. Robotics reaches routine manual work, which is concentrated in poorer ones. The two answers to “who loses” are not rival estimates of one number — they are different questions, and the third layer asks which countries have a reason to act on either.</p>
+
+  <section class="block">
+    <div class="warn" id="warn"><b>Placeholder data</b>Every number on this page is invented, so the controls can be tested before the real series are loaded. Values live at the top of this file under <code>COUNTRY_METRICS</code> and <code>TECHNOLOGIES</code>. Set <code>MAP_DEMO = false</code> to hide this banner.</div>
+
+    <p class="eyebrow">Select a layer</p>
+    <div class="layers" id="layers">
+      <button data-layer="ai" aria-pressed="true">
+        <span class="v">Version 1</span>
+        <span class="n">AI and cognitive work</span>
+        <span class="d">Employment in cognitive and routine-cognitive occupations exposed to AI.</span>
+      </button>
+      <button data-layer="robotics" aria-pressed="false">
+        <span class="v">Version 2</span>
+        <span class="n">Robotics and manual work</span>
+        <span class="d">Employment in the routine-manual occupations robotics targets.</span>
+      </button>
+      <button data-layer="scarcity" aria-pressed="false">
+        <span class="v">Version 3</span>
+        <span class="n">Labour scarcity</span>
+        <span class="d">Not a risk measure. Who has an incentive to automate at all.</span>
+      </button>
+      <button data-layer="tech" aria-pressed="false">
+        <span class="v">Version 4</span>
+        <span class="n">One technology</span>
+        <span class="d">Search a specific technology and shade by where its target work is done.</span>
+      </button>
+    </div>
+
+    <div class="techpanel" id="techpanel" hidden>
+      <p class="eyebrow" style="margin:0 0 10px">Find a technology</p>
+      <div class="searchrow">
+        <input class="control" id="techq" type="search" placeholder="Search by name, developer, country or occupation code" aria-label="Search technologies">
+        <select class="control" id="techtarget" aria-label="Filter by work type"></select>
+        <select class="control" id="techstatus" aria-label="Filter by status"></select>
+      </div>
+      <ul class="results" id="results"></ul>
+      <div class="panelfoot">
+        <span class="count" id="techcount"></span>
+        <button class="linkish" type="button" id="dirtoggle">Browse all technologies</button>
+        <a href="https://www.michaelwebb.co/" target="_blank" rel="noopener">Webb's occupation exposure data (AI, software, robotics)</a>
+      </div>
+
+      <div class="directory" id="directory" hidden>
+        <div class="dhead">
+          <h4>Technology directory</h4>
+          <label style="font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-text)">
+            Sort
+            <select class="control" id="dirsort" aria-label="Sort the directory" style="margin-left:8px">
+              <option value="name">Name</option>
+              <option value="status">Status</option>
+              <option value="target">Work type</option>
+              <option value="developerCountry">Developer country</option>
+            </select>
+          </label>
+        </div>
+        <div class="dscroll">
+          <table class="dir">
+            <thead><tr><th scope="col">Technology</th><th scope="col">Status</th><th scope="col">Targets</th><th scope="col">Developer</th><th scope="col">Occupations</th></tr></thead>
+            <tbody id="dirbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="maptools">
+      <label for="picker">Jump to country</label>
+      <select class="control" id="picker"><option value="">Select…</option></select>
+      <label class="weight" id="weightWrap" for="weight">
+        <input type="checkbox" id="weight">
+        <span>Weight by labour scarcity</span>
+      </label>
+      <button class="btn" id="clear" type="button"><span class="lab">Clear</span><span class="chip" aria-hidden="true">×</span></button>
+    </div>
+
+    <div class="mapstage" id="stage">
+      <svg class="world" id="map" viewBox="0 0 1000 452" role="group" aria-label="World map. Select a country to read its values.">
+        <defs>
+          <pattern id="nodata" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <rect width="6" height="6" fill="#F2F4F8"></rect>
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#DADDE1" stroke-width="3"></line>
+          </pattern>
+        </defs>
+        <g id="countries"></g>
+      </svg>
+      <div class="bubble" id="bubble" hidden role="dialog" aria-labelledby="b-name">
+        <button class="close" id="b-close" type="button" aria-label="Close">✕</button>
+        <h4 id="b-name">Country</h4>
+        <div class="tags" id="b-tags"></div>
+        <div class="metrics" id="b-metrics"></div>
+        <div class="body" id="b-body"></div>
+      </div>
+    </div>
+
+    <div class="techbar" id="techbar" hidden>
+      <span id="techbarText"></span>
+      <span class="origin-key"><i></i> developer's country</span>
+      <button type="button" id="techClear">Clear technology</button>
+    </div>
+
+    <div class="scale">
+      <div>
+        <div class="ramp" id="ramp"></div>
+      </div>
+      <p class="unit" id="unit"></p>
+      <p class="nodata"><i></i> No value loaded</p>
+    </div>
+
+    <p class="note" id="layerNote"><b>Reading this layer</b><span id="layerNoteText"></span></p>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">Technology explorer</p>
+    <h3 class="sec">One technology at a time</h3>
+    <p class="lede">Version 4 above turns the map over to a single technology. Search by name, by developer, by the developer's country or by an occupation code; filter by whether it targets cognitive or manual work, and by how far along it is. The developer's country is outlined on the map, so invention and displacement appear in the same frame — and the scarcity weighting reverses the reading, from where the work is done to where the machine plausibly pencils out.</p>
+
+    <p class="note"><b>Building this out</b>Webb's patent-task overlap gives occupation-level scores for three broad categories — AI, software and robotics — not per-device figures, so a specific machine needs its own patent selection run through the same verb-noun matching, or a hand-coded list of target occupations. The binding constraint is employment data rather than Webb: ILOSTAT reports ISCO at 2-digit for most countries and 3- or 4-digit for few, so occupation-specific technologies will resolve for a limited set. Worth choosing the first entries partly on which occupations are reported finely enough to shade.</p>
+  </section>
+</div>
+
+<footer class="site">
+  <div class="inner">
+    <p>Country outlines: Natural Earth 110m via the world-atlas package, drawn on an Equal Earth projection. Layers use different units and different colour ramps and are not comparable to one another — the unit travels with the legend.</p>
+    <p class="copy">© 2026</p>
+  </div>
+</footer>
+
+<script>/* ============================================================
+   MAP DATA — edit this block, nothing else
+   ============================================================
+
+   PLACEHOLDER VALUES. Everything numeric below is invented so the
+   map renders and the controls can be tested. Replace it. The red
+   banner on the page disappears when you set MAP_DEMO = false.
+
+   ------------------------------------------------------------
+   COUNTRY_METRICS — keyed by country name as it appears on the
+   map (or by UN M49 numeric code). Every field is optional; a
+   missing or null value renders as hatched "no data", which is
+   deliberately distinct from a low value.
+
+     ai         Version 1. Share of employment in cognitive and
+                routine-cognitive occupations exposed to AI. 0-100.
+                Source to load: ILO GenAI index (ISCO-08) or
+                Cazzaniga et al. / Pizzinelli et al. exposure.
+
+     robotics   Version 2. Share of employment in routine-manual
+                occupations that robotics targets. 0-100.
+                Source to load: Lewandowski country-specific RTI,
+                split to the manual component only — do not use a
+                composite RTI here, it carries clerical work that
+                belongs in `ai`.
+
+     scarcity   Version 3. Labour scarcity / adoption pressure.
+                0-100, higher = scarcer labour, so more incentive
+                to automate. Candidate inputs: old-age dependency
+                ratio, working-age population growth (inverted),
+                manufacturing wage level, vacancy rates.
+
+     wage       Optional. Median or manufacturing wage level,
+                indexed 0-100. Used only by the technology layer's
+                profitability weighting.
+
+     notes      Free text or HTML shown in the country bubble.
+     tags       Short labels, e.g. ["Textiles", "BPO"].
+
+   ------------------------------------------------------------
+   TECHNOLOGIES — one entry per technology. Selecting one shades
+   the map by `exposure`, which is your own number per country:
+   employment in the occupations this technology targets.
+
+     id                short slug, must be unique
+     name              display name
+     status            "Deployed" | "Pilot" | "In development" | "Patent only"
+     developer         who is building it
+     developerCountry  country name as on the map — gets outlined
+                       on the map, so invention and displacement
+                       show up in the same frame
+     target            "Cognitive" | "Manual" — which channel it belongs
+                       to, used by the search filter
+     occupations       ISCO or SOC codes the technology targets
+     tags              optional short labels, searchable
+     note              one or two sentences
+     exposure          { "Country": number 0-100 }
+
+   Two readings of the same technology, both available from the
+   weighting control on the page:
+     unweighted = where this work is done
+     weighted   = where the machine plausibly pencils out
+   ============================================================ */
+
+window.MAP_DEMO = true;
+
+window.COUNTRY_METRICS = {
+  "United States of America": { ai: 62, robotics: 18, scarcity: 71, wage: 95, tags: [], notes: "" },
+  "United Kingdom":           { ai: 58, robotics: 16, scarcity: 66, wage: 88, tags: [], notes: "" },
+  "Germany":                  { ai: 55, robotics: 24, scarcity: 84, wage: 90, tags: [], notes: "" },
+  "Japan":                    { ai: 52, robotics: 22, scarcity: 96, wage: 82, tags: [], notes: "" },
+  "South Korea":              { ai: 54, robotics: 26, scarcity: 88, wage: 78, tags: [], notes: "" },
+  "China":                    { ai: 38, robotics: 44, scarcity: 62, wage: 40, tags: [], notes: "" },
+  "India":                    { ai: 30, robotics: 39, scarcity: 21, wage: 14, tags: [], notes: "" },
+  "Brazil":                   { ai: 36, robotics: 34, scarcity: 38, wage: 27, tags: [], notes: "" },
+  "Mexico":                   { ai: 33, robotics: 41, scarcity: 33, wage: 24, tags: [], notes: "" },
+  "Colombia":                 { ai: 34, robotics: 33, scarcity: 35, wage: 22, tags: [], notes: "" },
+  "South Africa":             { ai: 32, robotics: 29, scarcity: 30, wage: 25, tags: [], notes: "" },
+  "Vietnam":                  { ai: 24, robotics: 47, scarcity: 26, wage: 12, tags: [], notes: "" },
+  "Bangladesh":               { ai: 19, robotics: 46, scarcity: 15, wage: 8,  tags: [], notes: "" },
+  "Philippines":              { ai: 41, robotics: 31, scarcity: 19, wage: 13, tags: [], notes: "" },
+  "Ethiopia":                 { ai: 12, robotics: 28, scarcity: 11, wage: 5,  tags: [], notes: "" },
+  "Nigeria":                  { ai: 16, robotics: 26, scarcity: 13, wage: 7,  tags: [], notes: "" },
+  "Madagascar":               { ai: 10, robotics: 31, scarcity: 9,  wage: 4,  tags: [], notes: "" },
+  "Poland":                   { ai: 44, robotics: 37, scarcity: 69, wage: 48, tags: [], notes: "" },
+  "Indonesia":                { ai: 26, robotics: 38, scarcity: 24, wage: 15, tags: [], notes: "" },
+  "Turkey":                   { ai: 35, robotics: 36, scarcity: 41, wage: 30, tags: [], notes: "" }
+};
+
+window.TECHNOLOGIES = [
+  {
+    id: "berry-harvester",
+    name: "Autonomous berry harvester",
+    status: "Pilot",
+    developer: "—",
+    developerCountry: "United States of America",
+    target: "Manual",
+    occupations: ["ISCO 9211", "ISCO 6111"],
+    tags: ["Agriculture", "Harvesting"],
+    note: "",
+    exposure: {
+      "Madagascar": 78, "Ethiopia": 61, "Vietnam": 44, "Mexico": 40,
+      "India": 37, "Brazil": 22, "Poland": 18, "United States of America": 6,
+      "Germany": 4, "Japan": 3
+    }
+  },
+  {
+    id: "garment-sewbot",
+    name: "Automated sewing line",
+    status: "Deployed",
+    developer: "—",
+    developerCountry: "China",
+    target: "Manual",
+    occupations: ["ISCO 7533", "ISCO 8153"],
+    tags: ["Textiles", "Garments"],
+    note: "",
+    exposure: {
+      "Bangladesh": 84, "Vietnam": 71, "Ethiopia": 46, "India": 38,
+      "Indonesia": 35, "Turkey": 29, "China": 24, "Mexico": 14
+    }
+  },
+  {
+    id: "document-agent",
+    name: "Back-office document agent",
+    status: "Deployed",
+    developer: "—",
+    developerCountry: "United States of America",
+    target: "Cognitive",
+    occupations: ["ISCO 4110", "ISCO 4120", "ISCO 3313"],
+    tags: ["BPO", "Back office"],
+    note: "",
+    exposure: {
+      "Philippines": 74, "India": 63, "Poland": 52, "United Kingdom": 49,
+      "United States of America": 47, "South Africa": 36, "Colombia": 31, "Brazil": 28
+    }
+  }
+];
+</script>
+<script>
+/* ---------- map geometry: 176 country outlines, generated — do not hand-edit ---------- */
+/* Equal Earth projection of Natural Earth 110m country outlines.
+   Generated from the world-atlas package (ISC). viewBox 0 0 1000 500.
+   Keys are UN M49 numeric country codes. */
+window.WORLD = [{"id":"004","name":"Afghanistan","d":"M666.4 115.5L667.8 115.5L669.9 116.2L670.8 116.6L672.3 115.6L673.3 116.2L673.6 114.7L675.2 114.8L675.4 114.3L675.2 113.0L675.9 111.8L677.5 112.6L677.6 113.6L678.4 113.7L679.0 116.5L680.4 117.6L681.0 116.9L682.0 116.6L683.1 115.1L684.9 115.3L687.5 115.3L688.3 116.3L686.9 116.7L685.8 117.3L683.1 117.7L680.6 118.3L679.6 119.8L680.6 121.2L681.4 122.9L680.5 124.3L681.0 125.6L680.6 126.8L678.2 126.7L679.8 128.9L678.4 129.8L677.8 131.9L678.5 133.9L677.7 134.9L676.7 134.6L674.8 135.0L674.8 136.0L672.9 136.0L671.9 137.9L672.5 140.9L669.4 142.3L667.5 142.0L667.2 142.8L665.5 142.3L663.0 142.8L658.3 141.1L660.0 137.9L659.3 135.7L657.2 135.1L656.5 132.9L655.1 130.2L655.7 128.4L654.5 127.9L654.6 125.4L654.6 121.2L657.5 122.5L659.3 122.0L659.4 120.5L661.3 120.0L662.4 119.0L662.2 116.4L664.1 115.7L664.2 114.5L665.6 115.4L666.4 115.5Z"},{"id":"008","name":"Albania","d":"M551.5 104.2L551.5 105.0L550.8 105.5L550.7 106.5L549.7 108.1L549.3 107.9L549.2 107.2L547.7 106.1L547.3 104.6L547.3 102.4L547.6 101.4L547.1 100.9L546.9 99.9L547.8 98.3L548.0 98.9L548.6 98.6L549.2 99.5L549.8 99.8L550.1 100.9L549.9 102.0L550.4 103.4L551.5 104.2Z"},{"id":"012","name":"Algeria","d":"M477.2 149.6L477.3 148.9L477.2 148.6L477.3 144.5L481.6 141.9L484.2 141.4L486.4 140.5L487.4 138.7L490.4 137.4L490.6 134.8L492.1 134.5L493.3 133.3L496.6 132.7L497.1 131.3L496.4 130.6L495.6 127.0L495.4 125.0L494.5 122.8L497.0 121.0L499.7 120.4L501.3 119.0L503.7 118.0L507.9 117.4L512.1 117.2L513.4 117.7L515.7 116.4L518.4 116.3L519.4 117.1L521.1 116.9L520.7 118.6L521.2 121.8L520.7 124.6L519.2 126.4L519.5 129.0L521.6 131.0L521.7 131.8L523.3 133.2L524.6 139.4L525.5 142.5L525.7 144.1L525.4 146.9L525.6 148.5L525.3 150.4L525.6 152.7L524.6 154.1L526.2 156.7L526.4 158.2L527.4 160.2L528.6 159.6L530.8 161.2L532.0 163.5L523.0 170.3L515.3 177.4L511.5 179.0L508.5 179.4L508.5 177.1L507.2 176.5L505.6 175.4L504.9 173.7L495.9 165.9L486.9 158.1L477.2 149.6Z"},{"id":"024","name":"Angola","d":"M536.0 267.9L535.0 268.7L534.6 269.6L534.5 271.3L533.8 271.6L533.0 268.8L534.2 267.2L535.0 266.6L536.0 267.9ZM534.1 272.8L535.3 272.3L536.1 272.4L537.1 271.9L545.2 272.0L545.9 274.8L546.7 277.0L547.3 278.2L548.3 280.1L550.1 279.8L551.1 279.3L552.6 279.8L553.0 278.9L553.7 276.7L555.5 276.6L555.6 275.9L557.0 275.9L556.8 277.3L560.1 277.2L560.1 279.6L560.7 281.0L560.2 283.3L560.4 285.6L561.3 286.9L561.0 291.3L561.7 291.0L562.9 291.1L564.6 290.5L565.8 290.8L566.1 291.9L565.7 293.7L566.2 295.4L565.7 296.8L565.9 298.1L560.2 298.1L559.7 309.8L561.4 312.8L563.1 315.0L558.0 316.5L551.4 316.0L549.6 314.3L538.6 314.4L538.2 314.7L536.6 313.0L534.9 312.9L533.2 313.5L531.9 314.2L531.7 311.9L532.1 308.7L533.1 305.4L533.3 303.8L534.3 300.5L534.9 298.9L536.6 296.5L537.5 294.9L537.8 292.1L537.7 290.0L536.9 288.7L536.2 286.5L535.5 284.2L535.7 283.5L536.6 282.0L535.8 278.4L535.2 275.9L533.9 273.5L534.1 272.8Z"},{"id":"032","name":"Argentina","d":"M346.2 431.5L347.6 432.8L349.8 434.9L353.4 436.5L356.8 437.2L356.5 438.6L354.5 438.7L352.9 437.7L351.5 437.7L349.2 437.7L346.2 431.5ZM350.4 360.3L350.3 363.0L350.4 366.6L351.1 370.0L350.8 370.7L351.1 372.9L351.3 374.7L355.2 377.6L355.4 379.9L357.3 381.3L357.6 383.0L356.2 387.2L353.0 388.9L348.2 389.6L345.4 389.3L346.5 391.2L346.7 393.7L347.7 395.3L346.5 396.4L344.2 396.9L341.4 395.7L340.8 396.5L342.1 399.7L344.1 400.7L345.1 399.7L346.3 401.3L344.4 402.3L343.2 404.2L343.9 407.4L343.9 409.0L341.7 409.0L340.4 410.6L340.6 412.9L343.8 415.1L346.3 415.7L346.5 418.4L344.5 420.1L344.4 423.5L342.9 424.7L342.5 426.1L344.6 429.0L346.9 430.7L345.9 430.5L343.6 430.1L337.9 429.7L336.2 428.1L335.2 425.9L333.8 426.1L332.5 425.0L330.9 421.9L332.0 420.6L331.9 418.8L331.0 417.2L331.1 414.7L330.3 410.6L329.4 408.8L330.2 408.2L329.5 407.1L328.1 406.5L328.4 405.1L326.9 404.0L324.9 400.3L325.7 399.7L323.9 395.8L323.3 392.5L323.0 389.6L324.1 388.4L322.3 385.2L321.4 382.1L322.6 380.0L321.8 377.2L322.3 373.9L321.4 370.8L320.6 370.1L317.9 364.2L318.6 360.7L317.6 357.3L317.8 354.2L318.8 350.9L320.2 348.7L319.1 347.3L319.4 346.2L318.2 340.3L320.8 338.5L321.0 334.8L320.6 333.9L322.2 330.7L325.9 331.5L327.9 334.1L328.5 331.2L331.5 331.4L332.1 332.2L337.9 338.0L340.2 338.5L343.9 341.2L346.8 342.6L347.5 344.1L345.8 349.5L348.6 350.4L351.7 351.0L353.6 350.4L355.6 347.7L355.5 344.6L356.7 343.9L358.4 346.0L358.8 348.8L356.9 350.7L355.3 352.2L353.0 355.5L350.4 360.3Z"},{"id":"051","name":"Armenia","d":"M615.4 110.9L614.5 111.0L613.1 109.1L613.0 108.6L611.9 108.6L611.0 107.7L610.5 107.8L609.3 106.9L607.3 106.1L607.2 104.5L606.6 103.4L609.8 102.9L610.5 103.7L611.6 104.3L611.3 105.1L612.8 106.2L612.4 107.2L613.6 108.1L614.8 108.6L615.4 110.9Z"},{"id":"036","name":"Australia","d":"M861.7 395.7L863.1 395.9L860.4 399.7L858.8 400.8L856.6 403.3L856.4 402.5L853.0 404.7L852.7 404.5L851.3 404.4L851.8 401.7L853.1 399.6L853.7 396.8L854.8 395.4L856.2 395.6L857.7 396.8L859.4 396.3L861.7 395.7ZM824.3 367.2L820.8 368.9L818.2 369.7L816.9 371.5L815.3 372.9L813.1 372.9L811.3 373.2L809.4 372.6L807.4 373.0L805.5 373.2L803.2 375.0L802.5 374.8L800.8 375.8L799.0 376.8L797.3 376.7L795.6 376.7L793.9 374.5L792.8 373.9L793.7 372.0L795.2 371.5L796.0 370.7L796.4 369.5L797.8 367.1L798.3 365.1L798.4 361.6L798.8 359.6L799.6 357.7L799.4 355.4L799.8 354.4L799.1 353.0L799.8 350.2L799.2 347.4L799.4 345.9L800.0 347.5L800.2 344.2L801.2 345.2L801.5 346.6L802.1 344.8L801.7 342.0L801.8 340.9L801.5 339.8L802.4 337.7L803.2 336.9L804.1 335.1L804.4 333.0L806.2 330.4L805.7 333.1L807.5 330.7L810.0 329.4L811.7 327.9L814.2 326.6L815.4 326.3L816.1 326.7L818.6 325.4L820.3 325.0L820.9 324.2L821.7 323.9L823.2 324.0L826.3 322.9L828.2 321.3L829.4 319.3L831.4 317.5L831.9 316.0L832.4 314.1L835.0 311.0L835.5 314.1L836.8 313.4L836.2 311.7L837.5 309.9L838.5 310.7L839.4 307.9L841.3 306.1L842.3 304.6L843.8 304.0L844.0 303.0L845.1 303.4L845.3 302.5L846.7 301.9L848.1 301.4L849.8 303.1L850.8 305.3L852.5 305.3L854.2 305.7L854.0 303.7L855.9 300.7L857.4 299.7L857.1 298.8L858.7 296.7L860.6 295.4L861.9 295.9L864.3 295.2L864.6 293.3L862.8 292.0L864.4 291.5L866.0 292.4L867.2 293.9L869.4 294.9L870.2 294.5L871.7 295.7L873.5 294.6L874.5 294.9L875.3 294.2L876.2 296.0L875.1 298.0L873.8 299.5L872.8 299.6L872.8 301.1L871.6 302.9L870.3 304.8L870.2 305.8L872.0 307.8L873.8 309.0L874.9 310.3L876.3 312.4L877.1 312.4L878.3 313.4L878.4 314.5L880.6 315.7L882.8 314.5L883.8 312.5L884.8 310.9L885.6 308.9L887.2 306.0L887.2 304.2L887.6 303.1L887.8 301.0L888.7 298.2L889.4 297.5L889.2 296.2L890.2 294.3L891.1 292.2L891.3 291.2L892.6 289.8L893.1 291.6L892.8 293.9L893.5 294.4L893.3 295.9L893.9 297.8L893.7 299.9L893.3 301.2L893.6 304.1L895.7 302.7L896.3 304.3L897.2 305.7L896.6 307.4L896.4 310.5L896.3 312.3L896.9 312.8L896.7 315.9L895.9 317.8L896.1 320.3L898.4 322.2L899.7 323.9L901.0 325.5L900.4 326.3L901.1 328.6L900.8 332.5L902.1 331.7L902.6 333.3L903.5 332.7L902.5 336.5L903.5 338.7L904.2 340.1L905.1 342.9L904.5 345.8L903.7 347.8L902.5 350.0L902.3 352.9L900.7 356.0L899.4 357.7L897.1 360.7L896.1 362.7L894.2 365.2L891.3 368.3L888.5 370.0L886.0 372.6L884.2 374.3L881.6 377.2L879.6 378.9L877.4 381.3L875.6 383.6L875.1 384.7L872.9 385.8L870.0 385.9L866.8 387.3L864.8 388.6L862.4 390.0L861.3 388.5L860.2 387.9L861.7 386.2L859.9 386.9L856.2 389.2L854.6 388.3L853.5 387.8L852.2 387.6L850.4 386.6L850.1 384.6L851.2 382.1L851.6 380.4L851.1 379.1L848.9 378.7L850.7 377.0L851.5 374.5L848.9 376.9L846.3 377.5L848.7 375.6L850.1 373.7L852.0 372.0L853.1 369.5L849.5 372.4L847.3 373.6L844.9 376.2L843.7 374.8L844.7 373.1L844.4 370.6L843.7 369.3L844.6 368.5L842.3 366.5L840.5 366.4L838.8 364.7L834.1 365.0L830.2 366.2L826.7 367.4L824.3 367.2Z"},{"id":"040","name":"Austria","d":"M539.5 81.6L539.4 82.8L538.1 82.8L538.6 83.5L538.1 85.4L537.6 85.9L535.6 86.0L534.5 86.7L532.5 86.5L529.1 85.7L528.5 84.6L526.2 85.2L526.0 85.7L524.5 85.3L523.3 85.2L522.2 84.7L522.5 83.9L522.4 83.4L523.1 83.2L524.3 84.1L524.6 83.3L526.7 83.4L528.3 82.9L529.5 83.0L530.2 83.6L530.4 83.1L529.9 81.1L530.7 80.7L531.4 79.4L533.2 80.3L534.4 79.1L535.2 78.9L537.1 79.8L538.2 79.6L539.3 80.2L539.1 80.6L539.5 81.6Z"},{"id":"031","name":"Azerbaijan","d":"M612.9 100.9L613.6 101.0L615.7 103.0L616.9 103.2L617.1 102.4L618.2 101.1L619.9 102.8L621.7 105.1L622.9 105.2L623.9 106.1L621.9 106.3L622.1 108.8L621.9 110.0L621.2 110.8L621.6 112.4L621.0 112.5L619.1 110.8L619.6 109.2L618.6 108.3L617.8 108.5L615.4 110.9L614.8 108.6L613.6 108.1L612.4 107.2L612.8 106.2L611.3 105.1L611.6 104.3L610.5 103.7L609.8 102.9L610.3 102.4L612.4 103.3L613.7 103.5L614.0 103.1L612.4 101.4L612.9 100.9ZM614.5 111.0L612.7 110.6L611.1 109.1L610.5 107.8L611.0 107.7L611.9 108.6L613.0 108.6L613.1 109.1L614.5 111.0Z"},{"id":"044","name":"Bahamas","d":"M292.0 151.7L293.2 151.4L295.0 151.5L294.8 152.4L291.8 153.0L292.0 151.7ZM295.3 150.8L297.0 152.4L296.0 154.9L295.6 154.4L296.1 152.6L295.2 151.2L295.3 150.8ZM292.8 157.3L293.5 157.4L293.8 160.4L293.4 162.4L292.7 162.6L292.5 160.6L291.7 159.5L292.8 157.3Z"},{"id":"050","name":"Bangladesh","d":"M748.4 168.6L748.9 171.2L747.9 170.6L748.7 173.5L747.5 171.6L746.9 169.8L746.0 168.1L744.4 166.0L741.9 165.8L742.5 167.3L742.1 169.3L740.8 168.6L740.6 169.3L739.7 168.9L738.6 168.5L737.5 165.6L736.0 162.9L735.9 160.7L734.1 159.8L734.4 158.5L735.7 157.2L733.3 155.3L733.6 152.9L736.1 154.4L737.4 154.6L738.3 157.1L740.9 157.5L743.4 157.5L745.1 158.1L744.6 161.1L743.5 161.3L743.1 163.3L745.0 165.2L744.9 162.9L745.6 162.9L748.4 168.6Z"},{"id":"112","name":"Belarus","d":"M561.2 58.8L563.6 59.5L564.1 60.2L565.1 59.8L567.4 60.5L567.9 61.8L567.6 62.5L569.4 64.3L570.4 64.8L570.4 65.3L572.0 65.8L572.8 66.5L572.1 67.1L570.3 67.0L569.9 67.3L570.6 68.2L571.6 70.0L569.7 70.2L569.1 70.8L569.3 72.3L568.3 72.0L566.3 72.1L565.6 71.4L564.8 71.9L563.9 71.5L562.1 71.5L559.4 70.8L557.1 70.6L555.4 70.6L554.3 71.4L553.2 71.5L553.0 70.2L552.1 68.9L553.3 68.4L553.1 67.2L552.3 66.2L552.0 65.0L554.2 65.0L556.4 63.9L556.6 62.4L558.3 61.5L557.8 60.3L559.1 59.9L561.2 58.8Z"},{"id":"056","name":"Belgium","d":"M514.0 73.7L513.8 75.7L513.2 75.8L513.1 77.4L511.0 76.1L509.8 76.3L508.2 75.0L507.1 73.8L506.1 73.8L505.7 72.7L507.5 72.2L509.2 72.4L511.3 71.8L512.7 73.1L514.0 73.7Z"},{"id":"084","name":"Belize","d":"M258.1 183.9L258.1 183.4L258.5 183.2L258.9 183.6L260.3 181.4L260.8 181.4L260.7 181.9L261.2 182.0L261.0 182.9L260.3 184.5L260.4 185.1L259.9 186.4L260.0 186.7L259.4 188.6L258.7 189.6L258.2 189.7L257.5 190.9L256.7 190.9L257.6 186.8L258.1 183.9Z"},{"id":"204","name":"Benin","d":"M507.5 226.6L505.2 227.0L504.5 224.5L504.6 215.9L504.0 215.1L503.9 213.3L503.0 212.0L502.1 210.9L502.5 209.0L503.4 208.6L504.0 206.9L505.3 206.6L505.9 205.5L506.8 204.4L507.8 204.4L509.9 206.5L509.8 207.8L510.5 210.0L509.9 211.4L510.2 212.4L508.9 214.7L508.0 215.9L507.5 218.2L507.6 220.6L507.5 226.6Z"},{"id":"064","name":"Bhutan","d":"M740.6 148.2L742.0 149.4L742.4 151.5L740.3 151.6L738.0 151.4L736.5 151.9L733.7 150.6L733.5 149.9L734.5 147.3L735.6 146.4L737.7 147.2L739.2 147.3L740.6 148.2Z"},{"id":"068","name":"Bolivia","d":"M308.5 290.9L310.6 291.2L312.0 291.1L312.5 290.0L314.8 288.5L316.2 287.1L319.8 286.4L319.7 289.2L320.1 290.6L320.1 293.1L323.4 296.4L326.5 297.1L327.7 298.4L329.6 299.2L330.8 300.2L332.6 300.2L334.2 301.3L334.6 303.4L335.2 304.5L335.4 306.1L334.6 306.1L336.1 310.4L341.3 310.6L341.2 312.7L341.6 314.1L343.2 315.1L344.1 317.4L344.0 320.3L343.4 321.9L343.9 323.9L343.2 324.7L343.0 323.6L340.2 321.7L337.7 321.7L333.2 322.7L332.3 325.9L332.5 327.8L332.1 332.2L331.5 331.4L328.5 331.2L327.9 334.1L325.9 331.5L322.2 330.7L320.6 333.9L318.7 334.4L316.8 329.4L314.7 325.4L315.1 321.9L313.4 320.4L312.7 317.7L311.0 315.2L312.2 311.3L310.7 308.2L311.2 307.0L310.5 305.6L311.4 303.8L311.1 300.7L311.0 298.1L311.4 296.8L308.5 290.9Z"},{"id":"070","name":"Bosnia and Herz.","d":"M544.9 98.4L542.7 97.2L541.6 95.9L540.6 95.2L539.4 94.1L538.8 93.1L537.5 91.6L537.9 90.4L538.8 91.1L539.3 90.4L540.4 90.4L542.5 90.9L544.1 90.8L545.3 91.5L546.2 91.5L545.7 92.9L547.0 94.1L546.8 95.5L546.2 95.7L545.8 96.0L545.1 96.7L544.9 98.4Z"},{"id":"072","name":"Botswana","d":"M578.9 331.6L574.9 334.2L572.3 336.9L571.3 339.3L570.4 340.6L568.9 340.9L568.3 342.6L568.0 343.7L566.2 344.5L564.1 344.4L562.9 343.4L561.8 342.9L560.4 343.8L559.7 345.5L558.4 346.5L556.9 348.1L555.0 348.5L554.5 347.2L554.9 345.1L553.5 341.7L552.8 341.2L553.4 330.7L556.0 330.6L556.7 317.7L558.7 317.6L562.9 316.3L563.9 317.8L565.7 316.4L566.5 316.4L568.1 315.5L568.6 315.8L569.5 318.7L570.0 319.4L570.7 321.5L573.5 325.5L574.7 325.9L574.6 327.1L575.2 329.4L577.3 330.0L578.9 331.6Z"},{"id":"076","name":"Brazil","d":"M363.8 372.4L362.7 370.5L363.5 368.9L361.6 366.6L359.2 364.7L356.1 362.5L355.2 362.6L352.0 359.9L350.4 360.3L353.0 355.5L355.3 352.2L356.9 350.7L358.8 348.8L358.4 346.0L356.7 343.9L355.5 344.6L355.7 342.6L355.8 340.5L355.5 338.5L354.4 337.9L353.5 338.4L352.5 338.3L352.0 336.9L351.3 333.6L350.6 332.5L348.7 331.6L347.7 332.3L344.7 331.6L344.2 326.7L343.2 324.7L343.9 323.9L343.4 321.9L344.0 320.3L344.1 317.4L343.2 315.1L341.6 314.1L341.2 312.7L341.3 310.6L336.1 310.4L334.6 306.1L335.4 306.1L335.2 304.5L334.6 303.4L334.2 301.3L332.6 300.2L330.8 300.2L329.6 299.2L327.7 298.4L326.5 297.1L323.4 296.4L320.1 293.1L320.1 290.6L319.7 289.2L319.8 286.4L316.2 287.1L314.8 288.5L312.5 290.0L312.0 291.1L310.6 291.2L308.5 290.9L307.0 291.5L305.8 291.1L305.5 285.4L303.4 287.6L301.0 287.5L299.8 285.5L297.9 285.3L298.4 283.7L296.7 281.5L295.3 278.1L296.0 277.4L295.9 275.9L297.5 274.8L297.2 272.8L297.8 271.5L297.9 269.7L301.0 267.2L303.3 266.5L303.6 265.9L306.1 266.1L307.1 255.8L307.2 254.2L306.7 252.1L305.5 250.7L305.5 248.0L307.1 247.4L307.6 247.7L307.7 246.3L306.1 245.9L306.1 243.6L311.5 243.7L312.4 242.4L313.2 243.6L313.7 245.8L314.3 245.3L315.8 247.3L317.9 247.0L318.5 245.9L320.5 245.0L321.7 244.4L322.0 242.8L324.0 241.8L323.9 241.0L321.6 240.7L321.2 238.3L321.4 235.8L320.2 234.8L320.7 234.5L322.7 235.0L324.9 235.9L325.7 235.0L327.8 234.4L330.9 233.0L332.0 231.6L331.6 230.6L333.1 230.4L333.7 231.2L333.3 232.9L334.2 233.5L334.8 235.2L334.0 236.5L333.5 239.7L334.2 241.6L334.4 243.3L336.0 245.1L337.4 245.3L337.7 244.5L338.6 244.4L339.9 243.7L340.8 242.7L342.3 243.0L343.0 242.9L344.5 243.2L344.7 242.4L344.3 241.7L344.6 240.6L345.7 240.9L347.0 240.6L348.6 241.3L349.8 242.1L350.7 241.1L351.3 241.3L351.7 242.3L353.0 242.0L354.1 240.6L355.0 237.9L356.7 234.5L357.6 234.3L358.3 236.3L359.7 242.9L361.2 243.5L361.3 246.1L359.2 249.2L360.0 250.3L364.9 250.9L365.1 254.6L367.2 252.2L370.7 253.5L375.3 255.8L376.7 258.0L376.2 260.1L379.4 258.9L384.9 260.9L389.0 260.8L393.2 263.8L396.8 268.0L398.9 269.1L401.3 269.3L402.3 270.4L403.4 275.2L403.9 277.4L403.0 283.6L401.7 286.0L398.0 291.2L396.4 295.4L394.6 298.6L393.9 298.6L393.3 301.4L393.9 308.2L393.6 313.9L393.4 316.3L392.7 317.7L392.6 322.6L390.3 327.3L390.2 331.0L388.2 332.6L387.8 334.7L384.9 334.7L380.9 336.1L379.2 337.7L376.3 338.7L373.6 341.6L371.8 345.1L371.8 347.7L372.5 349.7L372.6 353.2L372.2 354.9L370.7 356.8L368.9 362.9L367.1 365.7L365.7 367.3L365.1 370.5L363.8 372.4Z"},{"id":"096","name":"Brunei","d":"M820.0 229.6L820.0 231.5L820.0 233.9L818.6 233.7L818.1 235.0L816.8 233.1L817.8 231.7L820.0 229.6Z"},{"id":"100","name":"Bulgaria","d":"M554.2 93.5L555.1 94.7L556.0 94.5L557.9 95.0L561.4 95.2L562.5 94.4L565.2 93.6L567.2 94.8L568.6 95.1L567.6 96.4L567.0 98.7L568.0 100.5L565.9 100.0L563.5 101.0L563.7 102.6L561.6 102.9L559.7 101.8L557.8 102.7L556.0 102.6L555.6 100.5L554.3 99.5L554.6 99.0L554.3 98.6L554.6 97.6L555.4 96.7L554.1 95.3L553.7 94.2L554.2 93.5Z"},{"id":"854","name":"Burkina Faso","d":"M485.1 211.3L484.9 209.1L485.7 207.6L485.6 206.3L487.8 203.3L488.3 200.7L489.0 199.8L490.3 200.3L491.5 199.6L491.9 198.6L494.0 197.0L494.5 195.8L497.1 194.3L498.6 193.8L499.3 194.5L501.0 194.5L500.8 196.2L501.2 197.9L502.7 200.3L502.8 202.1L506.0 203.0L505.9 205.5L505.3 206.6L504.0 206.9L503.4 208.6L502.5 209.0L500.1 208.9L498.8 208.6L497.9 209.2L496.7 208.9L491.9 209.1L491.8 211.2L492.2 214.0L490.3 213.0L489.0 213.2L488.1 214.1L486.8 213.3L486.3 212.1L485.1 211.3Z"},{"id":"108","name":"Burundi","d":"M584.6 259.0L584.7 260.5L585.3 261.4L585.4 262.6L584.7 263.4L583.6 265.3L582.5 266.7L581.4 266.8L581.3 262.3L580.6 260.6L582.3 260.9L583.1 258.8L584.6 259.0Z"},{"id":"116","name":"Cambodia","d":"M781.9 204.6L780.6 200.1L781.9 197.0L785.3 196.3L788.0 196.9L790.4 198.3L791.3 195.8L793.9 197.1L795.0 199.6L795.3 204.0L791.1 206.9L792.6 209.1L789.7 209.4L787.5 210.9L785.1 210.3L783.8 208.4L781.9 204.6Z"},{"id":"120","name":"Cameroon","d":"M539.8 202.1L540.9 204.5L541.2 206.9L541.1 209.4L542.7 212.7L541.1 212.7L540.3 213.0L539.1 212.6L538.5 214.3L540.2 216.5L541.4 217.1L541.8 218.7L542.7 221.3L542.3 222.3L540.9 226.0L540.3 226.7L540.1 229.6L540.4 231.2L540.1 232.3L541.5 234.3L541.7 235.6L542.8 237.5L544.0 238.7L544.2 240.4L544.5 241.5L544.3 243.5L542.1 242.7L539.8 241.7L536.3 241.5L536.0 241.3L534.3 241.8L532.6 241.3L531.3 241.5L526.8 241.5L527.2 238.5L526.1 236.0L524.8 235.4L524.3 233.7L523.5 233.2L523.6 232.2L524.3 229.5L525.6 225.9L526.4 225.9L528.0 223.7L529.0 223.6L530.6 225.2L532.5 223.9L532.8 222.4L533.4 220.9L533.8 219.0L535.2 217.4L535.8 214.8L536.3 214.0L536.7 212.1L537.4 209.7L539.7 206.8L539.8 205.6L540.1 204.9L538.9 203.5L539.0 202.3L539.8 202.1Z"},{"id":"124","name":"Canada","d":"M216.3 79.0L216.0 79.0L213.8 76.1L213.1 74.9L210.0 73.7L210.9 71.1L212.7 69.4L210.9 68.2L212.5 65.9L211.7 63.9L213.0 62.5L215.5 61.2L217.1 59.5L215.0 57.8L215.9 54.8L216.5 53.0L215.8 51.8L215.6 50.8L215.9 49.5L212.9 50.3L209.2 51.7L209.2 50.0L209.0 49.0L207.8 48.3L205.8 48.2L222.7 35.0L233.4 27.5L236.3 27.9L237.9 28.9L239.7 29.1L242.5 28.2L245.6 27.6L248.1 27.9L252.1 27.0L255.8 26.6L256.1 27.4L258.1 26.9L259.7 26.0L260.7 26.2L261.6 27.9L265.8 26.6L264.2 28.1L266.9 27.8L268.4 27.2L270.5 27.3L272.4 28.1L276.0 28.8L278.2 29.2L280.2 29.0L281.6 30.0L277.7 31.0L280.7 31.5L286.2 31.2L288.2 30.9L289.0 32.1L292.2 31.1L291.2 30.2L293.2 29.5L295.6 29.5L297.3 29.3L298.4 29.7L299.1 30.8L301.4 30.7L303.9 31.6L307.2 31.2L310.0 31.3L311.0 30.0L313.1 29.7L315.4 30.4L313.5 32.3L316.3 30.7L317.8 30.7L320.6 28.7L319.7 27.5L318.3 26.8L320.6 24.7L324.1 23.4L326.3 23.7L327.3 24.5L327.8 26.6L325.3 27.5L328.4 27.9L326.5 29.9L330.5 28.4L331.6 29.6L329.7 31.1L330.4 32.5L333.7 31.0L336.6 29.3L338.6 27.2L341.1 27.3L343.7 27.6L345.4 28.5L344.7 29.5L342.4 30.6L342.9 31.7L341.8 32.7L336.8 34.1L333.8 34.5L332.3 33.8L330.8 34.9L327.4 36.7L326.0 37.7L322.4 39.2L319.4 39.4L317.0 40.3L315.7 41.8L313.1 42.1L309.0 44.0L304.6 46.7L302.2 48.7L299.8 51.6L302.6 52.0L301.7 54.4L301.3 56.4L304.7 55.9L307.9 57.0L309.4 58.0L310.1 59.3L312.3 60.0L313.9 61.2L317.5 61.3L319.7 61.6L317.9 63.9L317.0 66.7L316.8 69.9L318.7 72.6L321.0 71.6L323.7 68.7L325.0 64.3L324.3 62.9L328.5 61.6L332.1 59.7L334.4 57.9L335.2 56.1L335.1 53.9L333.7 52.0L337.9 49.3L338.5 47.1L340.3 43.3L342.1 42.8L345.2 43.4L347.2 43.7L349.3 43.0L350.6 43.8L352.3 45.2L352.3 46.2L355.9 46.3L354.6 48.4L353.5 51.6L355.2 52.0L355.9 53.5L359.8 52.1L363.3 49.3L365.3 48.1L365.7 50.3L366.8 53.6L367.7 56.7L366.0 58.4L368.2 59.9L369.5 61.4L372.7 62.1L373.7 63.0L373.7 65.3L375.2 65.7L375.7 66.7L374.7 69.9L372.6 71.0L370.6 72.0L366.5 73.0L362.7 75.4L358.7 75.8L354.0 75.2L350.6 75.2L348.1 75.4L345.3 77.5L341.8 78.8L336.8 82.7L333.0 85.5L335.2 85.0L340.6 81.1L346.4 78.6L350.0 78.3L351.5 79.8L348.5 81.8L348.0 85.0L347.9 87.3L350.4 88.8L354.5 88.4L358.0 85.0L357.4 87.2L358.6 88.3L355.0 90.3L349.1 92.1L346.2 93.4L342.8 95.6L341.0 95.4L341.9 92.7L346.9 90.2L343.1 90.3L340.3 90.7L339.4 88.9L341.1 84.8L340.4 83.9L338.6 84.4L338.1 83.6L335.4 85.9L333.7 88.3L332.3 89.7L331.1 90.1L330.3 90.3L329.8 91.1L325.4 91.1L321.8 91.1L320.5 91.7L317.0 93.9L316.6 94.1L315.3 95.4L313.1 95.3L310.8 95.4L309.5 95.9L309.6 96.5L309.4 97.4L309.2 97.8L305.4 99.3L302.7 99.8L299.2 101.5L298.6 101.5L298.0 101.0L297.9 100.6L298.1 100.2L299.1 99.1L301.0 97.4L302.5 95.5L303.2 92.8L304.0 90.0L302.2 88.6L302.7 88.0L302.5 87.7L301.9 87.7L301.7 87.2L301.9 86.5L301.3 86.8L300.7 86.7L301.0 86.4L300.6 86.1L300.7 85.3L299.4 84.3L298.0 83.3L296.3 82.2L294.7 81.1L292.2 81.9L291.4 81.9L289.0 81.2L286.9 81.6L285.2 80.6L283.1 80.2L281.5 80.0L281.1 79.5L281.7 77.9L280.9 77.9L280.2 79.0L275.4 79.0L267.5 79.0L259.7 79.0L252.7 79.0L245.8 79.0L239.0 79.0L232.0 79.0L229.7 79.0L222.8 79.0L216.3 79.0ZM328.5 43.0L330.9 41.9L333.6 42.0L333.3 42.4L329.9 43.7L328.5 43.7L328.5 43.0ZM354.0 21.9L352.7 21.1L353.3 20.5L354.3 20.4L358.3 20.5L360.7 21.4L360.4 21.9L358.5 21.9L356.6 21.8L354.4 22.0L354.0 21.9ZM335.4 43.9L336.7 43.2L337.5 43.2L337.7 43.7L336.0 45.0L335.3 44.8L335.2 44.1L335.4 43.9ZM332.3 18.5L330.7 19.1L328.2 18.9L326.5 18.5L328.2 17.9L331.2 17.5L332.2 18.0L332.3 18.5ZM335.8 14.9L335.0 15.0L331.8 14.9L331.7 14.5L335.2 14.5L336.2 14.8L335.8 14.9ZM332.5 13.4L334.1 13.8L333.1 14.3L330.2 14.5L329.2 14.2L329.0 13.8L329.4 13.3L331.6 13.3L332.5 13.4ZM341.2 19.4L338.5 19.2L334.2 18.7L334.5 17.9L335.0 17.1L333.9 16.5L330.5 16.4L328.9 15.9L330.2 15.4L333.7 15.5L335.2 15.9L338.7 15.9L339.7 16.4L338.7 16.9L340.4 17.2L341.2 17.5L343.5 17.6L346.0 17.7L349.2 17.4L352.9 17.3L355.7 17.4L357.1 17.9L356.9 18.6L355.4 19.0L352.4 19.3L350.3 19.1L344.9 19.3L341.2 19.4ZM306.4 14.1L308.6 14.3L307.5 14.7L303.8 15.1L301.7 14.7L303.7 14.3L306.4 14.1ZM308.0 13.4L309.9 13.6L307.5 13.8L304.6 13.8L304.9 13.7L307.1 13.3L308.0 13.4ZM374.0 72.3L372.1 74.1L369.7 76.6L371.5 75.6L372.8 76.3L371.7 77.3L373.4 78.1L374.7 77.4L376.7 78.3L375.3 80.4L377.1 79.9L376.9 81.5L377.0 83.4L375.2 86.0L374.1 86.1L372.7 85.6L374.0 83.1L373.5 82.7L369.9 85.3L368.6 85.2L370.7 83.8L368.7 83.1L366.1 83.3L361.6 83.2L361.6 82.3L363.4 81.2L362.7 80.4L365.3 78.6L369.3 74.0L371.4 72.3L373.7 71.4L374.7 71.5L374.0 72.3ZM333.4 37.0L335.0 37.7L336.8 38.4L336.1 39.5L337.7 39.3L338.6 40.1L336.3 40.8L333.6 40.2L333.2 39.2L330.3 40.4L326.5 41.6L326.9 40.3L323.9 40.5L326.6 39.4L328.3 37.6L330.6 35.6L331.9 35.8L331.5 36.7L332.8 36.4L333.4 37.0ZM355.1 22.7L357.5 22.0L360.8 22.9L362.7 23.7L362.3 24.5L366.0 24.1L367.1 25.2L371.0 26.0L372.1 26.7L372.7 28.5L368.5 29.4L372.1 30.7L374.9 31.2L376.5 33.1L379.5 33.2L377.9 34.7L372.9 37.2L371.1 36.3L369.3 34.2L366.6 34.5L365.5 35.7L366.8 37.0L368.9 38.0L369.3 38.6L369.3 40.8L367.6 42.5L365.4 41.9L361.5 40.0L363.1 42.0L364.4 43.4L364.2 44.3L359.2 43.3L355.7 41.9L354.0 40.8L355.1 40.2L352.9 39.0L350.7 37.9L350.3 38.6L344.3 38.9L343.1 38.2L345.7 36.5L349.4 36.5L353.7 36.2L353.6 35.4L355.0 34.4L359.0 32.3L359.2 31.4L358.9 30.7L356.7 29.7L353.4 29.1L355.0 28.6L354.0 27.4L352.4 27.3L351.4 26.6L349.9 27.2L346.3 27.4L339.8 27.0L336.3 26.5L333.6 26.2L332.6 25.5L335.4 24.7L332.7 24.7L333.9 22.9L336.8 21.4L339.4 20.7L344.5 20.3L342.1 21.3L342.5 22.4L345.5 21.0L350.7 20.4L352.3 22.1L351.0 23.2L355.1 22.7ZM329.3 19.8L333.0 19.8L336.1 20.2L331.8 21.7L329.3 22.0L326.0 23.3L324.0 23.2L324.4 21.7L325.3 20.9L327.0 20.2L329.3 19.8ZM282.3 16.8L286.8 15.8L291.6 14.9L294.3 15.0L296.9 14.8L295.3 15.8L293.3 16.2L291.5 16.3L287.4 16.9L284.3 17.1L282.3 16.8ZM206.2 64.6L208.5 64.4L204.9 67.5L204.8 69.8L203.9 69.8L203.8 68.5L204.1 67.2L203.8 66.3L204.5 65.1L205.5 64.2L206.2 64.6ZM318.2 12.8L321.4 12.9L325.5 13.4L326.2 13.9L326.2 14.4L323.5 14.3L321.2 13.9L317.3 13.9L319.5 13.5L317.7 13.2L318.2 12.8ZM213.6 80.5L212.1 80.9L209.4 79.5L209.5 78.5L208.2 77.4L208.5 76.6L206.6 76.1L207.0 74.5L207.7 73.8L209.6 74.5L210.7 74.9L212.5 75.2L212.5 76.2L212.6 77.6L213.9 78.8L213.6 80.5ZM281.2 19.3L283.3 19.6L287.8 19.7L288.9 20.2L290.0 20.8L287.1 21.2L281.1 22.4L277.2 23.6L276.2 24.4L270.2 25.3L270.2 24.5L267.2 23.5L269.0 22.8L272.0 21.6L275.1 20.5L274.7 19.5L281.2 19.3ZM308.5 17.2L310.3 17.0L312.1 17.0L311.6 17.7L309.6 18.4L303.2 18.7L297.9 19.3L295.1 19.4L295.5 18.9L300.1 18.2L291.8 18.4L289.6 18.1L294.0 16.7L296.2 16.3L300.5 16.8L302.6 17.6L305.6 17.7L304.8 16.4L307.0 15.9L308.6 16.0L308.4 16.7L308.5 17.2ZM305.5 21.5L306.8 22.2L306.0 23.8L305.1 25.1L307.3 26.0L309.7 26.9L308.6 27.7L305.3 27.9L305.7 28.6L304.3 29.3L301.2 29.0L298.5 28.5L296.2 28.6L291.9 29.3L286.7 29.6L283.1 29.8L283.1 28.8L281.1 28.3L279.2 28.5L278.7 27.0L280.2 26.8L283.5 26.5L286.1 26.6L288.9 26.3L285.8 25.8L281.6 26.0L279.0 25.9L278.9 25.3L284.1 24.5L281.2 24.6L278.6 24.1L281.8 22.8L284.0 22.1L290.2 21.1L291.7 21.4L289.8 22.2L294.5 21.7L296.0 22.5L299.1 21.7L300.1 22.2L299.6 23.9L301.4 23.2L302.1 21.5L304.0 21.2L305.5 21.5ZM315.9 22.1L315.2 21.0L318.2 20.2L320.0 20.6L323.4 20.4L323.4 20.8L320.8 21.6L322.8 22.3L320.8 23.9L317.1 24.6L315.4 24.4L314.9 23.8L311.8 22.4L312.4 21.9L315.9 22.1ZM306.4 20.6L308.9 20.6L309.9 20.9L307.0 22.0L305.5 20.9L306.4 20.6ZM326.4 16.0L327.0 16.6L326.3 17.3L324.2 18.4L321.1 18.6L319.4 18.4L320.5 17.5L317.4 17.6L318.6 16.5L320.5 16.6L323.7 16.1L326.1 16.2L326.4 16.0ZM336.1 11.4L337.7 11.1L339.5 11.0L339.0 10.8L343.0 10.8L344.6 11.3L347.2 11.5L349.8 11.7L350.4 12.4L352.1 12.7L349.4 13.1L345.3 14.0L342.1 14.1L338.7 13.9L337.3 13.4L337.9 13.0L339.6 12.7L336.4 12.7L334.9 12.3L334.4 11.9L336.1 11.4ZM345.1 10.2L347.8 10.0L349.8 10.0L353.2 9.9L356.1 9.6L358.1 9.6L359.7 9.8L361.4 9.4L363.8 9.3L366.9 9.2L372.0 9.2L372.8 9.3L377.8 9.1L381.4 9.2L385.0 9.2L389.4 9.3L392.9 9.4L395.9 9.6L395.6 9.8L391.2 10.2L387.0 10.4L385.3 10.6L389.0 10.6L384.5 11.1L381.5 11.4L377.8 12.2L374.1 12.4L372.8 12.6L367.5 12.8L369.7 12.9L368.3 13.1L369.2 13.7L367.2 14.1L364.2 14.4L362.9 14.9L360.1 15.3L360.0 15.6L363.1 15.6L362.8 15.9L357.3 16.7L353.1 16.3L347.7 16.6L345.2 16.4L341.9 16.3L342.4 15.7L346.0 15.4L346.1 14.4L347.3 14.4L351.4 14.9L349.8 14.1L347.2 13.9L349.1 13.4L352.5 13.1L353.4 12.7L351.4 12.3L351.3 11.8L355.9 11.8L357.1 11.9L360.2 11.5L356.5 11.4L350.4 11.5L347.8 11.2L346.8 10.8L345.1 10.5L345.1 10.2ZM354.3 32.0L352.6 32.6L350.3 32.7L350.6 31.7L352.3 30.6L354.3 30.3L355.4 30.8L354.7 31.7L354.3 32.0ZM317.6 27.9L318.0 28.7L316.1 29.3L314.1 28.7L312.4 29.0L310.7 28.1L313.0 27.5L315.1 26.7L316.6 27.2L317.4 27.5L317.6 27.9ZM352.0 76.4L352.9 76.2L355.6 76.9L357.5 78.2L357.4 78.7L356.2 78.7L353.6 77.8L352.0 76.4ZM349.9 84.9L350.1 86.3L351.7 86.7L353.9 86.7L352.3 87.9L351.4 88.1L348.8 86.8L348.6 85.8L349.9 84.9Z"},{"id":"140","name":"Central African Rep.","d":"M575.9 230.4L575.0 230.8L573.2 230.7L571.1 230.3L570.1 230.7L569.7 231.6L568.8 231.7L567.7 230.9L564.6 232.8L563.3 232.4L563.0 232.7L562.2 234.9L560.1 234.2L558.1 233.8L556.3 232.5L554.0 231.2L552.5 232.4L551.4 234.3L551.2 236.9L549.4 236.7L547.5 236.1L545.9 238.0L544.5 241.5L544.2 240.4L544.0 238.7L542.8 237.5L541.7 235.6L541.5 234.3L540.1 232.3L540.4 231.2L540.1 229.6L540.3 226.7L540.9 226.0L542.3 222.3L544.6 222.0L545.1 221.0L545.5 221.1L546.2 221.9L549.7 220.5L550.8 219.1L552.3 217.8L551.9 216.5L552.7 216.1L555.4 216.3L558.0 214.6L559.9 210.6L561.2 209.1L562.9 208.4L563.3 210.0L564.9 212.3L565.0 213.9L564.6 215.4L564.8 216.6L565.8 217.6L567.9 219.3L569.5 220.8L569.5 222.0L571.4 223.9L572.6 225.5L573.3 227.8L575.4 229.2L575.9 230.4Z"},{"id":"148","name":"Chad","d":"M564.4 177.5L565.2 192.0L562.8 191.7L561.7 194.4L561.0 196.7L561.6 197.5L560.8 198.7L561.1 200.2L560.5 201.7L560.2 203.1L561.2 202.9L561.8 204.3L561.9 206.5L562.9 207.5L562.9 208.4L561.2 209.1L559.9 210.6L558.0 214.6L555.4 216.3L552.7 216.1L551.9 216.5L552.3 217.8L550.8 219.1L549.7 220.5L546.2 221.9L545.5 221.1L545.1 221.0L544.6 222.0L542.3 222.3L542.7 221.3L541.8 218.7L541.4 217.1L540.2 216.5L538.5 214.3L539.1 212.6L540.3 213.0L541.1 212.7L542.7 212.7L541.1 209.4L541.2 206.9L540.9 204.5L539.8 202.1L540.0 200.3L538.3 200.3L538.2 197.9L537.1 196.5L538.1 191.7L541.5 188.2L541.5 183.5L542.3 176.1L542.8 174.6L541.7 173.3L541.6 172.2L540.6 171.2L539.7 165.6L542.3 163.7L553.3 170.6L564.4 177.5Z"},{"id":"152","name":"Chile","d":"M346.2 431.5L349.2 437.7L351.5 437.7L352.9 437.7L352.7 438.8L351.3 439.7L350.1 439.6L348.7 439.4L346.7 438.6L344.2 438.2L340.7 436.6L337.6 435.2L333.0 432.1L335.1 432.6L339.2 434.5L342.6 435.5L343.1 434.2L342.9 432.3L344.4 431.2L346.2 431.5ZM311.0 315.2L312.7 317.7L313.4 320.4L315.1 321.9L314.7 325.4L316.8 329.4L318.7 334.4L320.6 333.9L321.0 334.8L320.8 338.5L318.2 340.3L319.4 346.2L319.1 347.3L320.2 348.7L318.8 350.9L317.8 354.2L317.6 357.3L318.6 360.7L317.9 364.2L320.6 370.1L321.4 370.8L322.3 373.9L321.8 377.2L322.6 380.0L321.4 382.1L322.3 385.2L324.1 388.4L323.0 389.6L323.3 392.5L323.9 395.8L325.7 399.7L324.9 400.3L326.9 404.0L328.4 405.1L328.1 406.5L329.5 407.1L330.2 408.2L329.4 408.8L330.3 410.6L331.1 414.7L331.0 417.2L331.9 418.8L332.0 420.6L330.9 421.9L332.5 425.0L333.8 426.1L335.2 425.9L336.2 428.1L337.9 429.7L343.6 430.1L345.9 430.5L343.9 430.5L343.1 431.2L341.6 432.2L342.5 434.8L341.6 434.9L338.6 434.0L335.1 432.0L331.5 430.4L329.9 428.6L329.7 427.0L327.6 425.0L324.9 420.0L324.6 417.2L326.0 414.8L322.1 414.0L323.2 411.3L321.9 406.1L325.0 407.2L323.7 400.7L321.8 399.9L322.5 403.8L320.8 403.4L319.9 398.9L318.5 392.9L318.9 390.7L317.1 387.5L315.7 383.8L316.7 383.7L316.6 378.3L316.8 372.9L316.5 367.9L314.6 362.7L314.6 359.9L313.3 355.6L313.9 351.3L312.9 344.5L312.3 337.1L311.7 329.1L310.6 323.2L309.3 318.0L310.6 317.1L311.0 315.2Z"},{"id":"156","name":"China","d":"M796.8 182.5L794.3 181.4L793.5 178.2L794.5 176.6L797.2 175.6L798.8 175.7L799.7 177.1L798.9 178.7L798.8 180.8L796.8 182.5ZM694.6 99.4L693.7 97.6L695.0 96.8L690.5 91.3L694.6 90.1L695.5 89.4L694.6 84.0L699.8 85.0L700.4 83.6L699.0 80.6L700.7 80.3L701.4 78.4L702.2 78.1L703.9 80.2L706.7 81.8L710.7 82.9L713.6 85.3L714.5 88.9L716.1 90.2L719.2 90.7L722.6 91.2L726.5 93.1L728.1 93.4L730.7 96.3L733.0 98.2L735.7 98.1L741.0 98.8L744.0 98.4L746.7 98.9L751.3 100.8L754.2 100.8L755.8 101.8L757.7 100.1L761.0 99.0L764.6 98.8L766.8 97.7L767.5 96.0L768.6 95.0L767.6 94.0L766.1 92.8L766.1 90.8L767.6 91.0L770.5 91.7L771.8 90.0L774.7 88.9L775.1 86.8L776.1 86.0L779.3 85.6L781.4 85.9L780.9 84.8L777.3 82.7L774.7 81.8L773.7 82.9L771.1 82.4L770.0 82.8L768.6 81.6L768.1 78.6L767.6 76.4L771.2 77.5L773.0 75.7L772.0 74.4L771.6 71.3L772.2 70.4L770.9 68.9L769.1 68.2L769.7 66.8L772.1 66.3L775.0 66.2L779.0 67.0L781.9 68.1L785.7 70.9L787.6 72.2L789.9 73.9L793.1 76.8L797.8 77.7L802.3 79.8L805.4 82.6L809.0 82.6L810.0 81.4L813.2 80.5L814.1 83.2L814.1 84.3L815.9 87.7L816.5 90.6L813.2 90.1L812.0 91.2L814.5 93.8L816.8 97.5L815.6 97.6L816.7 99.2L813.9 97.4L814.1 99.1L811.2 100.5L812.7 102.2L810.5 102.1L808.7 101.1L808.5 103.3L806.8 105.1L806.1 107.1L803.2 108.1L802.2 109.6L800.1 110.5L800.5 109.0L799.3 107.7L800.0 105.5L797.7 103.9L796.2 105.0L794.7 107.2L794.4 109.3L792.1 109.5L791.6 111.0L794.1 113.2L796.4 113.8L797.3 115.2L799.8 116.2L801.3 113.9L804.2 115.1L805.9 115.2L807.2 117.0L804.2 117.9L803.9 119.7L802.3 121.4L802.2 123.7L805.8 125.6L808.3 128.9L811.3 132.0L814.3 134.6L815.3 137.2L814.1 138.1L815.5 140.0L817.5 141.0L818.2 143.9L818.6 146.6L817.3 147.0L816.8 150.8L816.3 155.4L815.3 159.6L812.7 162.9L809.9 165.9L807.0 166.3L805.8 167.9L804.5 166.8L803.5 168.6L800.3 170.4L797.6 170.9L797.6 174.7L796.2 174.9L794.8 172.3L795.1 170.9L791.2 169.8L790.1 170.3L787.1 169.4L785.5 168.0L785.3 165.9L782.7 165.2L781.1 163.9L779.3 165.8L776.8 166.2L774.7 166.2L773.5 167.1L772.2 167.6L773.6 171.7L772.2 171.6L771.7 170.8L771.3 169.3L769.6 170.3L768.2 169.7L765.9 168.3L766.0 165.3L764.1 164.6L762.6 161.3L760.0 161.9L759.1 157.7L760.8 154.8L760.1 151.8L759.2 149.2L757.8 148.3L756.3 146.3L754.8 146.5L751.8 146.0L752.3 144.5L750.4 142.4L749.0 143.8L746.5 143.0L744.2 145.2L742.6 147.8L740.6 148.2L739.2 147.3L737.7 147.2L735.6 146.4L734.5 147.3L733.5 149.9L732.5 147.1L731.1 147.9L727.9 147.5L724.8 146.7L722.2 145.2L720.0 144.5L718.7 142.8L717.1 142.3L713.8 140.1L711.4 139.0L710.6 139.8L706.3 137.4L703.1 135.2L701.3 131.5L703.3 131.9L702.9 130.2L701.3 128.4L700.7 125.7L696.8 121.7L692.2 120.4L690.6 117.8L688.3 116.3L687.5 115.3L686.5 113.5L686.1 112.2L684.4 111.4L683.7 111.8L682.0 108.7L682.5 108.0L681.9 107.2L683.7 105.7L685.1 105.1L687.9 105.5L688.1 103.5L691.0 103.1L691.4 101.8L694.6 100.1L694.6 99.4Z"},{"id":"170","name":"Colombia","d":"M314.3 245.3L313.7 245.8L313.2 243.6L312.4 242.4L311.5 243.7L306.1 243.6L306.1 245.9L307.7 246.3L307.6 247.7L307.1 247.4L305.5 248.0L305.5 250.7L306.7 252.1L307.2 254.2L307.1 255.8L306.1 266.1L304.7 264.1L303.8 264.0L305.5 260.2L303.4 258.4L301.7 258.8L300.7 258.1L299.2 259.1L297.1 258.6L295.4 254.7L294.1 253.8L293.2 252.0L291.4 250.2L290.6 250.6L289.4 249.7L288.1 248.4L287.3 249.0L284.9 248.5L284.3 246.9L283.7 247.0L281.0 244.8L280.6 243.7L281.7 243.4L281.6 241.5L282.3 240.2L283.6 239.9L284.9 237.6L286.0 235.6L285.0 234.7L285.6 232.5L285.1 229.1L285.8 228.1L285.5 225.0L284.5 223.0L285.0 221.2L285.8 221.5L286.4 220.4L285.9 218.2L286.3 217.6L287.7 217.7L290.0 215.1L291.2 214.7L291.3 213.5L292.1 210.4L293.8 208.7L295.5 208.6L295.8 207.8L297.9 208.1L300.3 206.3L301.4 205.4L302.9 203.6L303.9 203.9L304.5 204.8L303.8 206.1L302.0 206.7L301.2 208.6L300.0 209.6L299.1 211.0L298.5 213.7L297.6 215.8L299.0 216.1L299.3 217.8L299.8 218.6L299.9 220.1L299.5 221.5L299.6 222.3L300.2 222.6L300.8 223.9L304.4 223.5L306.0 224.0L307.8 227.2L308.9 226.8L310.9 227.0L312.5 226.6L313.4 227.2L312.9 229.2L312.2 230.5L311.9 233.2L312.4 235.6L313.1 236.7L313.2 237.6L311.8 239.4L312.7 240.3L313.5 241.6L314.3 245.3Z"},{"id":"178","name":"Congo","d":"M551.2 236.9L551.1 239.1L550.2 241.2L549.7 243.5L549.4 246.8L549.5 248.9L549.1 250.2L549.0 251.6L548.7 252.8L546.8 254.6L545.6 256.5L544.3 260.1L544.4 263.2L543.7 264.4L542.1 266.2L540.4 268.6L539.4 267.9L539.2 266.9L537.7 266.8L536.8 268.3L536.0 267.9L535.0 266.6L534.2 267.2L533.0 268.8L530.8 264.9L532.9 262.8L531.9 260.3L532.8 259.4L534.7 258.9L534.9 257.3L536.4 259.1L538.8 259.2L539.7 257.5L540.1 255.0L539.8 252.1L538.5 249.9L539.7 245.5L539.0 244.8L536.9 245.1L536.1 243.2L536.3 241.5L539.8 241.7L542.1 242.7L544.3 243.5L544.5 241.5L545.9 238.0L547.5 236.1L549.4 236.7L551.2 236.9Z"},{"id":"188","name":"Costa Rica","d":"M272.2 214.3L271.1 214.6L271.0 216.1L271.6 216.7L271.1 217.1L271.2 217.8L270.9 218.5L270.7 219.3L269.2 218.5L268.7 217.7L269.1 217.0L269.1 216.2L268.4 215.3L267.4 214.6L266.5 214.1L266.4 213.0L265.7 212.4L265.8 213.4L265.2 214.3L264.6 213.3L263.8 212.9L263.5 212.2L263.6 211.0L264.1 209.9L263.3 209.4L264.0 208.6L264.5 208.2L266.2 209.1L266.9 208.7L267.7 209.0L268.1 209.7L268.9 210.0L269.6 209.2L270.1 211.2L271.1 212.7L272.2 214.3Z"},{"id":"191","name":"Croatia","d":"M539.0 86.5L539.8 86.9L541.7 88.2L543.7 88.8L544.5 88.3L545.2 89.5L546.1 90.4L545.3 91.5L544.1 90.8L542.5 90.9L540.4 90.4L539.3 90.4L538.8 91.1L537.9 90.4L537.5 91.6L538.8 93.1L539.4 94.1L540.6 95.2L541.6 95.9L542.7 97.2L544.9 98.4L544.7 99.0L542.3 97.8L540.8 96.7L538.5 95.7L536.3 93.4L536.8 93.2L535.6 91.9L535.5 90.9L533.9 90.4L533.3 91.7L532.5 90.7L532.5 89.6L532.5 89.5L534.2 89.7L534.6 89.1L535.4 89.6L536.4 89.7L536.3 88.8L537.1 88.5L537.2 87.3L539.0 86.5Z"},{"id":"192","name":"Cuba","d":"M280.3 164.5L282.6 164.7L284.7 164.8L287.0 166.0L287.8 167.3L290.3 166.9L291.1 167.7L293.0 170.0L294.3 171.6L295.2 171.5L296.7 172.3L296.3 173.3L298.3 173.4L300.1 174.9L299.6 175.8L297.8 176.2L295.9 176.4L294.1 176.1L290.2 176.5L292.3 174.5L291.4 173.5L289.7 173.3L289.0 172.2L288.7 170.2L287.2 170.3L284.8 169.4L284.2 168.6L280.8 168.0L280.0 167.3L281.2 166.5L278.6 166.3L276.3 168.1L275.2 168.2L274.6 169.1L273.2 169.5L272.1 169.1L273.8 168.0L274.6 166.7L276.0 165.9L277.5 165.2L279.6 164.9L280.3 164.5Z"},{"id":"196","name":"Cyprus","d":"M582.9 122.9L583.4 123.1L584.0 122.8L584.5 122.8L584.8 123.1L584.8 123.4L585.0 123.3L585.3 123.3L585.8 123.1L586.1 123.2L586.2 123.5L583.8 124.8L582.5 124.4L581.7 123.1L582.9 122.9Z"},{"id":"203","name":"Czechia","d":"M534.1 72.9L535.3 73.8L537.0 74.0L536.9 74.8L538.2 75.4L538.5 74.7L540.1 75.0L540.4 75.9L542.2 76.1L543.4 77.5L542.7 77.5L542.4 78.1L541.9 78.2L541.8 78.9L541.4 79.0L541.3 79.3L540.6 79.6L539.6 79.5L539.3 80.2L538.2 79.6L537.1 79.8L535.2 78.9L534.4 79.1L533.2 80.3L531.4 79.4L530.0 78.1L528.8 77.4L528.5 76.2L528.0 75.3L529.6 74.7L530.4 73.9L532.0 73.4L532.5 72.8L533.1 73.2L534.1 72.9Z"},{"id":"384","name":"C\u00f4te d'Ivoire","d":"M477.9 211.9L478.2 211.6L479.0 212.1L481.1 212.2L481.6 211.1L482.1 211.1L482.9 210.7L483.3 212.3L484.0 211.9L485.1 211.3L486.3 212.1L486.8 213.3L488.1 214.1L489.0 213.2L490.3 213.0L492.2 214.0L492.9 219.3L491.7 222.4L491.0 226.6L492.2 229.8L492.1 231.3L490.8 231.4L488.9 230.6L487.1 230.7L483.8 231.3L481.9 232.4L479.1 233.8L478.6 233.7L478.8 230.6L479.1 230.1L479.0 228.7L477.9 227.1L477.0 226.8L476.2 225.8L476.8 224.2L476.5 222.4L476.7 221.3L477.1 221.3L477.3 219.7L477.1 218.9L477.3 218.4L478.4 218.0L477.7 215.0L477.1 213.5L477.3 212.2L477.9 211.9Z"},{"id":"180","name":"Dem. Rep. Congo","d":"M581.4 266.8L581.8 270.3L581.5 272.2L582.0 274.4L583.6 276.5L585.0 281.2L583.9 280.8L580.2 281.4L579.4 281.8L578.5 284.2L579.1 285.9L578.5 290.3L578.0 294.0L578.7 294.6L580.6 296.1L581.4 295.4L581.4 299.4L579.4 299.3L578.3 297.3L577.4 295.7L575.3 295.2L574.7 293.3L573.0 294.5L570.8 293.9L569.9 292.3L568.2 291.9L566.9 292.0L566.8 290.9L565.8 290.8L564.6 290.5L562.9 291.1L561.7 291.0L561.0 291.3L561.3 286.9L560.4 285.6L560.2 283.3L560.7 281.0L560.1 279.6L560.1 277.2L556.8 277.3L557.0 275.9L555.6 275.9L555.5 276.6L553.7 276.7L553.0 278.9L552.6 279.8L551.1 279.3L550.1 279.8L548.3 280.1L547.3 278.2L546.7 277.0L545.9 274.8L545.2 272.0L537.1 271.9L536.1 272.4L535.3 272.3L534.1 272.8L533.8 271.6L534.5 271.3L534.6 269.6L535.0 268.7L536.0 267.9L536.8 268.3L537.7 266.8L539.2 266.9L539.4 267.9L540.4 268.6L542.1 266.2L543.7 264.4L544.4 263.2L544.3 260.1L545.6 256.5L546.8 254.6L548.7 252.8L549.0 251.6L549.1 250.2L549.5 248.9L549.4 246.8L549.7 243.5L550.2 241.2L551.1 239.1L551.2 236.9L551.4 234.3L552.5 232.4L554.0 231.2L556.3 232.5L558.1 233.8L560.1 234.2L562.2 234.9L563.0 232.7L563.3 232.4L564.6 232.8L567.7 230.9L568.8 231.7L569.7 231.6L570.1 230.7L571.1 230.3L573.2 230.7L575.0 230.8L575.9 230.4L577.6 233.5L578.9 234.0L579.6 233.3L580.9 233.6L582.4 232.8L583.1 234.4L585.6 236.9L585.5 241.2L586.6 241.8L585.7 243.1L584.6 244.1L583.6 246.0L583.0 247.8L582.8 250.8L582.2 252.2L582.2 255.0L581.4 256.1L581.2 258.3L580.9 258.6L580.6 260.6L581.3 262.3L581.4 266.8Z"},{"id":"208","name":"Denmark","d":"M521.8 62.0L520.4 62.4L518.7 62.1L517.7 60.6L517.5 57.8L517.8 57.1L518.4 56.3L520.3 56.2L521.0 55.5L522.6 54.7L522.7 56.1L522.1 56.9L522.4 57.7L523.6 58.1L523.2 59.1L522.5 58.8L521.1 60.7L521.8 62.0ZM526.9 59.0L527.7 60.3L526.6 62.5L524.2 61.0L523.8 59.9L526.9 59.0Z"},{"id":"262","name":"Djibouti","d":"M616.3 203.3L617.5 203.6L618.3 202.7L619.0 203.8L619.0 205.4L617.5 206.2L618.7 207.3L617.8 209.2L617.1 208.6L616.5 208.8L615.0 208.8L614.9 207.6L614.6 206.6L615.4 204.9L616.3 203.3Z"},{"id":"214","name":"Dominican Rep.","d":"M305.5 183.1L305.7 182.1L305.2 181.0L305.9 180.4L306.3 179.0L306.4 177.0L306.8 176.4L308.9 176.4L310.4 177.3L311.1 177.2L311.4 178.5L312.9 178.4L312.7 179.5L313.8 179.7L315.0 181.0L313.8 182.5L312.6 181.7L311.3 181.8L310.5 181.7L309.9 182.3L308.8 182.6L308.5 181.7L307.5 182.2L306.1 184.7L305.5 184.1L305.5 183.1Z"},{"id":"218","name":"Ecuador","d":"M290.6 250.6L291.0 253.4L290.2 255.8L287.2 259.8L283.9 261.2L282.3 264.5L281.9 267.0L280.4 268.5L279.1 266.7L278.0 266.3L276.9 266.6L276.7 265.2L277.5 264.3L277.1 262.7L278.5 259.9L277.9 258.3L276.9 260.0L275.2 258.4L275.7 257.4L275.2 254.0L276.2 253.4L276.7 251.1L277.7 248.6L277.5 247.1L279.1 246.3L281.0 244.8L283.7 247.0L284.3 246.9L284.9 248.5L287.3 249.0L288.1 248.4L289.4 249.7L290.6 250.6Z"},{"id":"818","name":"Egypt","d":"M598.8 168.7L588.2 168.7L577.8 168.7L567.0 168.7L566.1 155.6L565.2 143.1L564.2 140.3L564.6 138.2L564.1 136.7L564.9 135.1L568.3 135.0L570.9 135.9L573.6 136.9L574.8 137.5L576.7 136.4L577.7 135.4L579.9 135.1L581.8 135.5L582.7 137.2L583.2 136.1L585.3 136.9L587.4 137.1L588.5 136.3L590.6 141.3L590.9 142.2L590.4 143.6L590.1 146.2L589.6 148.1L589.0 148.7L588.0 147.5L586.7 146.0L584.3 141.0L584.1 141.3L585.5 145.0L587.5 148.5L590.1 154.0L591.2 155.9L592.3 157.9L595.1 161.8L594.6 162.5L594.9 164.8L598.3 168.0L598.8 168.7Z"},{"id":"222","name":"El Salvador","d":"M255.5 196.3L256.3 196.6L256.8 197.4L257.5 198.0L257.6 198.4L258.8 198.0L259.4 198.3L259.7 198.7L259.3 200.2L258.9 201.0L257.3 201.0L256.4 200.6L255.3 199.9L253.8 199.6L253.2 198.9L253.3 198.3L254.4 197.4L255.0 197.0L254.9 196.5L255.5 196.3Z"},{"id":"226","name":"Eq. Guinea","d":"M526.8 241.5L531.3 241.5L531.3 246.0L527.3 246.0L526.4 246.2L525.8 245.7L526.8 241.5Z"},{"id":"232","name":"Eritrea","d":"M599.7 196.3L599.3 194.9L600.1 189.5L600.2 187.0L601.0 185.9L603.0 185.3L604.2 183.2L606.1 187.5L607.1 190.8L608.7 192.6L612.6 196.1L614.3 198.2L615.9 200.3L616.9 201.6L618.3 202.7L617.5 203.6L616.3 203.3L615.3 202.1L614.0 199.9L612.7 198.7L612.0 197.4L609.5 196.0L607.6 195.9L606.9 195.2L605.3 196.0L603.6 194.4L602.9 197.1L599.7 196.3Z"},{"id":"233","name":"Estonia","d":"M558.9 50.3L559.3 50.7L558.1 52.2L559.3 54.6L558.5 55.4L556.8 55.4L554.7 54.4L553.7 54.1L552.0 54.6L551.9 53.0L551.2 53.4L549.7 52.5L549.2 51.0L551.8 50.3L554.3 49.9L556.7 50.3L558.9 50.3Z"},{"id":"231","name":"Ethiopia","d":"M632.1 220.1L624.7 231.3L621.1 231.5L618.6 234.1L616.9 234.2L616.1 235.3L614.2 235.3L613.1 234.1L610.6 235.6L609.8 237.2L607.9 236.9L607.3 236.5L606.7 236.6L605.8 236.5L602.2 233.4L600.3 233.4L599.3 232.1L599.3 230.0L597.8 229.4L596.1 225.3L594.8 224.5L594.3 223.0L592.8 221.2L591.1 220.9L592.0 218.8L593.5 218.7L593.9 217.6L593.7 214.2L594.4 210.3L595.6 209.3L595.9 207.8L596.9 205.0L598.5 203.1L599.4 199.5L599.7 196.3L602.9 197.1L603.6 194.4L605.3 196.0L606.9 195.2L607.6 195.9L609.5 196.0L612.0 197.4L612.7 198.7L614.0 199.9L615.3 202.1L616.3 203.3L615.4 204.9L614.6 206.6L614.9 207.6L615.0 208.8L616.5 208.8L617.1 208.6L617.8 209.2L617.3 210.6L618.4 212.6L619.5 214.4L620.6 215.7L629.8 220.1L632.1 220.1Z"},{"id":"238","name":"Falkland Is.","d":"M361.9 429.3L363.9 427.5L366.1 428.3L367.1 427.1L369.4 428.4L369.1 429.4L366.4 430.3L365.0 429.3L363.6 430.5L361.9 429.3Z"},{"id":"242","name":"Fiji","d":"M983.8 315.0L984.7 314.4L985.3 315.4L984.1 317.3L982.3 317.8L981.0 317.4L981.3 315.8L982.7 314.5L983.8 315.0ZM9.4 309.7L9.9 309.5L10.1 311.3L9.9 311.5ZM988.0 312.4L986.0 313.2L986.1 311.8L987.8 311.1L988.7 310.9L990.6 309.7Z"},{"id":"246","name":"Finland","d":"M554.4 28.7L554.6 30.1L557.9 31.5L556.6 33.0L559.6 35.4L558.8 37.3L561.0 39.0L560.6 40.5L564.1 42.0L563.6 43.2L562.1 44.6L558.4 47.7L554.7 47.9L551.2 48.8L547.9 49.3L546.5 48.0L544.3 47.2L544.3 44.8L542.9 42.7L543.6 41.3L545.2 39.9L549.2 37.4L550.4 37.0L550.0 36.0L547.0 35.0L546.2 34.2L545.4 31.0L542.0 29.6L539.3 28.7L540.3 28.1L542.7 29.2L545.1 29.1L547.3 29.6L548.9 28.7L549.4 27.3L552.2 26.6L554.8 27.4L554.4 28.7Z"},{"id":"260","name":"Fr. S. Antarctic Lands","d":"M659.7 419.9L660.8 420.8L662.8 421.2L662.6 421.7L661.4 423.1L657.8 423.3L658.4 421.7L659.3 420.5L659.7 419.9Z"},{"id":"250","name":"France","d":"M356.7 234.5L355.0 237.9L354.1 240.6L353.0 242.0L351.7 242.3L351.3 241.3L350.7 241.1L349.8 242.1L348.6 241.3L349.3 239.8L349.6 238.1L350.1 236.5L349.1 234.2L348.9 231.7L350.5 228.5L351.4 228.9L353.4 229.8L356.3 232.9L356.7 234.5ZM514.2 77.6L515.4 78.4L518.7 79.0L517.6 81.0L517.4 83.1L516.8 83.6L515.7 83.3L515.8 84.1L514.2 85.8L514.2 87.2L515.3 86.7L516.2 88.0L516.1 88.9L516.9 90.1L516.1 91.0L516.8 93.4L518.1 93.8L517.9 95.1L515.7 96.9L511.0 96.1L507.5 97.1L507.2 99.0L504.4 99.4L501.7 98.0L500.8 98.6L496.4 97.2L495.4 96.0L496.7 94.1L497.2 88.0L494.8 84.8L493.1 83.3L489.5 82.1L489.4 79.9L492.4 79.3L496.3 80.1L495.6 76.7L497.7 78.0L503.1 75.7L503.7 73.3L505.7 72.7L506.1 73.8L507.1 73.8L508.2 75.0L509.8 76.3L511.0 76.1L513.1 77.4L513.6 77.7L514.2 77.6ZM521.2 98.5L522.7 97.3L523.2 100.0L522.5 102.5L521.4 101.8L520.7 99.7L521.2 98.5Z"},{"id":"266","name":"Gabon","d":"M531.3 241.5L532.6 241.3L534.3 241.8L536.0 241.3L536.3 241.5L536.1 243.2L536.9 245.1L539.0 244.8L539.7 245.5L538.5 249.9L539.8 252.1L540.1 255.0L539.7 257.5L538.8 259.2L536.4 259.1L534.9 257.3L534.7 258.9L532.8 259.4L531.9 260.3L532.9 262.8L530.8 264.9L527.9 261.1L526.1 258.0L524.4 254.2L524.5 252.9L525.1 251.7L525.8 249.0L526.4 246.2L527.3 246.0L531.3 246.0L531.3 241.5Z"},{"id":"270","name":"Gambia","d":"M454.2 199.4L457.2 199.3L457.8 198.4L458.7 198.3L459.8 199.2L460.6 199.3L461.5 198.6L462.1 199.7L460.9 200.5L459.7 200.5L458.5 199.7L457.5 200.5L457.0 200.6L456.3 201.1L453.8 201.0L454.2 199.4Z"},{"id":"268","name":"Georgia","d":"M596.2 96.0L596.4 95.6L598.5 96.1L602.2 96.6L605.8 98.1L606.4 98.7L607.7 98.2L610.1 98.9L611.2 100.2L612.9 100.9L612.4 101.4L614.0 103.1L613.7 103.5L612.4 103.3L610.3 102.4L609.8 102.9L606.6 103.4L603.9 101.8L601.3 102.0L601.4 100.6L600.3 98.4L598.7 97.3L597.3 96.9L596.2 96.0Z"},{"id":"276","name":"Germany","d":"M531.3 65.4L532.0 66.8L531.4 67.5L532.4 68.5L533.1 70.1L533.0 71.0L534.1 72.9L533.1 73.2L532.5 72.8L532.0 73.4L530.4 73.9L529.6 74.7L528.0 75.3L528.5 76.2L528.8 77.4L530.0 78.1L531.4 79.4L530.7 80.7L529.9 81.1L530.4 83.1L530.2 83.6L529.5 83.0L528.3 82.9L526.7 83.4L524.6 83.3L524.3 84.1L523.1 83.2L522.4 83.4L519.9 82.5L519.4 83.1L517.4 83.1L517.6 81.0L518.7 79.0L515.4 78.4L514.2 77.6L514.3 76.4L513.8 75.7L514.0 73.7L513.5 70.7L514.9 70.7L515.4 69.7L515.8 67.1L515.4 66.1L515.8 65.6L517.6 65.4L518.1 66.0L519.5 64.7L518.9 63.6L518.7 62.1L520.4 62.4L521.8 62.0L521.9 63.1L524.2 63.7L524.2 64.7L526.4 64.2L527.6 63.4L530.2 64.5L531.3 65.4Z"},{"id":"288","name":"Ghana","d":"M500.1 208.9L499.9 210.1L501.0 212.0L501.0 214.7L501.3 217.6L502.0 218.9L501.4 222.3L501.6 224.2L502.3 226.5L502.9 227.8L498.6 230.0L497.1 231.3L494.6 232.4L492.1 231.3L492.2 229.8L491.0 226.6L491.7 222.4L492.9 219.3L492.2 214.0L491.8 211.2L491.9 209.1L496.7 208.9L497.9 209.2L498.8 208.6L500.1 208.9Z"},{"id":"300","name":"Greece","d":"M566.5 122.4L566.3 123.4L562.7 123.7L562.7 123.1L559.5 122.5L559.8 121.0L561.3 122.2L563.3 122.0L565.2 122.2L565.2 122.8L566.5 122.4ZM556.0 102.6L557.8 102.7L559.7 101.8L561.6 102.9L563.7 102.6L563.5 101.0L564.8 101.9L564.3 103.9L563.8 104.2L562.3 104.2L561.0 103.9L558.1 104.7L560.0 106.5L558.9 107.0L557.5 107.0L556.0 105.4L555.6 106.1L556.4 108.0L557.8 109.5L556.9 110.2L558.5 111.8L559.8 112.7L560.0 114.6L557.6 113.7L558.5 115.4L557.0 115.7L558.2 118.6L556.6 118.7L554.4 117.2L553.2 114.6L552.5 112.4L551.4 110.9L550.0 109.0L549.7 108.1L550.7 106.5L550.8 105.5L551.5 105.0L551.5 104.2L553.0 103.9L553.9 103.2L555.2 103.3L555.6 102.7L556.0 102.6Z"},{"id":"304","name":"Greenland","d":"M421.3 9.6L427.2 9.1L433.0 9.2L435.3 8.9L441.3 8.8L454.6 8.9L464.9 9.5L461.7 9.8L455.3 9.9L446.1 9.9L446.9 10.1L453.0 10.0L457.9 10.3L461.3 10.0L462.6 10.3L460.6 10.9L465.0 10.5L473.3 10.2L478.4 10.4L479.3 10.7L472.2 11.4L471.2 11.7L465.7 11.8L469.6 11.9L467.5 12.7L465.9 13.4L465.6 14.8L467.5 15.6L464.8 15.7L461.8 16.1L464.8 16.8L465.0 18.1L463.0 18.2L465.1 19.5L461.0 19.6L463.0 20.3L462.2 20.8L459.6 21.1L457.1 21.1L459.1 22.2L458.9 23.0L455.5 22.3L454.4 22.7L456.8 23.2L458.9 24.2L459.3 25.7L455.9 26.1L454.6 25.4L452.6 24.3L452.9 25.5L450.4 26.5L455.4 26.6L457.9 26.7L452.4 28.4L446.8 29.9L441.0 30.6L438.9 30.6L436.6 31.4L433.2 33.6L428.5 35.1L427.1 35.2L424.3 35.7L421.2 36.2L419.0 37.6L418.4 39.1L416.8 40.6L412.8 42.5L412.9 44.3L411.3 46.3L409.3 48.7L406.3 48.9L404.0 46.9L399.9 46.8L398.4 45.5L398.1 43.2L395.9 40.3L395.6 38.8L396.3 36.8L394.6 34.8L396.1 33.2L395.2 32.5L398.4 30.1L401.7 29.4L402.8 28.6L404.0 27.1L401.5 27.7L400.3 28.0L398.5 28.3L396.5 27.7L397.1 26.4L398.4 25.4L400.2 25.4L403.7 25.9L401.1 24.7L399.8 24.1L397.8 24.4L396.6 23.9L399.6 22.3L398.9 21.7L398.1 20.5L397.0 18.9L395.2 18.3L395.6 17.7L391.4 16.8L387.7 16.7L383.0 16.8L378.5 16.9L376.9 16.5L374.5 15.6L379.5 15.2L383.0 15.1L375.8 14.8L372.3 14.3L373.0 13.8L380.1 13.2L386.8 12.7L387.8 12.3L383.5 11.9L385.3 11.5L391.8 10.8L394.3 10.7L393.9 10.3L398.1 10.1L403.4 10.0L408.6 9.9L410.3 10.2L415.1 9.8L418.9 10.1L421.2 10.1L424.6 10.4L420.8 9.9L421.3 9.6Z"},{"id":"320","name":"Guatemala","d":"M247.7 195.9L248.0 194.8L248.4 194.0L248.1 193.3L249.9 190.3L253.4 190.3L253.7 189.0L253.3 188.8L253.1 188.0L252.2 187.2L251.4 185.9L252.7 185.9L253.0 183.9L255.6 183.9L258.1 183.9L257.6 186.8L256.7 190.9L257.5 190.9L258.3 191.6L258.6 191.1L259.3 191.5L257.9 192.9L256.4 194.0L256.1 194.7L256.2 195.4L255.5 196.3L254.9 196.5L255.0 197.0L254.4 197.4L253.3 198.3L253.2 198.9L251.8 198.2L250.1 198.1L249.0 197.4L247.7 195.9Z"},{"id":"324","name":"Guinea","d":"M462.4 203.1L463.7 203.1L465.7 204.0L466.3 204.0L466.5 203.5L468.0 203.8L468.4 203.6L468.5 205.0L468.9 205.0L469.7 204.5L470.1 204.6L470.9 205.5L472.1 205.8L472.8 205.0L473.7 204.5L474.4 204.0L474.9 204.1L475.5 204.9L475.8 206.0L477.0 207.5L476.4 208.5L476.3 209.7L476.8 209.3L477.2 209.7L477.0 210.8L477.9 211.9L477.3 212.2L477.1 213.5L477.7 215.0L478.4 218.0L477.3 218.4L477.1 218.9L477.3 219.7L477.1 221.3L476.7 221.3L475.9 221.2L475.3 222.7L474.5 222.7L474.0 221.9L474.2 220.4L473.0 218.1L472.3 218.5L471.7 218.6L471.0 218.8L471.0 217.4L470.6 216.5L470.7 215.4L470.1 213.8L469.3 212.5L467.1 212.5L466.5 213.2L465.7 213.3L465.2 214.1L464.9 215.1L463.4 216.8L462.2 214.6L461.2 213.1L460.5 212.6L459.8 211.9L459.5 210.2L459.1 209.4L458.3 208.8L459.6 207.0L460.4 207.1L461.2 206.5L461.8 206.5L462.2 206.0L462.0 204.7L462.3 204.3L462.4 203.1Z"},{"id":"624","name":"Guinea-Bissau","d":"M454.2 203.8L455.7 203.2L456.6 203.4L457.3 202.9L462.4 203.1L462.3 204.3L462.0 204.7L462.2 206.0L461.8 206.5L461.2 206.5L460.4 207.1L459.6 207.0L458.3 208.8L456.9 207.3L455.7 207.0L455.1 206.0L455.2 205.4L454.4 204.6L454.2 203.8Z"},{"id":"328","name":"Guyana","d":"M343.0 242.9L342.3 243.0L340.8 242.7L339.9 243.7L338.6 244.4L337.7 244.5L337.4 245.3L336.0 245.1L334.4 243.3L334.2 241.6L333.5 239.7L334.0 236.5L334.8 235.2L334.2 233.5L333.3 232.9L333.7 231.2L333.1 230.4L331.6 230.6L329.9 227.7L330.6 226.7L330.7 225.0L332.4 224.4L333.1 223.7L332.2 222.3L332.5 220.9L334.8 218.7L336.6 220.1L338.2 222.5L338.2 224.5L339.2 224.5L340.6 226.4L341.7 227.7L341.1 231.0L339.4 232.0L339.5 232.9L339.0 234.8L340.1 237.5L341.0 237.5L341.3 239.6L343.0 242.9Z"},{"id":"332","name":"Haiti","d":"M306.4 177.0L306.3 179.0L305.9 180.4L305.2 181.0L305.7 182.1L305.5 183.1L303.8 182.4L302.5 182.7L300.9 182.4L299.5 183.1L298.2 182.0L298.6 180.8L301.0 181.3L303.0 181.6L304.1 180.8L303.1 179.2L303.4 177.8L301.8 177.3L302.5 176.3L304.2 176.4L306.4 177.0Z"},{"id":"340","name":"Honduras","d":"M272.8 194.2L271.9 194.1L271.4 194.6L270.4 195.1L269.7 195.1L269.1 195.6L268.5 195.4L268.1 194.9L267.8 195.0L267.4 195.9L267.1 195.8L267.0 196.6L265.9 197.6L265.3 198.0L265.0 198.5L264.3 197.7L263.5 198.7L263.0 198.7L262.3 198.8L262.1 200.6L261.7 200.6L261.3 201.5L260.4 201.6L260.1 200.5L259.3 200.2L259.7 198.7L259.4 198.3L258.8 198.0L257.6 198.4L257.5 198.0L256.8 197.4L256.3 196.6L255.5 196.3L256.2 195.4L256.1 194.7L256.4 194.0L257.9 192.9L259.3 191.5L259.6 191.7L260.3 191.0L261.1 191.0L261.3 191.3L261.7 191.1L262.9 191.4L264.2 191.3L265.2 190.9L265.5 190.5L266.4 190.7L267.0 191.0L267.7 190.9L268.3 190.5L269.5 191.1L269.9 191.1L270.6 191.8L271.3 192.6L272.2 193.2L272.8 194.2Z"},{"id":"348","name":"Hungary","d":"M551.2 80.7L552.6 81.5L552.9 82.3L551.6 83.0L550.7 85.0L549.6 87.1L547.7 87.6L546.3 87.5L544.5 88.3L543.7 88.8L541.7 88.2L539.8 86.9L539.0 86.5L538.5 85.5L538.1 85.4L538.6 83.5L538.1 82.8L539.4 82.8L539.5 81.6L540.8 82.4L541.7 82.7L543.6 82.3L543.7 81.7L544.6 81.6L545.7 81.2L546.0 81.4L547.0 81.0L547.5 80.3L548.2 80.1L550.8 81.0L551.2 80.7Z"},{"id":"352","name":"Iceland","d":"M471.6 34.1L470.9 35.4L473.0 36.9L470.2 38.6L464.1 40.2L462.3 40.6L459.7 40.3L454.3 39.5L456.4 38.5L452.3 37.4L455.9 37.0L456.0 36.4L452.0 35.9L453.6 34.5L456.7 34.1L459.4 35.6L462.6 34.4L465.0 35.0L468.4 33.9L471.6 34.1Z"},{"id":"356","name":"India","d":"M754.8 146.5L755.4 147.8L754.7 148.5L755.6 150.7L753.5 150.0L750.8 152.4L751.4 154.5L750.8 157.4L751.1 159.2L750.7 162.1L748.4 161.3L749.2 165.0L748.9 166.2L749.5 167.7L748.4 168.6L745.6 162.9L744.9 162.9L745.0 165.2L743.1 163.3L743.5 161.3L744.6 161.1L745.1 158.1L743.4 157.5L740.9 157.5L738.3 157.1L737.4 154.6L736.1 154.4L733.6 152.9L733.3 155.3L735.7 157.2L734.4 158.5L734.1 159.8L735.9 160.7L736.0 162.9L737.5 165.6L738.6 168.5L738.5 169.9L736.7 169.8L733.5 170.6L734.2 173.3L733.2 175.4L729.8 177.8L727.5 182.1L725.9 184.4L723.5 186.8L723.8 188.5L722.6 189.4L720.3 190.7L719.0 190.9L718.6 193.7L719.8 198.5L720.3 201.5L719.5 205.1L720.1 211.4L718.7 211.5L717.7 214.4L718.6 215.6L716.2 216.6L715.4 219.2L714.4 220.2L711.5 216.8L709.8 211.6L708.5 207.8L707.3 206.1L705.5 202.5L704.3 197.9L703.6 195.6L700.5 190.6L698.4 183.5L696.9 178.8L696.2 174.4L695.1 171.1L691.5 173.2L689.6 172.8L685.4 168.4L686.4 167.1L685.4 165.7L681.7 162.7L683.0 160.3L688.9 160.3L687.8 157.3L685.9 155.5L685.1 152.7L683.0 151.2L685.1 147.5L688.2 147.7L690.1 144.1L690.9 140.6L692.5 137.1L691.8 134.6L693.4 132.6L690.9 131.0L689.4 128.7L687.6 125.7L688.4 124.2L692.5 125.1L695.2 124.6L696.8 121.7L700.7 125.7L701.3 128.4L702.9 130.2L703.3 131.9L701.3 131.5L703.1 135.2L706.3 137.4L710.6 139.8L709.4 141.4L709.2 144.7L712.1 146.0L715.0 147.7L718.9 149.7L722.6 150.1L724.6 151.9L726.8 152.2L730.1 153.1L732.3 153.0L732.3 151.6L731.3 149.4L731.1 147.9L732.5 147.1L733.5 149.9L733.7 150.6L736.5 151.9L738.0 151.4L740.3 151.6L742.4 151.5L742.0 149.4L740.6 148.2L742.6 147.8L744.2 145.2L746.5 143.0L749.0 143.8L750.4 142.4L752.3 144.5L751.8 146.0L754.8 146.5Z"},{"id":"360","name":"Indonesia","d":"M891.5 259.7L890.7 271.9L889.4 284.0L887.3 281.0L884.6 280.2L883.8 281.3L880.3 281.4L881.8 278.4L883.7 277.4L883.4 273.3L882.3 270.2L877.2 267.0L874.9 266.7L871.0 263.2L870.0 265.1L868.9 265.4L868.4 264.0L868.5 262.4L866.4 260.6L869.5 259.2L871.4 259.3L871.2 258.3L867.2 258.3L866.1 256.1L863.7 255.4L862.5 253.5L866.3 252.6L867.7 251.4L872.2 252.9L872.6 254.3L873.2 260.4L876.0 262.6L878.4 258.6L881.7 256.4L884.2 256.4L886.5 257.7L888.5 259.0L891.5 259.7ZM845.1 283.2L845.3 283.9L845.2 285.1L843.1 287.8L840.6 288.7L840.3 288.2L840.8 286.9L842.2 284.7L845.1 283.2ZM871.5 275.8L871.5 273.0L872.1 271.6L872.8 270.4L873.3 271.5L873.2 273.2L871.5 275.8ZM827.0 234.5L825.6 237.9L827.8 241.4L827.3 243.2L830.5 246.6L827.2 247.1L826.3 249.6L826.4 253.0L823.7 255.6L823.6 259.3L822.3 265.0L821.9 263.7L818.7 265.4L817.7 263.1L815.7 262.9L814.4 261.7L811.0 263.0L810.1 261.2L808.3 261.4L806.0 261.0L805.7 256.0L804.3 254.9L803.0 251.7L802.6 248.4L802.9 245.0L804.5 242.5L805.0 245.0L807.0 247.1L808.8 246.3L810.5 246.6L812.1 244.7L813.4 244.4L816.1 245.4L818.3 244.6L819.6 239.4L820.7 238.1L821.4 233.9L824.6 233.9L827.0 234.5ZM859.2 260.5L862.2 261.6L863.0 264.4L860.8 262.9L858.5 262.6L856.9 262.8L855.0 262.7L855.7 260.6L859.2 260.5ZM852.1 264.2L850.2 263.5L849.7 261.9L852.5 261.7L853.2 262.9L852.1 264.2ZM855.2 241.9L855.5 243.9L857.1 244.2L857.4 245.8L857.3 249.0L855.9 248.7L855.5 250.9L856.6 252.9L855.8 253.4L854.7 251.0L853.9 246.2L854.4 243.2L855.2 241.9ZM841.4 246.7L844.6 246.6L847.3 243.8L847.8 244.7L845.7 248.4L843.6 249.1L840.9 248.4L836.3 248.6L833.8 249.1L833.4 251.9L835.9 255.3L837.4 253.6L842.6 252.3L842.4 254.0L841.2 253.5L839.9 255.7L837.4 257.1L839.9 261.9L839.3 263.2L841.6 267.5L841.4 270.0L839.9 271.1L838.9 269.8L840.4 266.7L837.6 268.1L837.0 267.1L837.4 265.7L835.5 263.5L835.9 259.8L834.0 261.0L834.0 265.3L833.8 270.7L832.0 271.2L830.9 270.1L831.9 266.7L831.6 263.1L830.5 263.0L829.7 260.5L830.9 258.0L831.4 255.1L832.8 249.4L833.4 247.9L835.8 245.1L837.9 246.2L841.4 246.7ZM831.6 288.3L828.3 285.7L830.9 285.0L832.2 286.1L833.1 287.2L832.8 288.2L831.6 288.3ZM835.3 281.9L837.1 281.6L839.8 280.2L839.1 282.3L834.9 283.4L831.2 282.9L831.4 281.5L833.7 280.8L835.3 281.9ZM826.8 281.2L828.6 280.9L829.1 282.5L825.8 283.3L823.8 283.8L822.4 283.7L823.5 281.6L825.1 281.6L825.9 280.2L826.8 281.2ZM800.4 274.0L800.7 275.3L806.0 275.7L806.7 274.2L811.7 276.0L812.5 278.4L816.6 279.1L819.8 281.3L816.5 282.7L813.6 281.2L811.1 281.3L808.2 281.0L805.7 280.3L802.6 278.9L800.6 278.6L799.4 279.0L794.5 277.5L794.2 275.9L791.7 275.6L793.8 272.0L797.2 272.3L799.3 273.7L800.4 274.0ZM789.9 254.1L790.3 256.7L791.2 258.8L793.3 259.1L794.5 261.5L793.7 266.1L793.2 271.9L790.1 272.0L788.0 268.8L784.6 265.8L783.5 263.5L781.5 260.5L780.2 257.7L778.2 252.4L775.7 249.3L774.9 246.1L773.8 243.2L771.3 240.8L769.7 237.6L767.6 235.5L764.5 231.4L764.1 229.5L765.9 229.7L770.2 230.4L772.9 234.0L775.1 236.6L776.7 238.1L779.5 242.1L782.3 242.2L784.7 244.8L786.3 247.9L788.4 249.6L787.3 252.7L788.9 254.0L789.9 254.1Z"},{"id":"364","name":"Iran","d":"M626.2 140.7L624.5 138.9L624.2 137.1L623.3 137.1L623.3 134.6L621.6 132.0L618.1 130.1L615.7 126.9L615.9 124.2L616.9 123.1L616.4 121.1L614.5 120.1L612.1 116.2L610.2 113.5L610.5 112.5L609.0 108.8L610.5 107.8L611.1 109.1L612.7 110.6L614.5 111.0L615.4 110.9L617.8 108.5L618.6 108.3L619.6 109.2L619.1 110.8L621.0 112.5L621.6 112.4L622.9 114.8L625.4 115.5L627.5 117.1L631.2 117.7L634.9 116.8L635.0 116.1L637.1 115.4L638.4 113.5L640.1 113.6L641.0 113.0L642.8 113.3L646.0 115.0L648.1 115.4L651.8 118.3L653.7 118.4L654.6 121.2L654.6 125.4L654.5 127.9L655.7 128.4L655.1 130.2L656.5 132.9L657.2 135.1L659.3 135.7L660.0 137.9L658.3 141.1L659.9 142.9L661.4 145.0L664.2 146.5L664.9 149.6L666.3 150.2L666.8 151.8L663.4 153.6L663.1 157.7L657.9 156.7L654.9 155.8L651.8 155.4L650.0 151.1L648.6 150.4L646.7 151.1L644.3 152.8L640.9 151.6L637.8 148.9L635.1 147.9L632.8 144.6L630.1 140.0L628.8 140.5L627.0 139.4L626.2 140.7Z"},{"id":"368","name":"Iraq","d":"M600.8 133.0L599.2 128.9L604.3 125.4L604.5 121.3L603.9 118.9L605.1 118.0L606.0 116.0L607.0 115.4L610.0 115.9L611.0 116.7L612.1 116.2L614.5 120.1L616.4 121.1L616.9 123.1L615.9 124.2L615.7 126.9L618.1 130.1L621.6 132.0L623.3 134.6L623.3 137.1L624.2 137.1L624.5 138.9L626.2 140.7L624.7 140.6L622.9 140.3L621.5 143.6L616.6 143.3L608.2 136.4L604.0 134.0L600.8 133.0Z"},{"id":"372","name":"Ireland","d":"M486.3 65.1L486.5 67.1L484.7 69.6L480.6 71.3L477.5 70.8L479.5 67.9L478.5 65.0L481.7 62.9L483.4 61.6L483.8 63.1L483.2 64.5L484.6 64.5L486.3 65.1Z"},{"id":"376","name":"Israel","d":"M591.6 131.2L591.3 132.2L590.3 131.8L590.1 134.0L590.8 134.4L590.2 134.9L590.2 135.8L591.3 135.3L591.6 136.7L590.9 142.2L590.6 141.3L588.5 136.3L589.1 135.1L588.9 134.9L589.4 133.3L589.6 130.7L589.9 129.9L589.9 129.9L590.8 129.9L590.9 129.3L591.6 129.2L591.8 130.6L591.6 131.1L591.6 131.2Z"},{"id":"380","name":"Italy","d":"M524.5 85.3L526.0 85.7L526.2 85.2L528.5 84.6L529.1 85.7L532.5 86.5L532.4 88.0L533.0 89.3L531.1 88.8L529.3 89.9L529.5 91.4L529.3 92.3L530.2 93.9L532.5 95.5L533.9 98.1L536.8 100.6L538.7 100.6L539.4 101.3L538.7 102.0L541.0 103.1L542.9 104.1L545.1 105.8L545.5 106.4L545.1 107.5L543.6 106.0L541.4 105.5L540.6 107.6L542.4 108.8L542.3 110.5L541.2 110.7L540.1 113.5L539.1 113.7L539.0 112.7L539.4 111.0L539.9 110.3L538.8 108.4L537.9 106.7L536.9 106.3L536.1 105.0L534.4 104.4L533.3 103.1L531.5 102.9L529.5 101.4L527.1 99.4L525.4 97.5L524.5 94.4L523.3 94.1L521.3 93.1L520.2 93.5L518.9 94.9L517.9 95.1L518.1 93.8L516.8 93.4L516.1 91.0L516.9 90.1L516.1 88.9L516.2 88.0L517.2 88.7L518.4 88.6L519.6 87.5L520.1 88.0L521.2 87.9L521.6 86.7L523.4 87.1L524.4 86.5L524.5 85.3ZM536.8 113.0L538.6 112.7L537.9 115.3L538.3 116.3L537.9 118.0L535.9 116.7L534.6 116.4L531.1 114.7L531.3 113.0L534.2 113.3L536.8 113.0ZM521.3 104.0L522.5 103.0L524.1 105.3L523.9 109.6L522.8 109.4L521.8 110.5L520.9 109.6L520.6 105.7L520.0 103.8L521.3 104.0Z"},{"id":"388","name":"Jamaica","d":"M289.9 181.4L291.6 181.8L292.9 182.6L293.2 183.6L291.3 183.7L290.4 184.3L289.0 183.7L287.6 182.4L288.1 181.6L289.3 181.3L289.9 181.4Z"},{"id":"392","name":"Japan","d":"M851.1 109.6L850.9 112.9L853.1 116.3L853.7 118.9L855.2 120.6L855.2 122.9L852.9 124.5L848.5 124.7L847.0 128.6L844.6 127.3L843.1 124.8L839.1 125.5L836.9 127.1L834.0 127.2L837.8 129.7L838.9 135.5L837.9 136.9L836.1 135.6L835.2 132.5L833.1 131.5L830.9 129.2L832.8 128.1L833.1 126.0L834.7 124.2L835.3 121.9L839.8 120.9L842.9 121.6L842.1 115.7L844.7 117.3L846.4 114.0L847.0 112.7L846.0 108.7L843.2 105.1L842.8 103.1L845.0 102.5L849.4 106.9L851.1 109.6ZM846.8 94.3L847.5 93.0L850.7 96.5L847.8 97.4L848.0 100.5L842.6 98.3L843.8 101.8L841.1 101.9L838.5 98.7L838.0 96.3L840.4 96.1L837.8 91.8L836.6 89.4L842.0 92.6L844.6 93.6L846.8 94.3ZM838.2 128.6L838.6 126.6L840.3 127.0L840.5 125.5L842.8 126.3L843.7 127.4L843.4 129.5L841.8 128.4L840.8 129.2L841.2 131.2L839.0 130.2L838.2 128.6Z"},{"id":"400","name":"Jordan","d":"M591.3 132.2L591.6 131.2L594.7 132.5L599.2 128.9L600.8 133.0L600.4 133.5L595.5 135.3L598.5 138.7L597.7 139.3L597.4 140.5L595.5 140.9L595.1 142.2L594.1 143.3L591.1 142.7L590.9 142.2L591.6 136.7L591.3 135.3L591.6 134.3L591.3 132.2Z"},{"id":"398","name":"Kazakhstan","d":"M701.4 78.4L700.7 80.3L699.0 80.6L700.4 83.6L699.8 85.0L694.6 84.0L695.5 89.4L694.6 90.1L690.5 91.3L695.0 96.8L693.7 97.6L694.6 99.4L692.9 98.9L691.3 97.8L687.5 97.4L683.5 97.4L682.8 97.7L678.8 96.4L677.7 97.0L678.0 98.9L673.6 97.8L672.2 98.3L672.2 99.6L671.0 100.2L668.5 102.5L668.3 104.7L667.3 104.8L666.2 103.2L663.0 103.1L661.7 100.5L660.5 100.5L659.6 97.3L655.9 95.0L651.9 95.3L649.2 95.7L646.0 92.9L643.6 91.8L639.2 89.5L638.7 89.3L633.2 91.1L636.6 102.7L635.4 102.8L633.0 100.4L631.2 99.5L628.6 100.1L627.8 101.2L627.4 100.4L627.7 99.1L626.9 98.0L623.8 96.9L622.0 94.1L620.4 93.3L620.1 92.3L622.5 92.6L622.0 90.3L623.8 89.8L626.0 90.3L625.6 87.3L624.6 85.4L622.3 85.6L620.0 84.8L617.7 86.2L615.7 86.8L614.4 86.3L614.2 84.7L612.1 82.7L610.4 82.8L607.8 80.8L608.5 78.6L607.7 78.0L608.6 74.7L611.4 76.4L611.0 74.3L614.7 71.2L618.2 71.1L623.9 73.1L627.0 74.3L629.0 73.0L632.6 73.0L636.1 74.5L636.4 73.6L639.6 73.7L639.6 72.4L635.2 70.4L636.8 69.0L636.0 68.3L637.9 67.5L635.4 65.6L636.0 64.7L643.9 63.7L644.6 63.1L649.7 62.1L651.1 60.9L655.3 61.5L657.5 64.3L659.4 63.7L662.7 64.6L663.3 66.1L665.4 66.0L669.5 63.4L669.2 64.2L673.2 66.4L682.1 73.6L682.5 72.1L686.5 73.7L689.4 73.0L690.9 73.5L692.9 75.2L694.8 75.7L696.5 77.0L699.2 76.6L701.4 78.4Z"},{"id":"404","name":"Kenya","d":"M608.7 267.5L604.8 263.8L604.6 261.6L594.6 254.0L594.2 253.6L594.1 249.6L594.9 248.1L596.3 245.6L597.3 242.9L596.0 238.6L595.7 236.7L594.3 234.1L596.0 231.9L597.8 229.4L599.3 230.0L599.3 232.1L600.3 233.4L602.2 233.4L605.8 236.5L606.7 236.6L607.3 236.5L607.9 236.9L609.8 237.2L610.6 235.6L613.1 234.1L614.2 235.3L616.1 235.3L613.8 239.6L613.9 253.2L615.5 256.3L613.5 257.8L612.8 259.4L611.8 259.6L611.4 262.3L610.4 263.8L609.9 266.3L608.7 267.5Z"},{"id":"None","name":"Kosovo","d":"M550.1 100.9L549.8 99.8L549.2 99.5L548.6 98.6L549.0 97.9L549.5 97.7L549.7 96.6L550.2 96.5L550.6 96.9L551.0 97.1L551.4 97.6L551.8 97.8L552.3 98.3L552.7 98.3L552.5 99.1L552.3 99.5L552.4 99.7L551.8 99.8L550.4 100.3L550.4 101.0L550.1 100.9Z"},{"id":"414","name":"Kuwait","d":"M624.7 140.6L625.5 142.1L625.4 142.9L626.6 145.5L624.8 145.6L623.9 143.9L621.5 143.6L622.9 140.3L624.7 140.6Z"},{"id":"417","name":"Kyrgyzstan","d":"M672.2 99.6L672.2 98.3L673.6 97.8L678.0 98.9L677.7 97.0L678.8 96.4L682.8 97.7L683.5 97.4L687.5 97.4L691.3 97.8L692.9 98.9L694.6 99.4L694.6 100.1L691.4 101.8L691.0 103.1L688.1 103.5L687.9 105.5L685.1 105.1L683.7 105.7L681.9 107.2L682.5 108.0L682.0 108.7L677.5 109.2L674.1 108.2L671.5 108.4L671.1 106.6L674.0 107.1L674.6 106.1L676.5 106.4L678.9 104.1L675.4 102.4L673.9 103.2L671.7 102.0L673.0 100.0L672.2 99.6Z"},{"id":"418","name":"Laos","d":"M793.9 197.1L791.3 195.8L790.4 198.3L788.0 196.9L788.6 195.2L788.1 192.1L785.4 188.9L784.5 185.3L781.8 182.3L779.7 182.1L779.4 183.4L777.9 183.5L776.9 182.8L774.5 185.0L773.8 181.7L773.6 177.9L771.8 177.7L771.1 175.6L769.7 174.4L770.0 173.1L771.7 170.8L772.2 171.6L773.6 171.7L772.2 167.6L773.5 167.1L775.7 169.9L777.7 173.2L781.1 173.2L782.8 176.4L781.3 177.3L780.8 178.6L784.6 180.8L787.7 185.1L790.1 188.3L792.6 190.9L793.8 193.5L793.9 197.1Z"},{"id":"428","name":"Latvia","d":"M558.5 55.4L559.7 56.0L560.1 57.3L561.2 58.8L559.1 59.9L557.8 60.3L555.5 59.0L554.3 58.8L553.9 58.3L551.8 58.5L548.1 58.4L545.8 59.2L545.5 57.2L546.3 55.5L548.2 54.7L550.2 56.6L552.0 56.6L552.0 54.6L553.7 54.1L554.7 54.4L556.8 55.4L558.5 55.4Z"},{"id":"422","name":"Lebanon","d":"M591.6 129.2L590.9 129.3L590.8 129.9L589.9 129.9L590.5 127.1L591.4 124.7L591.4 124.6L592.6 124.8L593.2 126.1L592.0 127.4L591.6 129.2Z"},{"id":"426","name":"Lesotho","d":"M575.6 355.9L576.4 357.0L575.5 358.6L574.9 359.8L573.4 360.3L572.8 361.4L571.9 361.8L570.2 359.1L571.8 356.9L573.3 355.5L574.6 354.8L575.6 355.9Z"},{"id":"430","name":"Liberia","d":"M476.7 221.3L476.5 222.4L476.8 224.2L476.2 225.8L477.0 226.8L477.9 227.1L479.0 228.7L479.1 230.1L478.8 230.6L478.6 233.7L477.9 233.7L475.0 231.9L472.5 229.1L470.2 227.0L468.3 224.6L469.0 223.4L469.2 222.4L470.4 220.3L471.7 218.6L472.3 218.5L473.0 218.1L474.2 220.4L474.0 221.9L474.5 222.7L475.3 222.7L475.9 221.2L476.7 221.3Z"},{"id":"434","name":"Libya","d":"M567.0 168.7L567.4 175.9L564.3 176.0L564.4 177.5L553.3 170.6L542.3 163.7L539.7 165.6L537.8 167.0L536.3 165.0L532.0 163.5L530.8 161.2L528.6 159.6L527.4 160.2L526.4 158.2L526.2 156.7L524.6 154.1L525.6 152.7L525.3 150.4L525.6 148.5L525.4 146.9L525.7 144.1L525.5 142.5L524.6 139.4L525.8 138.6L526.0 137.1L525.7 135.7L527.4 134.4L528.2 133.3L529.4 132.3L529.4 129.7L532.5 130.9L533.5 130.6L535.7 131.1L539.2 132.7L540.6 135.7L542.9 136.4L546.7 137.8L549.5 139.5L550.7 138.6L551.9 137.1L551.1 134.4L551.8 132.8L553.5 131.2L555.2 130.7L558.7 131.4L559.8 132.9L560.7 132.9L561.6 133.5L564.2 133.9L564.9 135.1L564.1 136.7L564.6 138.2L564.2 140.3L565.2 143.1L566.1 155.6L567.0 168.7Z"},{"id":"440","name":"Lithuania","d":"M557.8 60.3L558.3 61.5L556.6 62.4L556.4 63.9L554.2 65.0L552.0 65.0L551.4 64.1L550.2 63.8L549.9 63.1L550.0 62.4L549.0 61.9L546.6 61.5L545.8 59.2L548.1 58.4L551.8 58.5L553.9 58.3L554.3 58.8L555.5 59.0L557.8 60.3Z"},{"id":"442","name":"Luxembourg","d":"M513.8 75.7L514.3 76.4L514.2 77.6L513.6 77.7L513.1 77.4L513.2 75.8L513.8 75.7Z"},{"id":"807","name":"Macedonia","d":"M554.3 99.5L555.6 100.5L556.0 102.6L555.6 102.7L555.2 103.3L553.9 103.2L553.0 103.9L551.5 104.2L550.4 103.4L549.9 102.0L550.1 100.9L550.4 101.0L550.4 100.3L551.8 99.8L552.4 99.7L553.2 99.5L554.3 99.5Z"},{"id":"450","name":"Madagascar","d":"M636.1 296.5L636.7 298.0L637.2 300.5L637.3 304.9L637.9 306.6L637.4 308.4L636.9 309.5L636.1 307.3L635.5 308.4L635.8 311.1L635.4 312.7L634.6 313.5L634.1 316.6L632.6 320.8L630.8 325.8L628.3 332.7L626.7 337.6L625.0 341.8L622.7 342.6L620.2 344.1L618.8 343.2L616.8 341.9L616.3 340.1L616.5 336.9L615.9 334.0L615.9 331.5L616.7 328.9L618.0 328.2L618.1 327.0L619.7 324.3L620.1 322.0L619.7 320.3L619.4 318.0L619.4 314.6L620.6 312.6L621.1 310.3L622.5 310.1L624.1 309.4L625.1 308.7L626.3 308.7L628.0 306.6L630.5 304.3L631.4 302.5L631.2 300.9L632.3 301.3L634.0 298.8L634.2 296.5L635.2 294.9L636.1 296.5Z"},{"id":"454","name":"Malawi","d":"M590.4 284.5L593.1 285.2L593.6 286.2L594.5 287.9L595.1 293.0L594.2 295.8L594.7 300.6L595.7 300.5L596.6 301.7L597.6 304.4L597.5 309.1L596.3 309.9L595.3 312.4L593.7 310.1L593.6 307.6L594.3 305.8L594.2 304.4L593.2 303.4L592.4 303.8L591.0 302.0L589.6 301.1L590.6 297.6L591.5 296.3L591.1 293.3L591.8 290.3L592.3 289.3L591.7 286.1L590.4 284.5Z"},{"id":"458","name":"Malaysia","d":"M777.2 225.8L777.6 225.2L780.0 226.8L780.3 228.7L782.1 228.3L782.9 226.7L783.6 227.1L785.4 229.3L786.7 231.8L787.0 234.4L786.7 236.1L787.1 237.3L787.3 239.6L788.4 240.6L789.5 243.9L789.5 245.2L787.5 245.4L784.8 242.6L781.5 239.7L781.1 237.8L779.4 235.3L778.9 232.2L777.8 230.1L777.9 227.4L777.2 225.8ZM827.0 234.5L824.6 233.9L821.4 233.9L820.7 238.1L819.6 239.4L818.3 244.6L816.1 245.4L813.4 244.4L812.1 244.7L810.5 246.6L808.8 246.3L807.0 247.1L805.0 245.0L804.5 242.5L806.6 243.8L808.7 243.1L809.2 239.9L810.4 239.2L813.7 238.4L815.5 235.4L816.8 233.1L818.1 235.0L818.6 233.7L820.0 233.9L820.0 231.5L820.0 229.6L822.0 227.0L823.1 224.1L824.2 224.1L825.8 226.0L826.1 227.6L828.0 228.7L830.4 229.8L830.3 231.2L828.4 231.4L829.0 233.3L827.0 234.5Z"},{"id":"466","name":"Mali","d":"M468.4 203.6L468.5 202.5L468.3 201.0L467.3 200.0L466.8 197.9L466.7 195.6L467.6 194.9L468.2 192.8L469.0 192.7L470.9 193.7L472.5 193.0L473.5 193.2L473.9 192.4L484.9 192.4L485.5 189.8L485.0 189.3L483.9 173.6L482.9 158.2L486.9 158.1L495.9 165.9L504.9 173.7L505.6 175.4L507.2 176.5L508.5 177.1L508.5 179.4L511.5 179.0L511.6 187.4L510.1 189.9L509.9 192.1L507.5 192.7L503.8 193.0L502.8 194.3L501.0 194.5L499.3 194.5L498.6 193.8L497.1 194.3L494.5 195.8L494.0 197.0L491.9 198.6L491.5 199.6L490.3 200.3L489.0 199.8L488.3 200.7L487.8 203.3L485.6 206.3L485.7 207.6L484.9 209.1L485.1 211.3L484.0 211.9L483.3 212.3L482.9 210.7L482.1 211.1L481.6 211.1L481.1 212.2L479.0 212.1L478.2 211.6L477.9 211.9L477.0 210.8L477.2 209.7L476.8 209.3L476.3 209.7L476.4 208.5L477.0 207.5L475.8 206.0L475.5 204.9L474.9 204.1L474.4 204.0L473.7 204.5L472.8 205.0L472.1 205.8L470.9 205.5L470.1 204.6L469.7 204.5L468.9 205.0L468.5 205.0L468.4 203.6Z"},{"id":"478","name":"Mauritania","d":"M454.1 172.3L454.7 171.1L465.3 171.2L464.9 166.0L465.6 164.1L468.2 163.8L468.4 154.7L477.0 154.9L477.2 149.6L486.9 158.1L482.9 158.2L483.9 173.6L485.0 189.3L485.5 189.8L484.9 192.4L473.9 192.4L473.5 193.2L472.5 193.0L470.9 193.7L469.0 192.7L468.2 192.8L467.6 194.9L466.7 195.6L465.0 193.1L463.4 190.4L461.6 189.4L460.3 188.3L458.8 188.4L457.4 189.2L456.1 188.9L455.1 190.0L455.0 188.1L455.8 186.3L456.2 182.8L456.0 179.2L455.8 177.4L456.1 175.6L455.5 173.9L454.1 172.3Z"},{"id":"484","name":"Mexico","d":"M199.3 131.7L202.4 131.5L205.8 131.1L205.2 131.8L208.4 133.4L213.3 135.9L218.5 135.8L220.5 135.8L221.1 134.4L225.5 134.4L226.0 135.6L226.9 136.7L227.9 138.2L228.1 140.0L228.1 142.0L229.1 143.0L230.9 144.0L233.4 141.3L235.6 141.2L237.0 142.6L237.5 145.0L237.7 147.0L238.6 149.0L238.5 151.5L238.7 153.2L240.5 154.3L242.1 155.0L243.2 154.9L241.3 158.0L240.1 160.6L238.7 165.4L238.0 167.1L238.0 169.1L238.4 170.9L238.3 173.7L239.5 176.3L239.7 178.4L240.4 180.2L243.1 181.2L244.0 182.7L246.5 181.7L248.7 181.3L250.8 180.7L252.6 180.0L254.6 178.6L255.7 176.4L256.5 173.4L257.2 172.3L259.2 171.4L262.3 170.6L264.6 170.7L266.3 170.4L266.8 171.1L266.3 172.9L264.5 175.0L263.4 177.2L263.8 177.9L263.1 179.4L261.9 182.3L261.4 181.3L260.8 181.4L260.3 181.4L258.9 183.6L258.5 183.2L258.1 183.4L258.1 183.9L255.6 183.9L253.0 183.9L252.7 185.9L251.4 185.9L252.2 187.2L253.1 188.0L253.3 188.8L253.7 189.0L253.4 190.3L249.9 190.3L248.1 193.3L248.4 194.0L248.0 194.8L247.7 195.9L245.3 191.9L244.0 190.8L242.0 189.8L240.4 190.1L238.0 191.4L236.5 191.8L234.8 190.8L232.9 190.1L230.6 188.5L228.7 187.9L225.9 186.2L224.0 184.5L223.5 183.5L222.0 183.3L219.5 182.2L218.7 180.5L216.2 178.4L215.4 176.1L215.2 174.4L216.2 174.0L216.1 173.0L217.0 172.1L217.3 170.8L216.8 169.2L216.9 167.8L216.5 166.0L215.1 162.4L213.3 159.6L212.6 157.4L210.8 156.0L210.6 155.1L211.7 152.9L210.6 152.1L209.6 150.4L209.8 147.9L208.5 147.6L207.6 145.8L207.0 144.1L207.3 143.0L206.9 140.4L207.0 137.7L207.6 136.4L206.3 135.1L205.4 135.2L204.3 134.3L203.3 135.7L203.1 137.3L202.3 139.9L202.6 141.3L203.6 143.7L203.8 144.5L204.1 144.8L204.0 146.0L204.4 145.9L204.2 148.2L204.7 149.1L204.8 150.3L205.8 152.1L205.6 155.4L205.9 157.0L206.1 158.6L205.7 160.5L207.0 160.6L207.6 162.2L208.1 163.8L207.8 164.5L206.3 165.8L205.9 165.8L205.8 163.6L204.6 161.6L203.2 159.8L202.1 158.9L203.0 156.3L203.3 154.4L202.4 153.3L201.1 151.8L200.6 152.2L200.2 151.3L198.9 150.4L198.1 148.4L198.4 148.1L199.4 148.3L200.8 147.0L201.5 145.5L200.4 143.0L199.2 142.0L199.1 139.8L199.1 137.6L199.0 134.8L199.3 131.7Z"},{"id":"498","name":"Moldova","d":"M561.9 81.3L562.3 80.9L563.8 80.6L565.7 81.5L566.7 81.6L567.9 82.4L567.9 83.4L568.8 83.9L569.4 85.2L570.3 86.0L570.2 86.4L570.7 86.7L570.2 87.0L568.7 86.9L568.4 86.4L568.0 86.7L568.3 87.2L567.8 88.2L567.5 89.3L567.0 89.6L566.3 88.2L566.4 86.9L566.1 85.6L564.4 83.8L563.5 82.5L562.6 81.6L561.9 81.3Z"},{"id":"496","name":"Mongolia","d":"M702.2 78.1L704.4 77.6L707.3 75.1L710.0 73.7L712.5 74.6L714.9 74.7L717.2 76.0L719.6 76.1L723.3 76.9L724.3 74.8L722.3 73.1L722.7 70.2L726.0 71.4L728.3 71.7L731.4 72.4L733.3 74.6L737.4 75.8L739.2 75.3L741.8 74.9L744.4 75.3L747.6 76.7L750.0 78.2L752.1 78.1L755.3 78.6L757.0 77.9L759.6 77.4L761.5 75.3L763.1 75.7L765.0 76.6L767.6 76.4L768.1 78.6L768.6 81.6L770.0 82.8L771.1 82.4L773.7 82.9L774.7 81.8L777.3 82.7L780.9 84.8L781.4 85.9L779.3 85.6L776.1 86.0L775.1 86.8L774.7 88.9L771.8 90.0L770.5 91.7L767.6 91.0L766.1 90.8L766.1 92.8L767.6 94.0L768.6 95.0L767.5 96.0L766.8 97.7L764.6 98.8L761.0 99.0L757.7 100.1L755.8 101.8L754.2 100.8L751.3 100.8L746.7 98.9L744.0 98.4L741.0 98.8L735.7 98.1L733.0 98.2L730.7 96.3L728.1 93.4L726.5 93.1L722.6 91.2L719.2 90.7L716.1 90.2L714.5 88.9L713.6 85.3L710.7 82.9L706.7 81.8L703.9 80.2L702.2 78.1Z"},{"id":"499","name":"Montenegro","d":"M548.6 98.6L548.0 98.9L547.8 98.3L546.9 99.9L547.1 100.9L546.6 100.6L545.8 99.6L544.7 99.0L544.9 98.4L545.1 96.7L545.8 96.0L546.2 95.7L546.9 96.2L547.3 96.7L548.1 97.0L549.1 97.6L549.0 97.9L548.6 98.6Z"},{"id":"504","name":"Morocco","d":"M494.5 122.8L495.4 125.0L495.6 127.0L496.4 130.6L497.1 131.3L496.6 132.7L493.3 133.3L492.1 134.5L490.6 134.8L490.4 137.4L487.4 138.7L486.4 140.5L484.2 141.4L481.6 141.9L477.3 144.5L477.2 148.6L476.9 148.6L476.9 150.5L475.2 150.6L474.4 151.4L473.2 151.4L472.2 151.0L470.0 151.4L469.0 154.1L468.2 154.4L466.8 158.8L463.0 162.7L461.9 167.6L460.8 169.2L460.4 170.5L454.3 170.8L454.3 170.8L454.5 169.1L455.5 168.2L456.5 166.3L456.4 165.1L457.4 162.6L459.0 160.3L459.9 159.7L460.7 157.6L460.8 155.8L461.9 153.6L463.7 152.3L465.5 148.7L465.6 148.6L466.9 147.3L469.4 146.9L471.5 144.5L472.9 143.6L475.1 140.7L474.6 136.4L475.7 133.4L476.1 131.6L477.9 129.3L480.5 127.8L482.4 126.4L484.2 122.9L485.0 120.9L486.9 120.9L488.4 122.3L490.8 122.1L493.4 122.8L494.5 122.8Z"},{"id":"508","name":"Mozambique","d":"M595.1 293.0L597.2 292.7L600.4 293.7L601.2 293.2L603.1 293.1L604.1 292.0L605.8 292.1L608.8 290.6L611.1 288.5L611.5 290.2L611.2 293.9L611.4 297.1L611.1 302.9L611.5 304.7L610.5 307.3L609.3 309.8L607.4 312.1L604.8 313.5L601.6 315.3L598.2 319.2L597.2 319.8L595.1 322.4L593.9 323.3L593.5 325.8L594.5 328.6L594.9 330.7L594.8 331.8L595.3 331.6L594.9 335.1L594.3 336.8L594.9 337.4L594.4 338.9L593.1 340.1L590.8 341.3L587.5 343.3L586.2 344.6L586.3 346.1L586.9 346.3L586.5 348.1L584.5 348.1L584.4 346.6L584.2 345.0L584.1 343.7L584.9 339.7L584.4 337.2L583.5 332.2L586.7 328.1L587.6 325.5L588.0 325.1L588.5 323.0L588.1 321.9L588.4 319.2L589.1 316.7L589.4 312.1L588.0 310.9L586.8 310.6L586.2 309.7L585.0 309.0L582.7 309.0L582.6 307.7L582.5 305.0L591.0 302.0L592.4 303.8L593.2 303.4L594.2 304.4L594.3 305.8L593.6 307.6L593.7 310.1L595.3 312.4L596.3 309.9L597.5 309.1L597.6 304.4L596.6 301.7L595.7 300.5L594.7 300.6L594.2 295.8L595.1 293.0Z"},{"id":"104","name":"Myanmar","d":"M769.7 174.4L768.4 175.3L767.1 176.9L765.3 177.0L764.8 180.9L763.8 181.6L765.8 184.8L768.0 187.5L769.5 189.9L769.1 193.1L768.2 193.7L769.2 195.6L771.4 198.5L772.1 200.6L772.3 202.3L773.8 205.7L772.7 209.1L771.8 212.9L771.2 210.2L771.7 207.3L770.5 205.1L770.2 201.1L768.8 199.2L767.3 194.8L766.0 190.2L764.3 187.1L762.8 189.0L760.2 191.6L758.6 191.3L756.8 190.4L756.9 185.9L755.7 182.4L752.8 178.3L752.9 176.9L751.2 176.5L748.7 173.5L747.9 170.6L748.9 171.2L748.4 168.6L749.5 167.7L748.9 166.2L749.2 165.0L748.4 161.3L750.7 162.1L751.1 159.2L750.8 157.4L751.4 154.5L750.8 152.4L753.5 150.0L755.6 150.7L754.7 148.5L755.4 147.8L754.8 146.5L756.3 146.3L757.8 148.3L759.2 149.2L760.1 151.8L760.8 154.8L759.1 157.7L760.0 161.9L762.6 161.3L764.1 164.6L766.0 165.3L765.9 168.3L768.2 169.7L769.6 170.3L771.3 169.3L771.7 170.8L770.0 173.1L769.7 174.4Z"},{"id":"None","name":"N. Cyprus","d":"M582.9 122.9L583.1 122.9L583.3 122.1L585.2 122.1L587.3 121.1L585.8 122.6L586.1 123.2L585.8 123.1L585.3 123.3L585.0 123.3L584.8 123.4L584.8 123.1L584.5 122.8L584.0 122.8L583.4 123.1L582.9 122.9Z"},{"id":"516","name":"Namibia","d":"M552.8 341.2L552.0 354.2L549.6 356.0L548.2 356.2L546.6 355.6L545.4 355.3L545.1 353.8L544.1 352.9L542.7 354.6L540.9 351.9L540.0 349.4L539.6 345.9L539.1 343.4L538.4 337.9L538.5 333.6L538.2 331.7L537.2 330.2L535.9 327.2L534.6 322.9L534.1 320.6L532.0 317.0L531.9 314.2L533.2 313.5L534.9 312.9L536.6 313.0L538.2 314.7L538.6 314.4L549.6 314.3L551.4 316.0L558.0 316.5L563.1 315.0L565.3 314.2L567.1 314.4L568.1 315.2L568.1 315.5L566.5 316.4L565.7 316.4L563.9 317.8L562.9 316.3L558.7 317.6L556.7 317.7L556.0 330.6L553.4 330.7L552.8 341.2Z"},{"id":"524","name":"Nepal","d":"M731.1 147.9L731.3 149.4L732.3 151.6L732.3 153.0L730.1 153.1L726.8 152.2L724.6 151.9L722.6 150.1L718.9 149.7L715.0 147.7L712.1 146.0L709.2 144.7L709.4 141.4L710.6 139.8L711.4 139.0L713.8 140.1L717.1 142.3L718.7 142.8L720.0 144.5L722.2 145.2L724.8 146.7L727.9 147.5L731.1 147.9Z"},{"id":"528","name":"Netherlands","d":"M515.4 66.1L515.8 67.1L515.4 69.7L514.9 70.7L513.5 70.7L514.0 73.7L512.7 73.1L511.3 71.8L509.2 72.4L507.5 72.2L508.7 71.4L510.5 67.2L513.5 66.1L515.4 66.1Z"},{"id":"540","name":"New Caledonia","d":"M945.7 327.9L947.0 330.2L947.7 331.8L946.4 332.7L945.3 331.7L944.0 330.1L943.1 328.2L942.2 325.7L942.3 324.4L943.5 324.5L944.5 325.7L945.2 326.9L945.7 327.9Z"},{"id":"554","name":"New Zealand","d":"M935.3 393.3L932.9 395.1L929.8 397.2L926.8 398.5L927.1 397.7L926.5 397.2L930.2 394.6L930.8 392.8L929.3 391.5L930.3 390.3L933.0 389.2L935.4 386.7L936.9 384.5L937.6 382.3L938.1 381.7L937.9 380.4L938.1 377.4L938.7 375.0L939.8 374.8L939.9 376.6L941.2 377.5L939.8 380.5L939.0 384.0L940.7 381.7L941.2 382.6L939.6 385.1L940.8 386.2L942.3 386.4L944.7 385.2L945.7 385.6L942.7 388.5L940.4 390.4L938.6 390.3L937.1 391.3L936.2 392.7L935.3 393.3ZM908.1 404.4L911.6 402.8L914.5 401.1L917.6 398.8L919.3 398.0L921.1 396.2L924.1 394.7L923.5 396.1L922.9 397.4L925.8 396.1L925.3 397.4L924.1 398.8L921.9 400.3L918.3 402.6L915.9 403.8L915.4 405.4L913.5 405.4L910.4 406.6L907.8 408.6L903.5 411.7L900.3 413.1L898.3 413.9L896.2 413.9L895.6 412.9L893.3 412.7L894.0 411.5L897.4 409.3L903.2 406.2L905.3 405.6L908.1 404.4Z"},{"id":"558","name":"Nicaragua","d":"M269.6 209.2L268.9 210.0L268.1 209.7L267.7 209.0L266.9 208.7L266.2 209.1L264.5 208.2L264.0 208.6L263.2 207.5L262.1 206.0L261.6 204.7L260.6 203.6L259.4 201.9L259.8 201.3L260.2 201.9L260.4 201.6L261.3 201.5L261.7 200.6L262.1 200.6L262.3 198.8L263.0 198.7L263.5 198.7L264.3 197.7L265.0 198.5L265.3 198.0L265.9 197.6L267.0 196.6L267.1 195.8L267.4 195.9L267.8 195.0L268.1 194.9L268.5 195.4L269.1 195.6L269.7 195.1L270.4 195.1L271.4 194.6L271.9 194.1L272.8 194.2L272.5 194.6L272.3 195.4L272.4 196.7L271.6 198.0L271.1 199.5L270.8 201.1L270.9 202.1L270.7 203.7L270.3 204.1L269.8 205.7L269.9 206.6L269.3 207.6L269.3 208.6L269.6 209.2Z"},{"id":"562","name":"Niger","d":"M539.7 165.6L540.6 171.2L541.6 172.2L541.7 173.3L542.8 174.6L542.3 176.1L541.5 183.5L541.5 188.2L538.1 191.7L537.1 196.5L538.2 197.9L538.3 200.3L540.0 200.3L539.8 202.1L539.0 202.3L538.9 203.5L538.4 203.6L536.5 199.5L535.9 199.4L533.8 201.4L531.6 200.4L530.1 200.1L529.3 200.7L527.7 200.5L526.1 202.1L524.7 202.2L521.4 200.3L520.1 201.2L518.7 201.1L517.7 199.8L514.9 198.4L512.0 198.8L511.3 199.6L510.9 201.7L510.1 203.2L509.9 206.5L507.8 204.4L506.8 204.4L505.9 205.5L506.0 203.0L502.8 202.1L502.7 200.3L501.2 197.9L500.8 196.2L501.0 194.5L502.8 194.3L503.8 193.0L507.5 192.7L509.9 192.1L510.1 189.9L511.6 187.4L511.5 179.0L515.3 177.4L523.0 170.3L532.0 163.5L536.3 165.0L537.8 167.0L539.7 165.6Z"},{"id":"566","name":"Nigeria","d":"M507.5 226.6L507.6 220.6L507.5 218.2L508.0 215.9L508.9 214.7L510.2 212.4L509.9 211.4L510.5 210.0L509.8 207.8L509.9 206.5L510.1 203.2L510.9 201.7L511.3 199.6L512.0 198.8L514.9 198.4L517.7 199.8L518.7 201.1L520.1 201.2L521.4 200.3L524.7 202.2L526.1 202.1L527.7 200.5L529.3 200.7L530.1 200.1L531.6 200.4L533.8 201.4L535.9 199.4L536.5 199.5L538.4 203.6L538.9 203.5L540.1 204.9L539.8 205.6L539.7 206.8L537.4 209.7L536.7 212.1L536.3 214.0L535.8 214.8L535.2 217.4L533.8 219.0L533.4 220.9L532.8 222.4L532.5 223.9L530.6 225.2L529.0 223.6L528.0 223.7L526.4 225.9L525.6 225.9L524.3 229.5L523.6 232.2L520.7 233.5L519.6 233.3L518.6 234.1L516.4 234.1L514.9 231.7L514.0 229.0L512.0 226.6L509.9 226.6L507.5 226.6Z"},{"id":"408","name":"North Korea","d":"M817.4 99.8L817.4 99.8L817.4 99.8L817.4 99.8ZM816.7 99.2L817.4 99.8L816.3 99.6L816.0 100.7L816.0 101.8L817.5 104.1L816.7 104.8L816.6 105.3L816.3 106.3L815.0 106.8L814.5 107.7L815.2 109.1L815.1 109.5L816.4 110.0L818.7 111.4L818.8 112.2L817.9 112.4L816.2 112.6L816.1 114.1L814.9 113.9L814.9 114.2L813.3 113.6L813.4 114.2L812.8 114.5L812.4 113.9L811.6 113.6L810.6 113.1L810.5 111.6L810.8 111.2L810.3 110.6L809.9 108.9L809.4 108.4L807.7 108.0L806.1 107.1L806.8 105.1L808.5 103.3L808.7 101.1L810.5 102.1L812.7 102.2L811.2 100.5L814.1 99.1L813.9 97.4L816.7 99.2Z"},{"id":"578","name":"Norway","d":"M526.0 12.4L526.6 12.0L529.1 12.0L531.4 12.3L537.2 13.2L533.0 13.6L532.2 14.5L530.8 14.8L530.1 15.9L528.0 15.9L524.1 15.1L525.6 14.7L522.9 14.3L519.4 13.3L518.0 12.4L522.6 12.0L523.6 12.4L526.0 12.4ZM558.9 27.8L555.9 28.6L554.4 28.7L554.8 27.4L552.2 26.6L549.4 27.3L548.9 28.7L547.3 29.6L545.1 29.1L542.7 29.2L540.3 28.1L539.3 28.7L538.1 28.7L538.1 30.0L534.4 29.7L534.1 30.8L532.3 30.8L531.2 32.3L529.7 34.6L527.0 37.7L527.8 38.4L527.2 39.3L525.3 39.3L524.2 41.4L524.6 44.6L526.1 45.8L525.7 48.7L524.1 50.4L523.3 51.8L521.8 50.3L517.8 53.2L515.0 53.8L512.0 52.5L511.1 49.8L510.2 44.2L512.1 42.6L517.3 40.7L521.0 38.3L524.3 35.3L528.5 31.2L531.5 29.7L536.2 27.3L540.2 26.5L543.3 26.6L545.8 25.0L549.2 25.1L552.4 24.8L558.7 26.1L556.4 26.6L558.9 27.8ZM547.0 12.0L544.6 12.5L539.7 12.7L534.5 12.5L534.1 12.2L531.7 12.2L529.7 11.7L534.9 11.4L537.5 11.7L539.1 11.4L543.5 11.6L547.0 12.0ZM543.1 14.5L539.4 15.0L536.2 14.7L537.3 14.4L536.2 14.0L539.7 13.8L540.5 14.2L543.1 14.5Z"},{"id":"512","name":"Oman","d":"M647.6 166.2L647.5 164.8L648.1 163.3L647.9 161.8L649.0 161.1L648.4 160.6L648.3 158.3L649.6 158.3L651.2 160.7L652.9 162.0L654.9 162.5L656.6 163.1L658.1 165.2L659.0 166.4L660.0 166.8L660.2 167.6L659.5 169.8L659.2 170.8L658.2 171.9L657.6 174.4L656.3 174.2L655.9 175.1L655.7 176.9L656.3 179.3L656.1 179.8L654.9 179.8L653.3 181.1L653.3 182.9L652.7 183.7L651.0 183.6L650.1 184.6L650.2 186.0L649.0 187.1L647.5 186.7L645.8 187.9L644.6 188.2L643.4 185.6L640.7 179.6L648.4 176.0L649.2 168.7L647.6 166.2ZM648.8 155.5L648.1 154.3L648.7 153.1L649.1 153.4L649.1 154.8L648.8 155.5Z"},{"id":"586","name":"Pakistan","d":"M696.8 121.7L695.2 124.6L692.5 125.1L688.4 124.2L687.6 125.7L689.4 128.7L690.9 131.0L693.4 132.6L691.8 134.6L692.5 137.1L690.9 140.6L690.1 144.1L688.2 147.7L685.1 147.5L683.0 151.2L685.1 152.7L685.9 155.5L687.8 157.3L688.9 160.3L683.0 160.3L681.7 162.7L679.6 161.8L678.3 159.2L675.8 156.5L671.0 157.2L666.7 157.2L663.1 157.7L663.4 153.6L666.8 151.8L666.3 150.2L664.9 149.6L664.2 146.5L661.4 145.0L659.9 142.9L658.3 141.1L663.0 142.8L665.5 142.3L667.2 142.8L667.5 142.0L669.4 142.3L672.5 140.9L671.9 137.9L672.9 136.0L674.8 136.0L674.8 135.0L676.7 134.6L677.7 134.9L678.5 133.9L677.8 131.9L678.4 129.8L679.8 128.9L678.2 126.7L680.6 126.8L681.0 125.6L680.5 124.3L681.4 122.9L680.6 121.2L679.6 119.8L680.6 118.3L683.1 117.7L685.8 117.3L686.9 116.7L688.3 116.3L690.6 117.8L692.2 120.4L696.8 121.7Z"},{"id":"275","name":"Palestine","d":"M591.3 135.3L590.2 135.8L590.2 134.9L590.8 134.4L590.1 134.0L590.3 131.8L591.3 132.2L591.6 134.3L591.3 135.3Z"},{"id":"591","name":"Panama","d":"M286.3 217.6L285.9 218.2L286.4 220.4L285.8 221.5L285.0 221.2L284.5 223.0L283.6 221.9L283.2 219.9L283.9 218.9L283.2 218.7L282.8 217.4L281.5 216.4L280.3 216.6L279.6 217.9L278.4 218.9L277.8 219.0L277.5 219.8L278.7 221.8L277.9 222.3L277.5 222.8L276.2 223.0L275.8 220.8L275.4 221.4L274.5 221.2L274.1 219.7L273.0 219.5L272.3 219.0L271.1 219.0L271.0 219.8L270.7 219.3L270.9 218.5L271.2 217.8L271.1 217.1L271.6 216.7L271.0 216.1L271.1 214.6L272.2 214.3L273.1 215.6L273.0 216.4L274.1 216.6L274.4 216.3L275.1 217.2L276.4 216.9L277.7 216.0L279.4 215.2L280.4 214.1L281.9 214.3L281.8 214.7L283.3 214.8L284.5 215.5L285.3 216.6L286.3 217.6Z"},{"id":"598","name":"Papua New Guinea","d":"M891.5 259.7L896.2 262.3L901.2 264.4L903.0 266.4L904.4 268.2L904.6 270.4L909.0 272.7L909.5 274.7L906.9 275.1L907.2 277.6L909.4 280.1L910.7 284.0L912.3 283.9L911.9 285.5L913.9 286.2L913.0 286.8L915.7 288.4L915.2 289.5L913.3 289.7L912.8 288.8L910.5 288.4L907.8 287.8L906.0 285.4L904.8 283.4L903.8 280.1L900.4 278.5L897.9 279.6L896.1 280.8L896.0 283.5L893.7 284.8L892.2 284.2L889.4 284.0L890.7 271.9L891.5 259.7ZM923.6 263.7L924.6 264.9L924.8 266.8L923.8 267.8L923.5 265.6L922.9 264.2L921.7 263.0L920.2 261.4L918.3 260.3L919.1 259.4L920.5 260.4L921.4 261.2L922.6 262.1L923.6 263.7ZM919.2 271.8L917.6 272.7L916.1 273.6L914.7 273.6L912.5 272.5L911.0 271.5L911.3 270.3L913.8 270.9L915.3 270.6L915.9 268.8L916.3 268.7L916.4 270.7L918.0 270.4L918.9 269.1L920.5 267.8L920.4 265.6L922.1 265.5L922.6 266.1L922.4 268.2L921.3 270.5L919.8 270.8L919.2 271.8ZM929.0 270.0L929.8 270.8L930.9 273.2L932.0 274.4L931.5 275.5L930.7 275.9L929.7 274.4L928.7 272.1L928.4 269.2L928.8 268.9L929.0 270.0Z"},{"id":"600","name":"Paraguay","d":"M343.2 324.7L344.2 326.7L344.7 331.6L347.7 332.3L348.7 331.6L350.6 332.5L351.3 333.6L352.0 336.9L352.5 338.3L353.5 338.4L354.4 337.9L355.5 338.5L355.8 340.5L355.7 342.6L355.5 344.6L355.6 347.7L353.6 350.4L351.7 351.0L348.6 350.4L345.8 349.5L347.5 344.1L346.8 342.6L343.9 341.2L340.2 338.5L337.9 338.0L332.1 332.2L332.5 327.8L332.3 325.9L333.2 322.7L337.7 321.7L340.2 321.7L343.0 323.6L343.2 324.7Z"},{"id":"604","name":"Peru","d":"M306.1 266.1L303.6 265.9L303.3 266.5L301.0 267.2L297.9 269.7L297.8 271.5L297.2 272.8L297.5 274.8L295.9 275.9L296.0 277.4L295.3 278.1L296.7 281.5L298.4 283.7L297.9 285.3L299.8 285.5L301.0 287.5L303.4 287.6L305.5 285.4L305.8 291.1L307.0 291.5L308.5 290.9L311.4 296.8L311.0 298.1L311.1 300.7L311.4 303.8L310.5 305.6L311.2 307.0L310.7 308.2L312.2 311.3L311.0 315.2L310.6 317.1L309.3 318.0L306.3 316.0L305.8 314.5L299.9 310.8L294.5 306.8L292.1 304.5L290.7 301.5L291.0 300.4L288.1 295.6L284.8 288.7L281.6 281.3L280.3 279.6L279.3 276.9L277.0 274.5L274.9 272.9L275.7 271.3L274.2 267.7L275.0 265.1L277.1 262.7L277.5 264.3L276.7 265.2L276.9 266.6L278.0 266.3L279.1 266.7L280.4 268.5L281.9 267.0L282.3 264.5L283.9 261.2L287.2 259.8L290.2 255.8L291.0 253.4L290.6 250.6L291.4 250.2L293.2 252.0L294.1 253.8L295.4 254.7L297.1 258.6L299.2 259.1L300.7 258.1L301.7 258.8L303.4 258.4L305.5 260.2L303.8 264.0L304.7 264.1L306.1 266.1Z"},{"id":"608","name":"Philippines","d":"M831.7 202.7L829.8 199.8L832.2 200.0L833.4 201.3L833.2 204.5L831.7 202.7ZM838.1 212.7L838.6 211.7L838.6 209.4L840.1 209.2L840.0 211.7L841.5 208.1L841.8 211.6L840.9 212.9L840.4 215.2L839.6 216.3L837.6 213.7L838.1 212.7ZM849.2 218.6L849.8 221.0L850.2 223.1L849.5 226.5L848.2 222.7L847.1 224.6L848.2 227.4L847.5 229.1L844.1 227.0L843.1 224.3L843.8 222.5L841.8 220.7L841.1 222.3L839.8 222.1L838.0 224.2L837.4 223.1L838.2 220.0L839.8 218.9L841.1 217.5L842.3 219.2L844.3 218.2L844.5 216.5L846.5 216.4L846.0 213.6L848.4 215.3L848.9 217.2L849.2 218.6ZM827.1 215.2L823.8 218.7L824.9 216.1L826.6 213.9L827.9 211.3L828.9 207.6L829.8 210.6L828.2 212.7L827.1 215.2ZM831.7 182.4L831.6 183.9L833.1 186.5L833.1 189.6L831.7 190.8L831.9 193.7L833.1 196.7L834.6 197.1L835.8 196.6L839.6 198.7L839.7 200.7L840.7 201.6L840.7 203.3L838.3 201.5L836.9 199.5L836.5 200.9L834.3 198.7L831.9 199.2L830.4 198.4L830.3 196.9L830.9 195.9L830.0 195.1L829.9 196.4L828.1 194.3L827.4 192.7L826.5 189.2L827.9 190.4L826.9 184.7L827.0 181.4L828.7 181.4L830.6 182.4L831.2 181.5L831.7 182.4ZM835.8 207.4L835.1 205.7L836.9 206.8L838.7 206.8L838.9 208.4L837.8 209.9L836.2 211.0L835.9 209.3L835.8 207.4ZM844.9 204.7L846.3 208.8L844.0 207.8L844.3 209.1L845.3 211.3L844.1 212.2L843.6 209.6L842.7 209.4L842.0 207.1L843.6 207.4L843.4 206.0L841.2 203.2L843.9 203.3L844.9 204.7Z"},{"id":"616","name":"Poland","d":"M552.0 65.0L552.3 66.2L553.1 67.2L553.3 68.4L552.1 68.9L553.0 70.2L553.2 71.5L554.7 74.0L554.6 74.8L553.5 75.2L551.8 77.6L552.6 78.9L552.1 78.7L549.7 77.6L548.1 78.0L547.0 77.7L545.7 78.4L544.4 77.3L543.5 77.7L543.4 77.5L542.2 76.1L540.4 75.9L540.1 75.0L538.5 74.7L538.2 75.4L536.9 74.8L537.0 74.0L535.3 73.8L534.1 72.9L533.0 71.0L533.1 70.1L532.4 68.5L531.4 67.5L532.0 66.8L531.3 65.4L532.8 64.6L536.1 63.3L538.7 62.4L541.0 62.8L541.2 63.5L543.4 63.5L546.1 63.8L550.2 63.8L551.4 64.1L552.0 65.0Z"},{"id":"620","name":"Portugal","d":"M478.0 100.9L478.9 100.1L480.0 99.6L480.5 101.2L481.9 101.2L482.4 100.7L483.8 100.9L484.4 102.5L483.2 103.3L483.1 105.8L482.7 106.3L482.6 107.8L481.5 108.1L482.4 110.1L481.7 112.2L482.5 113.2L482.1 114.1L481.2 115.3L481.3 116.4L480.3 117.3L479.0 116.8L477.7 117.2L478.2 114.6L478.0 112.6L476.9 112.2L476.4 111.0L476.7 108.9L477.7 107.7L477.9 106.4L478.5 104.5L478.5 103.1L478.1 101.9L478.0 100.9Z"},{"id":"630","name":"Puerto Rico","d":"M320.5 181.3L321.8 181.7L322.2 182.4L321.4 183.3L319.3 183.3L317.7 183.4L317.8 181.9L318.2 181.3L320.5 181.3Z"},{"id":"634","name":"Qatar","d":"M634.9 158.9L634.4 156.3L634.8 154.4L635.5 154.1L636.4 155.2L636.8 157.2L636.5 159.3L635.8 159.6L634.9 158.9Z"},{"id":"642","name":"Romania","d":"M567.0 89.6L568.1 90.2L569.2 89.7L570.3 90.2L570.5 91.0L569.5 91.6L568.7 91.4L568.6 95.1L567.2 94.8L565.2 93.6L562.5 94.4L561.4 95.2L557.9 95.0L556.0 94.5L555.1 94.7L554.2 93.5L553.7 92.9L554.2 92.4L553.6 92.0L552.9 92.7L551.4 91.8L551.1 90.5L549.5 89.8L549.2 88.8L547.7 87.6L549.6 87.1L550.7 85.0L551.6 83.0L552.9 82.3L553.8 81.7L555.3 82.0L556.8 82.0L558.0 82.8L558.7 82.3L560.4 82.0L560.9 81.3L561.9 81.3L562.6 81.6L563.5 82.5L564.4 83.8L566.1 85.6L566.4 86.9L566.3 88.2L567.0 89.6Z"},{"id":"643","name":"Russia","d":"M659.6 11.0L663.0 10.8L666.9 11.3L672.0 12.3L672.8 13.3L669.2 13.4L664.0 13.1L660.7 12.6L658.5 11.9L655.9 11.7L659.6 11.0ZM677.3 12.8L682.5 13.5L682.6 13.9L673.4 14.4L674.6 12.9L675.9 12.7L677.3 12.8ZM746.0 16.8L750.7 16.9L758.4 17.6L758.9 18.7L752.2 18.7L749.8 19.0L744.7 18.1L744.1 17.1L746.0 16.8ZM764.6 17.9L769.7 18.3L768.7 18.9L765.6 18.8L761.3 18.2L760.9 17.7L764.6 17.9ZM754.6 21.0L755.3 20.4L757.3 20.2L760.9 20.8L761.8 21.3L759.1 21.3L755.0 21.1L754.6 21.0ZM576.5 11.4L579.8 11.2L582.3 11.2L582.9 11.5L583.7 11.3L585.2 11.1L587.9 11.3L587.3 11.5L585.1 11.6L583.6 11.7L583.5 11.8L581.6 12.0L579.6 11.8L580.4 11.5L576.5 11.4ZM550.2 63.8L546.1 63.8L543.4 63.5L543.7 62.3L546.6 61.5L549.0 61.9L550.0 62.4L549.9 63.1L550.2 63.8ZM597.0 20.4L600.5 19.0L599.6 18.3L603.0 17.5L608.3 16.6L614.0 16.4L616.6 15.9L619.9 15.7L621.5 16.2L620.7 16.7L614.9 17.4L610.0 18.1L605.4 19.5L603.8 21.1L601.9 22.7L603.2 24.1L607.6 25.6L606.6 25.8L600.4 25.5L599.4 24.7L595.8 24.2L595.0 23.3L596.6 22.9L596.0 22.0L598.8 20.6L597.0 20.4ZM817.3 65.5L820.8 68.2L823.4 71.0L827.1 73.9L834.2 79.1L829.9 78.1L832.2 82.4L837.1 85.5L838.8 87.6L835.5 85.8L835.9 88.1L833.4 85.6L831.2 82.6L828.1 79.4L826.7 77.2L823.2 73.3L819.3 70.5L815.7 66.6L816.5 65.4L814.3 64.1L814.9 63.7L817.3 65.5ZM817.4 99.8L816.7 99.2L815.6 97.6L816.8 97.5L814.5 93.8L812.0 91.2L813.2 90.1L816.5 90.6L815.9 87.7L814.1 84.3L814.1 83.2L813.2 80.5L810.0 81.4L809.0 82.6L805.4 82.6L802.3 79.8L797.8 77.7L793.1 76.8L789.9 73.9L787.6 72.2L785.7 70.9L781.9 68.1L779.0 67.0L775.0 66.2L772.1 66.3L769.7 66.8L769.1 68.2L770.9 68.9L772.2 70.4L771.6 71.3L772.0 74.4L773.0 75.7L771.2 77.5L767.6 76.4L765.0 76.6L763.1 75.7L761.5 75.3L759.6 77.4L757.0 77.9L755.3 78.6L752.1 78.1L750.0 78.2L747.6 76.7L744.4 75.3L741.8 74.9L739.2 75.3L737.4 75.8L733.3 74.6L731.4 72.4L728.3 71.7L726.0 71.4L722.7 70.2L722.3 73.1L724.3 74.8L723.3 76.9L719.6 76.1L717.2 76.0L714.9 74.7L712.5 74.6L710.0 73.7L707.3 75.1L704.4 77.6L702.2 78.1L701.4 78.4L699.2 76.6L696.5 77.0L694.8 75.7L692.9 75.2L690.9 73.5L689.4 73.0L686.5 73.7L682.5 72.1L682.1 73.6L673.2 66.4L669.2 64.2L669.5 63.4L665.4 66.0L663.3 66.1L662.7 64.6L659.4 63.7L657.5 64.3L655.3 61.5L651.1 60.9L649.7 62.1L644.6 63.1L643.9 63.7L636.0 64.7L635.4 65.6L637.9 67.5L636.0 68.3L636.8 69.0L635.2 70.4L639.6 72.4L639.6 73.7L636.4 73.6L636.1 74.5L632.6 73.0L629.0 73.0L627.0 74.3L623.9 73.1L618.2 71.1L614.7 71.2L611.0 74.3L611.4 76.4L608.6 74.7L607.7 78.0L608.5 78.6L607.8 80.8L610.4 82.8L612.1 82.7L614.2 84.7L614.4 86.3L615.7 86.8L615.1 88.6L613.0 89.1L611.4 92.3L614.4 95.3L614.7 97.4L618.2 101.1L617.1 102.4L616.9 103.2L615.7 103.0L613.6 101.0L612.9 100.9L611.2 100.2L610.1 98.9L607.7 98.2L606.4 98.7L605.8 98.1L602.2 96.6L598.5 96.1L596.4 95.6L596.2 96.0L592.6 93.3L589.6 92.1L587.2 90.3L588.8 89.8L590.2 87.3L588.6 86.1L591.8 84.8L591.6 84.2L589.6 84.7L589.4 83.3L590.4 82.5L592.6 82.3L592.7 81.3L591.8 79.6L592.4 78.1L592.1 77.2L588.5 76.3L587.2 76.3L585.4 74.9L583.8 75.4L580.6 74.4L580.6 73.8L579.5 72.6L577.6 72.4L577.2 71.5L577.7 71.0L575.8 69.4L573.6 69.6L572.9 69.5L572.4 70.1L571.6 70.0L570.6 68.2L569.9 67.3L570.3 67.0L572.1 67.1L572.8 66.5L572.0 65.8L570.4 65.3L570.4 64.8L569.4 64.3L567.6 62.5L567.9 61.8L567.4 60.5L565.1 59.8L564.1 60.2L563.6 59.5L561.2 58.8L560.1 57.3L559.7 56.0L558.5 55.4L559.3 54.6L558.1 52.2L559.3 50.7L558.9 50.3L560.9 48.9L558.4 47.7L562.1 44.6L563.6 43.2L564.1 42.0L560.6 40.5L561.0 39.0L558.8 37.3L559.6 35.4L556.6 33.0L557.9 31.5L554.6 30.1L554.4 28.7L555.9 28.6L558.9 27.8L560.6 27.1L564.1 28.3L569.5 28.7L577.6 31.0L579.5 32.0L580.2 33.3L578.5 34.5L575.5 35.0L566.2 33.4L564.8 33.7L568.6 35.2L569.0 36.2L569.9 38.5L572.7 39.2L574.5 39.8L574.4 38.7L572.8 37.7L573.8 36.9L579.1 38.3L580.6 37.7L578.6 36.1L582.4 34.0L584.2 34.1L586.4 34.9L586.9 33.4L584.7 32.2L585.1 31.0L583.2 29.7L588.8 30.3L590.5 31.5L588.1 31.7L588.7 32.9L590.5 33.6L593.3 33.1L593.2 31.8L596.7 30.9L602.5 29.1L604.0 29.2L602.8 30.4L605.3 30.7L606.3 30.0L609.8 29.9L612.2 29.1L615.1 30.3L616.4 29.0L613.7 27.9L614.3 27.2L620.3 27.8L623.3 28.4L631.8 30.7L632.3 29.6L629.7 28.6L629.3 28.2L626.9 28.0L626.9 27.1L624.8 25.6L624.4 25.0L626.6 23.4L626.6 21.9L627.7 21.5L632.9 22.0L634.1 22.9L633.4 24.4L635.0 24.9L636.6 26.2L638.2 28.8L641.2 30.0L641.4 31.4L639.7 34.3L642.2 34.7L642.4 33.9L644.2 33.3L643.9 32.3L644.9 31.3L642.9 30.2L642.8 28.9L640.6 28.7L639.3 27.6L639.3 25.8L635.7 24.3L638.1 23.1L636.6 21.9L637.5 21.9L639.3 22.8L639.9 24.5L642.2 24.8L640.3 23.5L642.8 22.8L646.5 22.8L650.8 23.7L647.9 22.3L646.1 20.5L649.0 20.2L653.4 20.3L657.1 20.1L654.9 19.3L655.9 18.3L657.9 18.2L660.7 17.5L665.2 17.3L665.3 16.9L669.8 16.8L671.6 17.1L674.8 16.4L678.0 16.4L677.8 15.8L678.8 15.2L682.3 14.7L685.8 15.1L683.8 15.4L688.1 15.6L689.4 16.3L690.6 16.0L695.8 16.0L700.6 16.7L702.8 17.2L703.3 18.0L701.9 18.4L698.3 19.2L697.5 19.7L700.0 19.9L703.2 20.3L704.5 20.0L706.7 21.1L707.0 20.6L709.5 20.4L715.7 20.6L717.2 21.4L725.2 21.7L723.5 20.4L727.8 20.7L730.7 20.7L734.8 21.5L737.2 22.6L737.2 23.3L741.5 24.7L745.4 25.5L744.5 23.6L748.7 24.4L751.1 23.9L755.5 24.5L756.2 24.0L759.6 24.2L755.7 22.6L757.0 21.9L775.4 23.0L778.7 24.0L785.8 25.4L792.8 25.0L797.0 25.3L799.8 26.1L801.9 27.5L805.2 28.0L807.1 27.6L810.3 27.6L814.6 27.9L817.8 27.7L824.1 29.5L825.4 28.8L821.7 27.6L821.0 26.8L828.0 27.3L831.7 27.2L838.8 28.1ZM156.9 28.9L158.9 30.4L160.3 32.5L157.9 33.8L158.3 34.3L160.5 32.8L165.2 33.1L165.7 35.1L162.2 36.0L158.6 36.2L155.0 38.4L153.5 38.9L151.7 38.8L151.5 38.0L149.9 37.4L151.0 36.4L149.6 36.1L146.9 36.3L147.1 35.6L149.0 34.8L145.7 35.3L144.8 36.3L142.1 37.2ZM857.9 37.3L857.0 38.2L854.1 38.1L857.9 39.3L862.2 41.2L864.2 41.8L866.0 42.7L866.4 43.4L861.8 42.9L858.9 44.6L857.5 44.9L856.8 46.6L856.0 48.1L856.9 49.3L851.4 47.5L848.7 49.5L846.5 48.6L846.0 49.6L842.7 49.3L844.2 50.9L844.9 53.4L846.4 54.4L849.5 55.0L854.1 58.9L852.2 59.0L854.0 61.2L856.3 62.4L854.1 63.8L856.9 66.9L854.3 67.6L856.7 70.5L856.3 73.1L853.4 71.2L848.0 67.0L840.0 60.9L836.7 57.2L836.6 55.7L835.2 54.5L837.8 53.9L837.4 50.7L837.6 48.1L838.6 46.2L835.4 42.8L833.2 43.0L834.8 44.9L833.3 47.6L827.5 44.6L823.3 45.4L823.5 49.6L827.2 51.1L823.3 51.8L820.4 52.0L818.3 50.2L814.5 49.8L813.4 51.1L806.5 50.6L800.4 51.4L799.1 56.4L797.3 62.7L801.1 63.1L803.9 64.8L806.6 65.4L806.7 64.0L809.3 64.2L815.5 67.2L817.9 69.6L818.9 72.5L821.8 75.9L824.9 80.6L825.0 85.0L825.9 87.1L825.5 90.6L824.9 94.2L824.7 96.1L822.8 97.9L821.3 98.0L818.7 96.4L817.1 98.7L817.4 99.8ZM166.1 24.2L166.4 24.1L168.0 24.1L169.7 24.6L169.1 24.9L166.3 25.3L163.7 25.4ZM579.0 88.1L579.5 87.3L581.3 88.0L582.1 88.1L582.5 88.7L582.9 88.8L583.0 89.1L584.3 89.8L586.7 89.6L586.4 90.7L583.9 91.3L581.0 93.1L579.6 92.4L579.8 91.0L577.1 90.1L577.4 89.5L579.5 88.5L579.0 88.1Z"},{"id":"646","name":"Rwanda","d":"M584.5 254.2L585.6 256.4L585.4 258.6L584.6 259.0L583.1 258.8L582.3 260.9L580.6 260.6L580.9 258.6L581.2 258.3L581.4 256.1L582.2 255.0L582.8 255.4L584.5 254.2Z"},{"id":"728","name":"S. Sudan","d":"M585.6 236.9L583.1 234.4L582.4 232.8L580.9 233.6L579.6 233.3L578.9 234.0L577.6 233.5L575.9 230.4L575.4 229.2L573.3 227.8L572.6 225.5L571.4 223.9L569.5 222.0L569.5 220.8L567.9 219.3L566.0 217.8L566.8 217.4L567.8 216.7L568.4 213.4L569.1 211.7L571.1 211.1L571.6 212.2L573.1 214.3L573.8 214.7L574.8 214.0L576.8 214.1L577.2 214.9L579.9 214.9L580.0 214.1L581.4 213.4L581.7 212.4L582.7 211.6L585.1 213.8L586.5 213.4L587.8 210.7L589.2 208.7L588.9 206.4L588.2 205.4L589.8 205.2L590.0 204.3L591.3 204.6L591.0 207.3L591.5 210.0L593.0 211.5L593.3 212.7L593.3 214.6L593.7 214.7L593.9 217.6L593.5 218.7L592.0 218.8L591.1 220.9L592.8 221.2L594.3 223.0L594.8 224.5L596.1 225.3L597.8 229.4L596.0 231.9L594.3 234.1L592.6 235.8L590.7 235.8L588.5 236.7L586.7 235.9L585.6 236.9Z"},{"id":"682","name":"Saudi Arabia","d":"M591.1 142.7L594.1 143.3L595.1 142.2L595.5 140.9L597.4 140.5L597.7 139.3L598.5 138.7L595.5 135.3L600.4 133.5L600.8 133.0L604.0 134.0L608.2 136.4L616.6 143.3L621.5 143.6L623.9 143.9L624.8 145.6L626.6 145.5L628.1 148.5L629.5 149.3L630.1 150.6L632.2 152.0L632.5 153.5L632.5 154.7L633.0 155.9L633.9 156.9L634.4 158.0L634.9 158.9L635.8 159.6L636.5 159.3L637.2 160.7L637.4 161.5L638.9 165.1L647.2 167.0L647.6 166.2L649.2 168.7L648.4 176.0L640.7 179.6L633.0 181.0L630.6 182.6L629.1 186.4L627.8 187.1L627.0 185.8L626.0 186.0L623.4 185.7L622.8 185.3L619.7 185.4L619.0 185.7L617.8 184.8L617.2 186.5L617.6 188.1L616.5 189.3L616.1 187.7L615.2 186.6L614.8 185.1L613.3 183.8L611.6 180.8L610.6 177.8L608.5 175.3L607.2 174.7L605.2 171.3L604.6 168.8L604.5 166.7L602.6 162.7L601.2 161.3L599.7 160.6L598.6 158.5L598.7 157.7L597.7 155.9L596.9 155.1L595.6 152.5L593.7 149.6L592.1 147.2L590.7 147.2L590.9 145.3L590.9 144.1L591.1 142.7Z"},{"id":"686","name":"Senegal","d":"M454.2 199.4L453.1 196.5L451.8 195.2L453.0 194.5L454.4 191.9L455.1 190.0L456.1 188.9L457.4 189.2L458.8 188.4L460.3 188.3L461.6 189.4L463.4 190.4L465.0 193.1L466.7 195.6L466.8 197.9L467.3 200.0L468.3 201.0L468.5 202.5L468.4 203.6L468.0 203.8L466.5 203.5L466.3 204.0L465.7 204.0L463.7 203.1L462.4 203.1L457.3 202.9L456.6 203.4L455.7 203.2L454.2 203.8L453.8 201.0L456.3 201.1L457.0 200.6L457.5 200.5L458.5 199.7L459.7 200.5L460.9 200.5L462.1 199.7L461.5 198.6L460.6 199.3L459.8 199.2L458.7 198.3L457.8 198.4L457.2 199.3L454.2 199.4Z"},{"id":"688","name":"Serbia","d":"M544.5 88.3L546.3 87.5L547.7 87.6L549.2 88.8L549.5 89.8L551.1 90.5L551.4 91.8L552.9 92.7L553.6 92.0L554.2 92.4L553.7 92.9L554.2 93.5L553.7 94.2L554.1 95.3L555.4 96.7L554.6 97.6L554.3 98.6L554.6 99.0L554.3 99.5L553.2 99.5L552.4 99.7L552.3 99.5L552.5 99.1L552.7 98.3L552.3 98.3L551.8 97.8L551.4 97.6L551.0 97.1L550.6 96.9L550.2 96.5L549.7 96.6L549.5 97.7L549.0 97.9L549.1 97.6L548.1 97.0L547.3 96.7L546.9 96.2L546.2 95.7L546.8 95.5L547.0 94.1L545.7 92.9L546.2 91.5L545.3 91.5L546.1 90.4L545.2 89.5L544.5 88.3Z"},{"id":"694","name":"Sierra Leone","d":"M463.4 216.8L464.9 215.1L465.2 214.1L465.7 213.3L466.5 213.2L467.1 212.5L469.3 212.5L470.1 213.8L470.7 215.4L470.6 216.5L471.0 217.4L471.0 218.8L471.7 218.6L470.4 220.3L469.2 222.4L469.0 223.4L468.3 224.6L467.6 224.4L465.6 222.9L464.2 220.9L463.7 219.5L463.4 216.8Z"},{"id":"703","name":"Slovakia","d":"M552.1 78.7L551.5 79.5L551.2 80.7L550.8 81.0L548.2 80.1L547.5 80.3L547.0 81.0L546.0 81.4L545.7 81.2L544.6 81.6L543.7 81.7L543.6 82.3L541.7 82.7L540.8 82.4L539.5 81.6L539.1 80.6L539.3 80.2L539.6 79.5L540.6 79.6L541.3 79.3L541.4 79.0L541.8 78.9L541.9 78.2L542.4 78.1L542.7 77.5L543.4 77.5L543.5 77.7L544.4 77.3L545.7 78.4L547.0 77.7L548.1 78.0L549.7 77.6L552.1 78.7Z"},{"id":"705","name":"Slovenia","d":"M532.5 86.5L534.5 86.7L535.6 86.0L537.6 85.9L538.1 85.4L538.5 85.5L539.0 86.5L537.2 87.3L537.1 88.5L536.3 88.8L536.4 89.7L535.4 89.6L534.6 89.1L534.2 89.7L532.5 89.5L533.0 89.3L532.4 88.0L532.5 86.5Z"},{"id":"090","name":"Solomon Is.","d":"M946.7 289.1L947.3 290.4L945.3 290.4L944.7 288.1L946.2 289.0L946.7 289.1ZM946.1 285.8L945.6 286.5L944.0 283.3L943.8 281.1L944.8 281.1L945.3 284.1L946.1 285.8ZM943.6 286.8L942.6 286.9L940.9 286.6L940.5 286.0L940.9 284.5L942.6 285.1L943.4 285.9L943.6 286.8ZM941.4 280.0L941.9 281.1L941.9 281.9L939.9 280.3L938.6 279.0L937.7 277.7L938.2 277.4L939.3 278.2L941.4 280.0ZM934.9 276.2L935.9 277.5L935.3 277.7L934.2 276.8L933.3 275.3L933.5 274.7L934.9 276.2Z"},{"id":"706","name":"Somalia","d":"M615.5 256.3L613.9 253.2L613.8 239.6L616.1 235.3L616.9 234.2L618.6 234.1L621.1 231.5L624.7 231.3L632.1 220.1L633.9 217.0L635.1 214.7L635.0 212.8L634.7 209.0L634.7 207.5L634.7 207.4L635.6 207.4L636.8 206.8L638.2 206.5L639.4 205.2L640.5 205.2L640.6 206.2L640.5 208.4L640.6 210.3L640.1 211.6L639.6 215.7L638.4 219.8L636.9 224.6L634.7 230.0L632.4 234.2L629.3 239.3L626.5 242.3L622.4 246.1L619.8 248.9L616.8 253.4L616.1 255.4L615.5 256.3Z"},{"id":"None","name":"Somaliland","d":"M634.7 207.4L634.7 207.5L634.7 209.0L635.0 212.8L635.1 214.7L633.9 217.0L632.1 220.1L629.8 220.1L620.6 215.7L619.5 214.4L618.4 212.6L617.3 210.6L617.8 209.2L618.7 207.3L619.6 207.9L620.3 209.5L621.6 211.0L622.9 211.0L625.5 210.1L628.5 209.6L630.8 208.5L632.2 208.3L633.1 207.6L634.7 207.4Z"},{"id":"710","name":"South Africa","d":"M542.7 354.6L544.1 352.9L545.1 353.8L545.4 355.3L546.6 355.6L548.2 356.2L549.6 356.0L552.0 354.2L552.8 341.2L553.5 341.7L554.9 345.1L554.5 347.2L555.0 348.5L556.9 348.1L558.4 346.5L559.7 345.5L560.4 343.8L561.8 342.9L562.9 343.4L564.1 344.4L566.2 344.5L568.0 343.7L568.3 342.6L568.9 340.9L570.4 340.6L571.3 339.3L572.3 336.9L574.9 334.2L578.9 331.6L580.0 331.6L581.2 332.2L582.1 331.8L583.5 332.2L584.4 337.2L584.9 339.7L584.1 343.7L584.2 345.0L582.9 344.3L582.1 344.6L581.8 345.6L580.9 346.9L580.8 348.2L582.2 350.1L583.8 349.7L584.5 348.1L586.5 348.1L585.6 350.7L585.0 353.6L584.1 355.2L582.2 357.0L581.6 357.5L580.3 359.2L579.4 361.0L577.7 363.5L574.4 367.0L572.4 369.1L570.3 370.6L567.5 371.9L566.1 372.1L565.7 373.0L564.2 372.5L562.9 373.2L560.2 372.5L558.6 372.9L557.6 372.8L554.8 374.1L552.6 374.6L550.9 375.9L549.8 376.0L548.8 374.8L547.9 374.7L546.9 373.2L546.8 373.7L546.5 372.8L546.7 370.8L546.0 368.5L546.9 367.9L547.0 365.3L545.5 362.0L544.4 359.1L544.4 359.1L542.7 354.6ZM575.6 355.9L574.6 354.8L573.3 355.5L571.8 356.9L570.2 359.1L571.9 361.8L572.8 361.4L573.4 360.3L574.9 359.8L575.5 358.6L576.4 357.0L575.6 355.9Z"},{"id":"410","name":"South Korea","d":"M814.9 114.2L814.9 113.9L816.1 114.1L816.2 112.6L817.9 112.4L818.8 112.2L818.7 111.4L823.1 115.3L824.9 117.4L827.0 121.3L827.1 123.1L825.1 123.8L823.8 125.2L821.6 125.5L820.4 123.6L819.6 121.1L816.6 117.6L818.2 117.1L814.9 114.2Z"},{"id":"724","name":"Spain","d":"M481.3 116.4L481.2 115.3L482.1 114.1L482.5 113.2L481.7 112.2L482.4 110.1L481.5 108.1L482.6 107.8L482.7 106.3L483.1 105.8L483.2 103.3L484.4 102.5L483.8 100.9L482.4 100.7L481.9 101.2L480.5 101.2L480.0 99.6L478.9 100.1L478.0 100.9L478.3 98.6L477.3 97.2L480.8 95.0L483.8 95.5L487.0 95.5L489.5 96.1L491.5 95.9L495.4 96.0L496.4 97.2L500.8 98.6L501.7 98.0L504.4 99.4L507.2 99.0L507.4 100.8L505.1 103.0L502.0 103.6L501.8 104.7L500.3 106.5L499.3 109.1L500.3 111.0L498.8 112.5L498.3 114.6L496.4 115.3L494.6 117.8L491.4 117.9L489.0 117.8L487.4 119.0L486.4 120.2L485.2 119.9L484.3 118.8L483.6 116.9L481.3 116.4Z"},{"id":"144","name":"Sri Lanka","d":"M726.3 221.9L726.1 225.8L725.0 226.8L722.6 227.7L721.1 224.7L720.3 219.4L721.1 213.3L723.2 215.4L724.6 218.0L726.3 221.9Z"},{"id":"729","name":"Sudan","d":"M567.9 219.3L565.8 217.6L564.8 216.6L564.6 215.4L565.0 213.9L564.9 212.3L563.3 210.0L562.9 208.4L562.9 207.5L561.9 206.5L561.8 204.3L561.2 202.9L560.2 203.1L560.5 201.7L561.1 200.2L560.8 198.7L561.6 197.5L561.0 196.7L561.7 194.4L562.8 191.7L565.2 192.0L564.4 177.5L564.3 176.0L567.4 175.9L567.0 168.7L577.8 168.7L588.2 168.7L598.8 168.7L600.0 172.3L599.5 172.9L600.2 176.6L601.5 181.0L602.6 181.9L604.2 183.2L603.0 185.3L601.0 185.9L600.2 187.0L600.1 189.5L599.3 194.9L599.7 196.3L599.4 199.5L598.5 203.1L596.9 205.0L595.9 207.8L595.6 209.3L594.4 210.3L593.7 214.2L593.9 217.6L593.7 214.7L593.3 214.6L593.3 212.7L593.0 211.5L591.5 210.0L591.0 207.3L591.3 204.6L590.0 204.3L589.8 205.2L588.2 205.4L588.9 206.4L589.2 208.7L587.8 210.7L586.5 213.4L585.1 213.8L582.7 211.6L581.7 212.4L581.4 213.4L580.0 214.1L579.9 214.9L577.2 214.9L576.8 214.1L574.8 214.0L573.8 214.7L573.1 214.3L571.6 212.2L571.1 211.1L569.1 211.7L568.4 213.4L567.8 216.7L566.8 217.4L566.0 217.8L567.9 219.3Z"},{"id":"740","name":"Suriname","d":"M348.6 241.3L347.0 240.6L345.7 240.9L344.6 240.6L344.3 241.7L344.7 242.4L344.5 243.2L343.0 242.9L341.3 239.6L341.0 237.5L340.1 237.5L339.0 234.8L339.5 232.9L339.4 232.0L341.1 231.0L341.7 227.7L345.0 228.4L345.3 227.7L347.5 227.5L350.5 228.5L348.9 231.7L349.1 234.2L350.1 236.5L349.6 238.1L349.3 239.8L348.6 241.3Z"},{"id":"752","name":"Sweden","d":"M523.3 51.8L524.1 50.4L525.7 48.7L526.1 45.8L524.6 44.6L524.2 41.4L525.3 39.3L527.2 39.3L527.8 38.4L527.0 37.7L529.7 34.6L531.2 32.3L532.3 30.8L534.1 30.8L534.4 29.7L538.1 30.0L538.1 28.7L539.3 28.7L542.0 29.6L545.4 31.0L546.2 34.2L547.0 35.0L543.8 35.6L542.2 37.1L542.7 38.5L539.9 40.3L536.3 42.3L535.3 45.7L537.1 47.4L539.3 48.8L537.8 51.6L535.7 52.2L535.4 56.5L534.5 59.0L531.8 58.7L530.8 60.9L528.3 61.0L527.4 58.5L525.3 55.5L523.3 51.8Z"},{"id":"756","name":"Switzerland","d":"M522.4 83.4L522.5 83.9L522.2 84.7L523.3 85.2L524.5 85.3L524.4 86.5L523.4 87.1L521.6 86.7L521.2 87.9L520.1 88.0L519.6 87.5L518.4 88.6L517.2 88.7L516.2 88.0L515.3 86.7L514.2 87.2L514.2 85.8L515.8 84.1L515.7 83.3L516.8 83.6L517.4 83.1L519.4 83.1L519.9 82.5L522.4 83.4Z"},{"id":"760","name":"Syria","d":"M591.6 131.2L591.6 131.1L591.8 130.6L591.6 129.2L592.0 127.4L593.2 126.1L592.6 124.8L591.4 124.6L590.8 122.0L591.2 120.6L591.8 119.9L592.3 119.2L592.2 117.3L593.1 118.0L595.7 117.1L597.2 117.7L599.2 117.7L601.9 116.4L603.3 116.5L606.0 116.0L605.1 118.0L603.9 118.9L604.5 121.3L604.3 125.4L599.2 128.9L594.7 132.5L591.6 131.2Z"},{"id":"158","name":"Taiwan","d":"M823.7 160.2L824.0 165.9L823.7 168.8L821.4 165.8L820.3 163.2L820.7 159.7L821.9 157.0L823.5 158.0L823.7 160.2Z"},{"id":"762","name":"Tajikistan","d":"M669.9 116.2L670.3 112.9L669.0 110.5L666.9 109.7L667.1 108.3L669.2 108.4L669.8 106.6L669.9 104.6L672.9 103.8L672.9 105.3L673.6 106.2L674.6 106.1L674.0 107.1L671.1 106.6L671.5 108.4L674.1 108.2L677.5 109.2L682.0 108.7L683.7 111.8L684.4 111.4L686.1 112.2L686.5 113.5L687.5 115.3L684.9 115.3L683.1 115.1L682.0 116.6L681.0 116.9L680.4 117.6L679.0 116.5L678.4 113.7L677.6 113.6L677.5 112.6L675.9 111.8L675.2 113.0L675.4 114.3L675.2 114.8L673.6 114.7L673.3 116.2L672.3 115.6L670.8 116.6L669.9 116.2Z"},{"id":"834","name":"Tanzania","d":"M594.2 253.6L594.6 254.0L604.6 261.6L604.8 263.8L608.7 267.5L607.3 272.1L607.4 274.2L609.2 275.6L609.2 276.5L608.4 278.8L608.5 279.9L608.3 281.7L609.2 284.0L610.2 287.7L611.1 288.5L608.8 290.6L605.8 292.1L604.1 292.0L603.1 293.1L601.2 293.2L600.4 293.7L597.2 292.7L595.1 293.0L594.5 287.9L593.6 286.2L593.1 285.2L590.4 284.5L588.9 283.4L587.2 282.7L586.1 282.1L585.0 281.2L583.6 276.5L582.0 274.4L581.5 272.2L581.8 270.3L581.4 266.8L582.5 266.7L583.6 265.3L584.7 263.4L585.4 262.6L585.3 261.4L584.7 260.5L584.6 259.0L585.4 258.6L585.6 256.4L584.5 254.2L585.5 253.8L588.5 253.8L594.2 253.6Z"},{"id":"764","name":"Thailand","d":"M788.0 196.9L785.3 196.3L781.9 197.0L780.6 200.1L781.9 204.6L779.2 202.9L776.8 202.9L776.8 200.0L774.4 200.1L774.8 204.1L774.0 209.5L773.4 212.8L773.9 215.5L775.7 215.6L777.2 219.0L777.9 222.2L779.6 224.4L781.4 224.8L782.9 226.7L782.1 228.3L780.3 228.7L780.0 226.8L777.6 225.2L777.2 225.8L776.0 224.4L775.4 222.6L773.7 220.5L772.2 218.7L772.0 220.9L771.3 218.8L771.3 216.5L771.8 212.9L772.7 209.1L773.8 205.7L772.3 202.3L772.1 200.6L771.4 198.5L769.2 195.6L768.2 193.7L769.1 193.1L769.5 189.9L768.0 187.5L765.8 184.8L763.8 181.6L764.8 180.9L765.3 177.0L767.1 176.9L768.4 175.3L769.7 174.4L771.1 175.6L771.8 177.7L773.6 177.9L773.8 181.7L774.5 185.0L776.9 182.8L777.9 183.5L779.4 183.4L779.7 182.1L781.8 182.3L784.5 185.3L785.4 188.9L788.1 192.1L788.6 195.2L788.0 196.9Z"},{"id":"626","name":"Timor-Leste","d":"M845.1 283.2L845.6 282.3L848.0 281.5L850.0 281.4L850.9 280.9L851.9 281.4L850.8 282.4L847.7 284.0L845.2 285.1L845.3 283.9L845.1 283.2Z"},{"id":"768","name":"Togo","d":"M502.5 209.0L502.1 210.9L503.0 212.0L503.9 213.3L504.0 215.1L504.6 215.9L504.5 224.5L505.2 227.0L502.9 227.8L502.3 226.5L501.6 224.2L501.4 222.3L502.0 218.9L501.3 217.6L501.0 214.7L501.0 212.0L499.9 210.1L500.1 208.9L502.5 209.0Z"},{"id":"780","name":"Trinidad and Tobago","d":"M330.1 209.9L331.7 209.4L332.3 209.5L332.0 212.3L329.7 212.7L329.2 212.3L330.1 211.3L330.1 209.9Z"},{"id":"788","name":"Tunisia","d":"M524.6 139.4L523.3 133.2L521.7 131.8L521.6 131.0L519.5 129.0L519.2 126.4L520.7 124.6L521.2 121.8L520.7 118.6L521.1 116.9L523.8 115.6L525.6 116.0L525.6 117.6L527.6 116.4L527.8 117.1L526.7 118.7L526.7 120.2L527.6 121.1L527.4 124.0L525.8 125.7L526.4 127.5L527.7 127.6L528.4 129.2L529.4 129.7L529.4 132.3L528.2 133.3L527.4 134.4L525.7 135.7L526.0 137.1L525.8 138.6L524.6 139.4Z"},{"id":"792","name":"Turkey","d":"M612.1 116.2L611.0 116.7L610.0 115.9L607.0 115.4L606.0 116.0L603.3 116.5L601.9 116.4L599.2 117.7L597.2 117.7L595.7 117.1L593.1 118.0L592.2 117.3L592.3 119.2L591.8 119.9L591.2 120.6L590.1 119.1L590.8 117.9L589.3 118.2L587.1 117.4L585.7 119.3L581.9 119.7L579.6 117.9L576.9 117.8L576.5 119.2L574.8 119.6L572.2 117.8L569.4 117.9L567.5 114.6L565.5 112.7L566.4 110.2L564.6 108.6L567.0 105.5L570.7 105.4L571.4 103.0L576.2 103.4L578.8 101.3L581.4 100.4L585.4 100.4L590.1 102.6L593.8 103.8L596.6 103.4L598.8 103.6L601.3 102.0L603.9 101.8L606.6 103.4L607.2 104.5L607.3 106.1L609.3 106.9L610.5 107.8L609.0 108.8L610.5 112.5L610.2 113.5L612.1 116.2ZM563.5 101.0L565.9 100.0L568.0 100.5L568.5 101.7L570.8 102.7L570.4 103.5L567.6 103.7L566.7 104.7L564.8 106.4L563.9 104.9L563.8 104.2L564.3 103.9L564.8 101.9L563.5 101.0Z"},{"id":"795","name":"Turkmenistan","d":"M627.8 101.2L628.6 100.1L631.2 99.5L633.0 100.4L635.4 102.8L636.6 102.7L639.4 102.6L638.5 101.0L640.3 99.9L641.8 98.1L645.6 99.8L646.6 102.3L647.7 103.0L650.3 102.8L651.3 103.4L653.5 106.7L657.0 109.0L659.1 110.5L662.1 112.1L665.9 113.5L666.4 115.5L665.6 115.4L664.2 114.5L664.1 115.7L662.2 116.4L662.4 119.0L661.3 120.0L659.4 120.5L659.3 122.0L657.5 122.5L654.6 121.2L653.7 118.4L651.8 118.3L648.1 115.4L646.0 115.0L642.8 113.3L641.0 113.0L640.1 113.6L638.4 113.5L637.1 115.4L635.0 116.1L634.0 113.7L633.5 110.3L631.3 109.2L631.4 107.0L629.7 106.8L629.6 104.1L632.1 104.9L633.9 103.8L631.7 101.9L630.5 100.1L628.7 100.9L629.1 103.3L627.8 101.2Z"},{"id":"800","name":"Uganda","d":"M594.2 253.6L588.5 253.8L585.5 253.8L584.5 254.2L582.8 255.4L582.2 255.0L582.2 252.2L582.8 250.8L583.0 247.8L583.6 246.0L584.6 244.1L585.7 243.1L586.6 241.8L585.5 241.2L585.6 236.9L586.7 235.9L588.5 236.7L590.7 235.8L592.6 235.8L594.3 234.1L595.7 236.7L596.0 238.6L597.3 242.9L596.3 245.6L594.9 248.1L594.1 249.6L594.2 253.6Z"},{"id":"804","name":"Ukraine","d":"M571.6 70.0L572.4 70.1L572.9 69.5L573.6 69.6L575.8 69.4L577.7 71.0L577.2 71.5L577.6 72.4L579.5 72.6L580.6 73.8L580.6 74.4L583.8 75.4L585.4 74.9L587.2 76.3L588.5 76.3L592.1 77.2L592.4 78.1L591.8 79.6L592.7 81.3L592.6 82.3L590.4 82.5L589.4 83.3L589.6 84.7L587.8 84.9L586.4 85.9L584.3 86.1L582.5 87.2L582.9 88.8L582.5 88.7L582.1 88.1L581.3 88.0L579.5 87.3L579.0 88.1L578.7 87.8L574.8 87.0L574.5 85.9L572.4 86.2L571.8 87.9L570.3 90.2L569.2 89.7L568.1 90.2L567.0 89.6L567.5 89.3L567.8 88.2L568.3 87.2L568.0 86.7L568.4 86.4L568.7 86.9L570.2 87.0L570.7 86.7L570.2 86.4L570.3 86.0L569.4 85.2L568.8 83.9L567.9 83.4L567.9 82.4L566.7 81.6L565.7 81.5L563.8 80.6L562.3 80.9L561.9 81.3L560.9 81.3L560.4 82.0L558.7 82.3L558.0 82.8L556.8 82.0L555.3 82.0L553.8 81.7L552.9 82.3L552.6 81.5L551.2 80.7L551.5 79.5L552.1 78.7L552.6 78.9L551.8 77.6L553.5 75.2L554.6 74.8L554.7 74.0L553.2 71.5L554.3 71.4L555.4 70.6L557.1 70.6L559.4 70.8L562.1 71.5L563.9 71.5L564.8 71.9L565.6 71.4L566.3 72.1L568.3 72.0L569.3 72.3L569.1 70.8L569.7 70.2L571.6 70.0Z"},{"id":"784","name":"United Arab Emirates","d":"M637.2 160.7L637.6 160.5L637.9 161.5L639.9 160.9L642.1 161.0L643.7 161.1L645.2 158.7L646.8 156.5L648.1 154.3L648.8 155.5L649.6 158.3L648.3 158.3L648.4 160.6L649.0 161.1L647.9 161.8L648.1 163.3L647.5 164.8L647.6 166.2L647.2 167.0L638.9 165.1L637.4 161.5L637.2 160.7Z"},{"id":"826","name":"United Kingdom","d":"M486.3 65.1L484.6 64.5L483.2 64.5L483.8 63.1L483.4 61.6L485.2 61.5L487.5 63.2L486.3 65.1ZM493.1 66.4L493.1 66.4L493.5 64.8L492.0 63.1L492.0 63.0L489.3 62.5L488.9 61.8L489.7 60.6L489.0 59.9L487.8 61.1L487.8 58.5L486.7 57.2L487.6 54.5L489.4 52.4L491.1 52.6L493.6 52.4L491.3 55.2L493.5 54.8L495.8 54.8L495.2 57.0L493.2 59.3L495.5 59.5L495.6 59.8L497.5 63.0L499.1 63.4L500.4 66.6L501.1 67.7L503.8 68.2L503.5 70.0L502.4 70.9L503.3 72.3L501.3 73.8L498.2 73.8L494.3 74.6L493.3 74.0L491.7 75.4L489.6 75.1L488.0 76.2L486.8 75.6L490.2 72.6L492.3 71.9L492.3 71.9L488.7 71.5L488.1 70.3L490.5 69.5L489.3 67.9L489.8 66.1L493.1 66.4Z"},{"id":"840","name":"United States of America","d":"M216.3 79.0L222.8 79.0L229.7 79.0L232.0 79.0L239.0 79.0L245.8 79.0L252.7 79.0L259.7 79.0L267.5 79.0L275.4 79.0L280.2 79.0L280.9 77.9L281.7 77.9L281.1 79.5L281.5 80.0L283.1 80.2L285.2 80.6L286.9 81.6L289.0 81.2L291.4 81.9L292.2 81.9L294.7 81.1L296.3 82.2L298.0 83.3L299.4 84.3L300.7 85.3L300.6 86.1L301.0 86.4L300.7 86.7L301.3 86.8L301.9 86.5L301.7 87.2L301.9 87.7L302.5 87.7L302.7 88.0L302.2 88.6L304.0 90.0L303.2 92.8L302.5 95.5L301.0 97.4L299.1 99.1L298.1 100.2L297.9 100.6L298.0 101.0L298.6 101.5L299.2 101.5L302.7 99.8L305.4 99.3L309.2 97.8L309.4 97.4L309.6 96.5L309.5 95.9L310.8 95.4L313.1 95.3L315.3 95.4L316.6 94.1L317.0 93.9L320.5 91.7L321.8 91.1L325.4 91.1L329.8 91.1L330.3 90.3L331.1 90.1L332.3 89.7L333.7 88.3L335.4 85.9L338.1 83.6L338.6 84.4L340.4 83.9L341.1 84.8L339.4 88.9L340.3 90.7L340.4 91.7L337.3 93.2L334.4 94.3L331.5 95.2L329.6 97.0L328.9 97.8L328.2 99.4L328.4 101.1L329.4 101.2L329.6 100.0L330.1 100.7L329.5 101.6L327.7 102.2L326.6 102.1L324.6 102.7L323.4 102.8L322.0 103.0L319.6 103.9L323.4 103.3L323.9 103.9L320.1 104.9L318.6 104.9L318.8 104.5L317.7 105.4L318.4 105.5L317.0 107.8L314.4 110.3L314.5 109.5L314.0 109.3L313.5 108.5L313.4 110.3L313.8 110.9L313.4 112.1L312.2 113.4L309.9 116.0L309.7 115.9L311.2 113.6L310.4 112.4L311.0 109.7L310.1 111.1L309.9 113.2L308.4 112.6L309.8 113.7L308.8 116.8L309.5 117.1L309.3 118.2L308.6 121.5L306.3 124.0L303.3 125.0L301.0 127.0L299.7 127.2L298.0 128.5L297.3 129.6L293.8 131.8L291.9 133.5L290.1 135.5L289.0 137.9L288.8 140.3L288.8 143.3L289.3 145.8L289.0 147.3L289.2 151.4L288.5 153.7L288.1 155.1L286.9 157.3L286.1 157.7L284.8 157.3L284.8 155.7L284.0 154.9L283.3 151.9L282.8 149.2L282.7 147.8L283.9 145.5L283.7 143.6L282.4 140.7L281.6 140.2L278.5 141.7L278.1 141.6L277.3 139.9L275.9 139.1L272.9 139.5L270.7 139.1L268.6 139.4L267.4 139.9L267.6 140.8L267.1 142.2L267.5 142.9L266.8 143.4L266.0 142.9L264.8 143.5L263.0 143.4L261.6 141.6L259.2 142.0L257.5 141.2L255.8 141.5L253.4 142.3L250.2 144.9L247.1 146.4L245.2 148.0L244.1 149.6L243.4 152.0L243.0 153.7L243.2 154.9L242.1 155.0L240.5 154.3L238.7 153.2L238.5 151.5L238.6 149.0L237.7 147.0L237.5 145.0L237.0 142.6L235.6 141.2L233.4 141.3L230.9 144.0L229.1 143.0L228.1 142.0L228.1 140.0L227.9 138.2L226.9 136.7L226.0 135.6L225.5 134.4L221.1 134.4L220.5 135.8L218.5 135.8L213.3 135.9L208.4 133.4L205.2 131.8L205.8 131.1L202.4 131.5L199.3 131.7L199.7 130.0L198.9 128.0L197.9 127.6L198.1 126.7L196.7 126.5L196.2 125.6L194.0 125.3L193.6 124.7L194.2 122.9L193.5 119.5L193.8 114.9L194.3 114.1L193.8 113.1L193.4 110.3L194.6 107.7L194.3 105.9L196.5 103.2L198.1 100.5L198.9 98.1L201.8 95.1L203.9 92.3L206.1 89.5L208.6 85.4L209.8 82.8L210.1 81.4L210.9 80.8L213.5 81.9L212.6 84.7L213.8 83.9L215.2 81.4L216.3 79.0ZM80.9 175.7L81.3 176.0L81.6 176.5L81.8 177.7L81.7 177.9L80.4 178.7L79.3 179.3L78.7 179.9L78.2 179.4L78.6 178.4L78.6 177.0L78.9 176.6L79.6 176.0L79.6 175.3L79.9 175.0L80.1 175.1L80.9 175.7ZM80.2 173.2L79.8 173.6L78.8 173.9L78.6 173.1L78.4 172.8L78.5 172.6L78.8 172.3L79.7 172.6L80.2 173.2ZM78.7 171.7L78.4 172.1L77.0 172.0L77.4 171.5L78.7 171.7ZM76.0 169.8L76.1 170.0L76.5 171.2L76.2 171.4L76.1 171.3L75.2 171.2L75.1 170.4L75.1 170.3L76.0 169.8ZM73.1 168.0L72.8 168.8L72.4 169.2L71.7 168.5L72.0 168.2L72.5 167.9L73.1 168.0ZM153.0 48.0L154.3 48.2L153.2 49.2L151.4 49.6L150.6 49.1L150.3 48.4L153.0 48.0ZM172.9 54.1L174.1 54.3L174.1 55.1L170.7 56.3L167.4 57.3L167.1 56.6L168.2 55.4L171.3 54.5L172.9 54.1ZM233.4 27.5L222.7 35.0L205.8 48.2L207.8 48.3L209.0 49.0L209.2 50.0L209.2 51.7L212.9 50.3L215.9 49.5L215.6 50.8L215.8 51.8L216.5 53.0L215.9 54.8L215.0 57.8L217.1 59.5L215.5 61.2L213.0 62.5L212.8 61.5L211.7 60.6L213.4 58.3L212.8 56.2L214.2 53.7L212.3 53.5L209.0 53.5L207.3 52.7L206.0 50.1L204.5 49.6L201.9 48.7L198.7 49.0L196.0 47.8L194.9 46.8L191.9 47.3L190.2 49.0L188.8 49.2L185.8 49.7L182.9 50.5L179.8 51.1L181.4 49.6L185.4 47.2L188.6 46.4L188.8 45.8L184.4 47.2L180.9 48.8L175.6 50.6L175.6 51.8L171.3 53.6L167.7 54.7L164.6 55.5L162.6 56.7L157.6 58.0L155.4 59.3L151.5 60.4L150.3 60.2L147.3 61.0L144.0 61.9L141.1 62.8L136.4 63.6L136.6 63.1L140.5 61.9L143.7 61.0L147.8 59.6L150.8 59.3L153.2 58.2L158.2 56.6L159.3 56.1L162.0 55.1L164.8 53.2L167.8 51.7L164.4 52.4L164.3 52.0L162.0 52.9L162.2 51.6L160.5 52.6L161.3 51.3L157.9 52.3L156.6 52.3L158.4 50.8L160.0 49.9L159.9 49.0L156.5 49.5L156.3 48.3L155.7 47.7L157.7 46.3L157.6 45.3L160.4 43.9L164.0 42.6L166.5 41.4L168.4 41.2L169.2 41.6L172.5 40.5L173.7 40.7L176.2 40.0L177.4 38.9L176.9 38.5L179.7 37.7L178.4 37.7L175.6 38.2L174.2 38.7L173.4 38.2L170.2 38.4L168.1 37.9L168.6 37.0L168.2 35.7L172.4 34.8L178.5 33.8L180.1 33.8L178.1 34.9L182.4 34.8L182.9 33.5L181.8 32.7L182.1 31.6L181.7 30.8L180.1 30.1L183.0 29.1L186.5 29.0L190.4 28.1L192.4 27.2L195.9 26.3L198.1 26.1L203.0 25.3L204.5 25.4L209.0 24.4L211.2 24.8L211.2 25.6L212.6 25.3L215.6 25.4L214.8 25.8L217.1 26.1L219.3 26.0L222.4 26.5L225.7 26.7L226.8 27.0L229.8 26.7L231.8 27.2L233.4 27.5ZM154.2 39.9L154.8 40.4L156.4 40.1L157.1 40.7L158.6 41.1L158.1 41.3L155.8 41.8L155.0 41.3L154.9 40.9L152.9 41.0L152.8 40.8L154.2 39.9Z"},{"id":"858","name":"Uruguay","d":"M350.4 360.3L352.0 359.9L355.2 362.6L356.1 362.5L359.2 364.7L361.6 366.6L363.5 368.9L362.7 370.5L363.8 372.4L363.2 374.6L360.7 376.4L358.7 375.8L357.4 376.1L354.7 374.7L353.0 374.8L351.1 372.9L350.8 370.7L351.1 370.0L350.4 366.6L350.3 363.0L350.4 360.3Z"},{"id":"860","name":"Uzbekistan","d":"M636.6 102.7L633.2 91.1L638.7 89.3L639.2 89.5L643.6 91.8L646.0 92.9L649.2 95.7L651.9 95.3L655.9 95.0L659.6 97.3L660.5 100.5L661.7 100.5L663.0 103.1L666.2 103.2L667.3 104.8L668.3 104.7L668.5 102.5L671.0 100.2L672.2 99.6L673.0 100.0L671.7 102.0L673.9 103.2L675.4 102.4L678.9 104.1L676.5 106.4L674.6 106.1L673.6 106.2L672.9 105.3L672.9 103.8L669.9 104.6L669.8 106.6L669.2 108.4L667.1 108.3L666.9 109.7L669.0 110.5L670.3 112.9L669.9 116.2L667.8 115.5L666.4 115.5L665.9 113.5L662.1 112.1L659.1 110.5L657.0 109.0L653.5 106.7L651.3 103.4L650.3 102.8L647.7 103.0L646.6 102.3L645.6 99.8L641.8 98.1L640.3 99.9L638.5 101.0L639.4 102.6L636.6 102.7Z"},{"id":"548","name":"Vanuatu","d":"M956.0 309.1L957.1 311.2L956.0 311.7L955.6 310.1L956.0 309.1ZM955.1 308.3L955.0 307.2L955.7 304.4L956.7 305.6L956.3 308.5L955.7 308.1L955.1 308.3Z"},{"id":"862","name":"Venezuela","d":"M331.6 230.6L332.0 231.6L330.9 233.0L327.8 234.4L325.7 235.0L324.9 235.9L322.7 235.0L320.7 234.5L320.2 234.8L321.4 235.8L321.2 238.3L321.6 240.7L323.9 241.0L324.0 241.8L322.0 242.8L321.7 244.4L320.5 245.0L318.5 245.9L317.9 247.0L315.8 247.3L314.3 245.3L313.5 241.6L312.7 240.3L311.8 239.4L313.2 237.6L313.1 236.7L312.4 235.6L311.9 233.2L312.2 230.5L312.9 229.2L313.4 227.2L312.5 226.6L310.9 227.0L308.9 226.8L307.8 227.2L306.0 224.0L304.4 223.5L300.8 223.9L300.2 222.6L299.6 222.3L299.5 221.5L299.9 220.1L299.8 218.6L299.3 217.8L299.0 216.1L297.6 215.8L298.5 213.7L299.1 211.0L300.0 209.6L301.2 208.6L302.0 206.7L303.8 206.1L303.7 207.0L302.0 207.4L302.8 209.1L302.6 211.0L301.2 213.2L302.0 216.1L303.2 215.9L304.1 213.2L303.3 211.9L303.4 209.1L307.0 207.6L306.7 205.8L307.8 204.7L308.6 207.3L310.5 207.3L312.1 209.4L312.1 210.6L314.6 210.7L317.5 210.3L319.0 211.9L321.1 212.4L322.7 211.2L322.8 210.3L326.2 210.1L329.5 210.0L327.1 211.1L327.9 212.9L330.1 213.1L332.1 215.0L332.4 218.0L333.8 217.9L334.8 218.7L332.5 220.9L332.2 222.3L333.1 223.7L332.4 224.4L330.7 225.0L330.6 226.7L329.9 227.7L331.6 230.6Z"},{"id":"704","name":"Vietnam","d":"M787.5 210.9L789.7 209.4L792.6 209.1L791.1 206.9L795.3 204.0L795.0 199.6L793.9 197.1L793.8 193.5L792.6 190.9L790.1 188.3L787.7 185.1L784.6 180.8L780.8 178.6L781.3 177.3L782.8 176.4L781.1 173.2L777.7 173.2L775.7 169.9L773.5 167.1L774.7 166.2L776.8 166.2L779.3 165.8L781.1 163.9L782.7 165.2L785.3 165.9L785.5 168.0L787.1 169.4L790.1 170.3L787.2 173.4L785.8 176.9L785.8 179.4L788.7 183.2L792.2 188.0L795.1 190.2L797.3 193.2L799.7 200.0L800.3 206.5L798.4 208.9L795.5 211.3L793.6 214.4L790.5 217.9L789.3 215.5L789.8 213.0L787.5 210.9Z"},{"id":"732","name":"W. Sahara","d":"M477.2 148.6L477.3 148.9L477.2 149.6L477.0 154.9L468.4 154.7L468.2 163.8L465.6 164.1L464.9 166.0L465.3 171.2L454.7 171.1L454.1 172.3L454.3 170.8L454.3 170.8L460.4 170.5L460.8 169.2L461.9 167.6L463.0 162.7L466.8 158.8L468.2 154.4L469.0 154.1L470.0 151.4L472.2 151.0L473.2 151.4L474.4 151.4L475.2 150.6L476.9 150.5L476.9 148.6L477.2 148.6Z"},{"id":"887","name":"Yemen","d":"M640.7 179.6L643.4 185.6L644.6 188.2L642.7 189.1L642.3 190.8L642.4 192.0L639.8 193.6L635.5 195.3L633.3 197.9L632.1 198.1L631.3 197.9L629.8 199.4L628.1 200.1L625.8 200.3L625.1 200.5L624.6 201.5L623.9 201.7L623.5 202.7L622.1 202.6L621.3 203.1L619.4 202.9L618.5 200.8L618.5 198.7L618.0 197.7L617.3 194.9L616.4 193.4L616.9 193.2L616.5 191.6L616.8 190.9L616.5 189.3L617.6 188.1L617.2 186.5L617.8 184.8L619.0 185.7L619.7 185.4L622.8 185.3L623.4 185.7L626.0 186.0L627.0 185.8L627.8 187.1L629.1 186.4L630.6 182.6L633.0 181.0L640.7 179.6Z"},{"id":"894","name":"Zambia","d":"M585.0 281.2L586.1 282.1L587.2 282.7L588.9 283.4L590.4 284.5L591.7 286.1L592.3 289.3L591.8 290.3L591.1 293.3L591.5 296.3L590.6 297.6L589.6 301.1L591.0 302.0L582.5 305.0L582.6 307.7L580.5 308.2L578.9 309.6L578.5 310.9L577.5 311.2L575.0 314.2L573.4 316.6L572.5 316.6L571.6 316.2L568.6 315.8L568.1 315.5L568.1 315.2L567.1 314.4L565.3 314.2L563.1 315.0L561.4 312.8L559.7 309.8L560.2 298.1L565.9 298.1L565.7 296.8L566.2 295.4L565.7 293.7L566.1 291.9L565.8 290.8L566.8 290.9L566.9 292.0L568.2 291.9L569.9 292.3L570.8 293.9L573.0 294.5L574.7 293.3L575.3 295.2L577.4 295.7L578.3 297.3L579.4 299.3L581.4 299.4L581.4 295.4L580.6 296.1L578.7 294.6L578.0 294.0L578.5 290.3L579.1 285.9L578.5 284.2L579.4 281.8L580.2 281.4L583.9 280.8L585.0 281.2Z"},{"id":"716","name":"Zimbabwe","d":"M583.5 332.2L582.1 331.8L581.2 332.2L580.0 331.6L578.9 331.6L577.3 330.0L575.2 329.4L574.6 327.1L574.7 325.9L573.5 325.5L570.7 321.5L570.0 319.4L569.5 318.7L568.6 315.8L571.6 316.2L572.5 316.6L573.4 316.6L575.0 314.2L577.5 311.2L578.5 310.9L578.9 309.6L580.5 308.2L582.6 307.7L582.7 309.0L585.0 309.0L586.2 309.7L586.8 310.6L588.0 310.9L589.4 312.1L589.1 316.7L588.4 319.2L588.1 321.9L588.5 323.0L588.0 325.1L587.6 325.5L586.7 328.1L583.5 332.2Z"},{"id":"748","name":"eSwatini","d":"M584.5 348.1L583.8 349.7L582.2 350.1L580.8 348.2L580.9 346.9L581.8 345.6L582.1 344.6L582.9 344.3L584.2 345.0L584.4 346.6L584.5 348.1Z"}];
+
+</script>
+<script>
+(function(){
+  var M = window.COUNTRY_METRICS || {};
+  var TECHS = window.TECHNOLOGIES || [];
+  if (!window.MAP_DEMO) { var w = document.getElementById('warn'); if (w) w.remove(); }
+
+  var LAYERS = {
+    ai: {
+      unit: "Share of employment in cognitive and routine-cognitive occupations exposed to AI (%).",
+      note: "Exposure rises with the share of professional, managerial and clerical work, so this layer tends to favour richer countries. It says which existing jobs AI can touch — not whether they are lost.",
+      ramp: ["#DDE5F7","#A9BEEA","#6E8FD8","#3A5EB8","#15265B"]
+    },
+    robotics: {
+      unit: "Share of employment in the routine-manual occupations robotics targets (%).",
+      note: "Vulnerability, not adoption. Robots are installed overwhelmingly in rich countries and China, so a robot-density map would light up the same places as layer one. What this shows is where the targeted work is done.",
+      ramp: ["#F3E0E0","#DDAFAF","#C07A7C","#A34B4E","#8B2226"]
+    },
+    scarcity: {
+      unit: "Labour scarcity index (0–100). Higher means scarcer, costlier labour.",
+      note: "Not a risk measure. Ageing, high-wage countries automate because labour is scarce; a country with a young workforce and low wages has neither the pressure nor the arithmetic. Use the weighting control to apply this to either exposure layer.",
+      ramp: ["#E6EBE1","#C8D5BE","#A8BC9A","#7E9770","#4E6642"]
+    },
+    tech: {
+      unit: "Share of employment in the occupations this technology targets (%).",
+      note: "Unweighted, this shows where the targeted work is done. Weighted by scarcity, it shows where the machine plausibly pencils out — usually somewhere else, because cheap labour is itself a defence.",
+      ramp: ["#E4E7EA","#BFC7CE","#8D9AA6","#5A6874","#2B3540"]
+    }
+  };
+
+  var state = { layer: 'ai', tech: null, weighted: false, sel: null };
+
+  var g = document.getElementById('countries');
+  var stage = document.getElementById('stage');
+  var bubble = document.getElementById('bubble');
+  var picker = document.getElementById('picker');
+  var weight = document.getElementById('weight');
+  var paths = {};
+
+  function rec(name, id){ return M[name] || M[id] || {}; }
+
+  /* ---------- draw ---------- */
+  var frag = document.createDocumentFragment();
+  window.WORLD.forEach(function(c){
+    var p = document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d', c.d);
+    p.setAttribute('class','c');
+    p.setAttribute('tabindex','0');
+    p.setAttribute('role','button');
+    p.setAttribute('aria-label', c.name);
+    p.dataset.name = c.name;
+    p.dataset.id = c.id;
+    var t = document.createElementNS('http://www.w3.org/2000/svg','title');
+    t.textContent = c.name;
+    p.appendChild(t);
+    frag.appendChild(p);
+    paths[c.name] = p;
+    var o = document.createElement('option');
+    o.value = c.name; o.textContent = c.name;
+    picker.appendChild(o);
+  });
+  g.appendChild(frag);
+
+  /* ---------- values ---------- */
+  function raw(name, id){
+    if (state.layer === 'tech'){
+      if (!state.tech) return null;
+      var e = state.tech.exposure || {};
+      var v = (name in e) ? e[name] : (id in e ? e[id] : null);
+      return (typeof v === 'number') ? v : null;
+    }
+    var v2 = rec(name, id)[state.layer];
+    return (typeof v2 === 'number') ? v2 : null;
+  }
+
+  function weightable(){ return state.layer !== 'scarcity'; }
+
+  function value(name, id){
+    var v = raw(name, id);
+    if (v === null) return null;
+    if (!state.weighted || !weightable()) return v;
+    var s = rec(name, id).scarcity;
+    if (typeof s !== 'number') return null;
+    return v * s / 100;
+  }
+
+  function breaks(){
+    var vals = [];
+    window.WORLD.forEach(function(c){
+      var v = value(c.name, c.id);
+      if (v !== null) vals.push(v);
+    });
+    if (!vals.length) return null;
+    vals.sort(function(a,b){ return a - b; });
+    var q = [];
+    for (var i = 1; i <= 4; i++) q.push(vals[Math.floor(i * vals.length / 5)]);
+    return { q: q, min: vals[0], max: vals[vals.length-1] };
+  }
+
+  function bin(v, b){
+    if (v === null || !b) return -1;
+    for (var i = 0; i < b.q.length; i++) if (v < b.q[i]) return i;
+    return 4;
+  }
+
+  /* ---------- paint ---------- */
+  function paint(){
+    var L = LAYERS[state.layer];
+    var awaiting = (state.layer === 'tech' && !state.tech);
+    var b = awaiting ? null : breaks();
+
+    window.WORLD.forEach(function(c){
+      var p = paths[c.name];
+      if (awaiting){
+        p.setAttribute('fill', '#E8EBEE');
+        p.classList.remove('origin');
+        return;
+      }
+      var i = bin(value(c.name, c.id), b);
+      p.setAttribute('fill', i < 0 ? 'url(#nodata)' : L.ramp[i]);
+      p.classList.toggle('origin', !!(state.tech && state.tech.developerCountry === c.name));
+    });
+
+    var ramp = document.getElementById('ramp');
+    ramp.innerHTML = '';
+    if (!awaiting){
+      L.ramp.forEach(function(col, i){
+        var d = document.createElement('div');
+        d.style.background = col;
+        if (b){
+          var lo = i === 0 ? b.min : b.q[i-1];
+          var s = document.createElement('span');
+          s.textContent = lo.toFixed(0);
+          d.appendChild(s);
+        }
+        ramp.appendChild(d);
+      });
+    }
+
+    var unit = awaiting
+      ? 'Search for a technology above to shade the map.'
+      : L.unit + (state.weighted && weightable() ? ' Weighted by labour scarcity, so the figure is an index rather than a share.' : '');
+    document.getElementById('unit').textContent = unit;
+
+    var noteText = awaiting ? '' : ((state.tech && state.tech.note) ? state.tech.note : L.note);
+    document.getElementById('layerNoteText').textContent = noteText;
+    document.getElementById('layerNote').style.display = noteText ? '' : 'none';
+
+    var wrap = document.getElementById('weightWrap');
+    var off = !weightable();
+    wrap.dataset.off = off ? 'true' : 'false';
+    weight.disabled = off;
+
+    document.getElementById('techpanel').hidden = (state.layer !== 'tech');
+
+    var bar = document.getElementById('techbar');
+    if (state.tech && state.layer === 'tech'){
+      bar.hidden = false;
+      document.getElementById('techbarText').innerHTML =
+        'Shading by <b>' + esc(state.tech.name) + '</b>' +
+        (state.tech.status ? ' — ' + esc(state.tech.status) : '') +
+        (state.tech.developerCountry ? ', developed in ' + esc(state.tech.developerCountry) : '');
+    } else {
+      bar.hidden = true;
+    }
+
+    if (state.sel) fill(state.sel);
+  }
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c];
+  }); }
+
+  /* ---------- bubble ---------- */
+  function place(el){
+    var box = el.getBoundingClientRect(), host = stage.getBoundingClientRect();
+    var cx = box.left + box.width/2 - host.left, cy = box.top - host.top;
+    bubble.hidden = false;
+    bubble.classList.remove('below');
+    var bw = bubble.offsetWidth, bh = bubble.offsetHeight;
+    var left = Math.max(8, Math.min(cx - bw/2, host.width - bw - 8));
+    var top = cy - bh - 14;
+    if (top < 8){ top = cy + box.height + 14; bubble.classList.add('below'); }
+    bubble.style.left = left + 'px';
+    bubble.style.top = top + 'px';
+    bubble.style.setProperty('--tail', (cx - left) + 'px');
+  }
+
+  function fill(el){
+    var name = el.dataset.name, id = el.dataset.id;
+    var r = rec(name, id);
+    document.getElementById('b-name').textContent = name;
+
+    var tags = document.getElementById('b-tags');
+    tags.innerHTML = '';
+    (r.tags || []).forEach(function(t){ var s = document.createElement('span'); s.textContent = t; tags.appendChild(s); });
+
+    var host = document.getElementById('b-metrics');
+    host.innerHTML = '';
+    [['ai','AI and cognitive work',r.ai],
+     ['robotics','Robotics and manual work',r.robotics],
+     ['scarcity','Labour scarcity',r.scarcity]].forEach(function(row){
+      var d = document.createElement('div');
+      if (state.layer === row[0]) d.className = 'on';
+      var k = document.createElement('span'); k.className = 'k'; k.textContent = row[1];
+      var v = document.createElement('span');
+      if (typeof row[2] === 'number'){ v.className = 'v'; v.textContent = row[2].toFixed(0); }
+      else { v.className = 'v na'; v.textContent = 'no value'; }
+      d.appendChild(k); d.appendChild(v); host.appendChild(d);
+    });
+
+    if (state.layer === 'tech' && state.tech){
+      var d2 = document.createElement('div');
+      d2.className = 'on';
+      var k2 = document.createElement('span'); k2.className = 'k'; k2.textContent = state.tech.name;
+      var v2 = document.createElement('span');
+      var tv = raw(name, id);
+      if (tv === null){ v2.className = 'v na'; v2.textContent = 'no value'; }
+      else { v2.className = 'v'; v2.textContent = tv.toFixed(0); }
+      d2.appendChild(k2); d2.appendChild(v2); host.appendChild(d2);
+      if (state.tech.developerCountry === name){
+        var d3 = document.createElement('div');
+        d3.innerHTML = '<span class="k">Developer based here</span><span class="v">yes</span>';
+        host.appendChild(d3);
+      }
+    }
+
+    var body = document.getElementById('b-body');
+    if (r.notes && r.notes.trim()){ body.className = 'body'; body.innerHTML = r.notes; }
+    else { body.className = 'empty'; body.textContent = 'No note yet.'; }
+  }
+
+  function open(el){
+    if (state.sel) state.sel.classList.remove('sel');
+    state.sel = el;
+    el.classList.add('sel');
+    fill(el);
+    place(el);
+    picker.value = el.dataset.name;
+  }
+
+  function close(){
+    bubble.hidden = true;
+    if (state.sel){ state.sel.classList.remove('sel'); state.sel = null; }
+    picker.value = '';
+  }
+
+  /* ---------- technology search + directory ---------- */
+  var q = document.getElementById('techq');
+  var filterTarget = document.getElementById('techtarget');
+  var filterStatus = document.getElementById('techstatus');
+  var results = document.getElementById('results');
+  var countEl = document.getElementById('techcount');
+  var directory = document.getElementById('directory');
+  var dirBody = document.getElementById('dirbody');
+  var dirSort = document.getElementById('dirsort');
+
+  function opts(sel, values, allLabel){
+    sel.innerHTML = '';
+    var o = document.createElement('option'); o.value = ''; o.textContent = allLabel;
+    sel.appendChild(o);
+    values.forEach(function(v){
+      var x = document.createElement('option'); x.value = v; x.textContent = v; sel.appendChild(x);
+    });
+  }
+  function uniq(key){
+    return Array.from(new Set(TECHS.map(function(t){ return t[key]; }).filter(Boolean))).sort();
+  }
+  opts(filterTarget, uniq('target'), 'Any work type');
+  opts(filterStatus, uniq('status'), 'Any status');
+
+  function matches(){
+    var term = q.value.trim().toLowerCase();
+    var tt = filterTarget.value, ts = filterStatus.value;
+    return TECHS.filter(function(t){
+      if (tt && t.target !== tt) return false;
+      if (ts && t.status !== ts) return false;
+      if (!term) return true;
+      var hay = [t.name, t.developer, t.developerCountry, t.status, t.target,
+                 (t.occupations||[]).join(' '), (t.tags||[]).join(' ')].join(' ').toLowerCase();
+      return hay.indexOf(term) > -1;
+    });
+  }
+
+  function metaLine(t){
+    return [t.developer, t.developerCountry, (t.occupations||[]).join(' · ')]
+      .filter(Boolean).join(' · ');
+  }
+
+  function renderResults(){
+    var rows = matches();
+    countEl.textContent = rows.length + ' of ' + TECHS.length + ' technologies';
+    results.innerHTML = '';
+    if (!q.value.trim() && !filterTarget.value && !filterStatus.value){
+      return; /* empty search shows nothing; the directory is the browse path */
+    }
+    if (!rows.length){
+      var li = document.createElement('li');
+      li.className = 'none';
+      li.textContent = 'No technology matches that search.';
+      results.appendChild(li);
+      return;
+    }
+    rows.slice(0, 60).forEach(function(t){
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(!!state.tech && state.tech.id === t.id));
+      b.innerHTML = '<span class="nm">' + esc(t.name) +
+        '<span class="meta">' + esc(metaLine(t)) + '</span></span>' +
+        '<span class="st">' + esc(t.status || '') + '</span>';
+      b.addEventListener('click', function(){ pick(t.id); });
+      li.appendChild(b);
+      results.appendChild(li);
+    });
+  }
+
+  function renderDirectory(){
+    var rows = TECHS.slice();
+    var key = dirSort.value;
+    rows.sort(function(a,b){
+      var x = (a[key] || ''), y = (b[key] || '');
+      return String(x).localeCompare(String(y)) || String(a.name).localeCompare(String(b.name));
+    });
+    dirBody.innerHTML = '';
+    rows.forEach(function(t){
+      var tr = document.createElement('tr');
+      tr.tabIndex = 0;
+      if (state.tech && state.tech.id === t.id) tr.className = 'on';
+      tr.innerHTML =
+        '<td>' + esc(t.name) + '</td>' +
+        '<td>' + esc(t.status || '—') + '</td>' +
+        '<td>' + esc(t.target || '—') + '</td>' +
+        '<td>' + esc(t.developer || '—') + (t.developerCountry ? '<br><span style="color:var(--gray-text)">' + esc(t.developerCountry) + '</span>' : '') + '</td>' +
+        '<td class="occ">' + esc((t.occupations||[]).join(' · ')) + '</td>';
+      tr.addEventListener('click', function(){ pick(t.id); });
+      tr.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(t.id); }
+      });
+      dirBody.appendChild(tr);
+    });
+  }
+
+  function pick(id){
+    var t = TECHS.filter(function(x){ return x.id === id; })[0] || null;
+    state.tech = (state.tech && state.tech.id === id) ? null : t;
+    setLayer('tech', true);
+    renderResults();
+    renderDirectory();
+  }
+
+  q.addEventListener('input', renderResults);
+  filterTarget.addEventListener('change', renderResults);
+  filterStatus.addEventListener('change', renderResults);
+  dirSort.addEventListener('change', renderDirectory);
+
+  document.getElementById('dirtoggle').addEventListener('click', function(){
+    var open = directory.hidden;
+    directory.hidden = !open;
+    this.textContent = open ? 'Hide the directory' : 'Browse all ' + TECHS.length + ' technologies';
+    if (open) renderDirectory();
+  });
+  document.getElementById('dirtoggle').textContent = 'Browse all ' + TECHS.length + ' technologies';
+
+  document.getElementById('techClear').addEventListener('click', function(){
+    state.tech = null;
+    renderResults(); renderDirectory(); paint();
+  });
+
+  /* ---------- layer switching ---------- */
+  function setLayer(name, keepTech){
+    state.layer = name;
+    if (name !== 'tech' || !keepTech) { if (name !== 'tech') state.tech = null; }
+    Array.prototype.forEach.call(document.querySelectorAll('#layers button'), function(b){
+      b.setAttribute('aria-pressed', String(b.dataset.layer === name));
+    });
+    paint();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#layers button'), function(b){
+    b.addEventListener('click', function(){ setLayer(b.dataset.layer, true); });
+  });
+
+  weight.addEventListener('change', function(){ state.weighted = this.checked; paint(); });
+
+  g.addEventListener('click', function(e){
+    var p = e.target.closest('path');
+    if (p) open(p);
+  });
+  g.addEventListener('keydown', function(e){
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.tagName.toLowerCase() === 'path'){
+      e.preventDefault(); open(e.target);
+    }
+  });
+  picker.addEventListener('change', function(){
+    if (!this.value) return close();
+    var p = paths[this.value];
+    if (p){ open(p); p.scrollIntoView({ block: 'nearest' }); }
+  });
+  document.getElementById('b-close').addEventListener('click', close);
+  document.getElementById('clear').addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  window.addEventListener('resize', function(){ if (state.sel) place(state.sel); });
+
+  renderResults();
+  paint();
+})();
+
+</script>
+</body>
+</html>
