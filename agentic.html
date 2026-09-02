@@ -150,6 +150,34 @@ footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16p
 .slot{background:var(--white);padding:clamp(20px,3vw,30px);margin-top:20px;border-left:5px solid var(--sage)}
 .slot h4{margin:0 0 .5em;font-size:1rem;font-weight:700;color:var(--navy)}
 .slot .placeholder{color:var(--gray-text);font-style:italic;font-size:.9rem;margin:0}
+
+/* ---------- clickable equation ---------- */
+.eqnav{background:var(--navy);color:#fff;margin:28px 0 0;padding:20px clamp(14px,3vw,26px);font-family:var(--mono);font-size:clamp(.72rem,1.7vw,.92rem);display:flex;flex-wrap:wrap;align-items:stretch;gap:.6em}
+.eqnav .lbl{align-self:center;opacity:.9}
+.eqnav .op{align-self:center;opacity:.5}
+.eqterm{
+  font-family:var(--mono);font-size:1em;font-weight:500;color:#fff;line-height:1.3;text-align:left;
+  background:#ffffff1f;border:none;border-bottom:3px solid transparent;
+  padding:.55em .65em .42em;cursor:pointer;max-width:22ch;
+}
+.eqterm.w-heavy{border-bottom-width:6px;border-bottom-color:var(--sage)}
+.eqterm.w-thin{border-bottom-width:2px;border-bottom-color:var(--sage)}
+.eqterm.w-none{border-bottom-color:transparent}
+.eqterm:hover{background:#ffffff38}
+.eqterm[aria-pressed="true"]{background:var(--sage);color:var(--navy-deep);border-bottom-color:var(--sage)}
+.eqterm:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.eqhint{color:var(--gray-text);font-size:.87rem;margin:14px 0 0}
+.eqpanel{background:var(--white);border-left:5px solid var(--sage);padding:clamp(20px,3vw,30px);margin-top:20px}
+.eqpanel.empty{border-left-color:var(--gray-line)}
+.eqpanel .placeholder{color:var(--gray-text);font-style:italic;font-size:.92rem;margin:0}
+.eqpanel h4{margin:0 0 .6em;font-size:1.3rem;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+.eqpanel .would{font-style:italic;color:var(--gray-text);margin:0 0 1em;font-size:.92rem}
+.eqpanel .body-copy{max-width:74ch;font-size:.95rem}
+.eqpanel .body-copy p{margin:0 0 .9em}
+.eqpanel .settle{background:var(--pale);padding:14px 16px;font-size:.87rem;margin-top:1.1em}
+.eqpanel .settle b{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.35em}
+.eqpanel .btn{margin-top:1.2em}
+@media(prefers-reduced-motion:no-preference){.eqpanel{transition:height .2s ease}}
 </style>
 </head>
 <body>
@@ -158,7 +186,7 @@ footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16p
   <div class="inner">
     <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
     <nav class="tabs">
-      <a href="index.html">Comparing TFP Equations</a>
+      <a href="index.html">TFP Estimates</a>
       <a href="world.html">AI Throughout the World</a>
       <a href="agentic.html" aria-current="page">Agentic AI</a>
       <a href="occupations.html">AI Throughout Occupations</a>
@@ -217,10 +245,24 @@ footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16p
     </div>
   </div>
 
-  <div class="slot">
-    <h4>Notes</h4>
-    <p class="placeholder">Space for your own commentary — how the two models map onto the TFP inputs on the first tab, or onto the occupational picture on the fourth.</p>
-  </div>
+  <section class="block">
+    <p class="eyebrow">Where it lands in the arithmetic</p>
+    <h3 class="sec">Which term does agentic AI actually move?</h3>
+    <p class="lede">The four-parameter equation on the first tab prices cost savings in tasks that already exist. Agentic AI is not a fifth term — it changes the value of one of the four. Select a term to see which, and what would have to be true.</p>
+
+    <div class="eqnav" role="group" aria-label="Select an equation term">
+      <span class="lbl">TFP gain</span><span class="op" aria-hidden="true">=</span>
+      <button type="button" class="eqterm w-thin" data-term="exposed" aria-pressed="false">GDP share of tasks exposed</button><span class="op" aria-hidden="true">×</span>
+      <button type="button" class="eqterm w-heavy" data-term="automate" aria-pressed="false">Share profitable to automate</button><span class="op" aria-hidden="true">×</span>
+      <button type="button" class="eqterm w-thin" data-term="savings" aria-pressed="false">Average cost savings</button><span class="op" aria-hidden="true">×</span>
+      <button type="button" class="eqterm w-none" data-term="labshare" aria-pressed="false">AI-exposure-adjusted labour share</button>
+    </div>
+    <p class="eqhint">Three of these four terms could move. Only one has a published number attached.</p>
+
+    <div class="eqpanel empty" id="eqPanel" aria-live="polite">
+      <p class="placeholder">Select a term above to see which assumption agentic AI would have to change, and what published evidence — if any — speaks to it.</p>
+    </div>
+  </section>
 </div>
 
 <footer class="site">
@@ -229,5 +271,110 @@ footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16p
     <p class="copy">© 2026</p>
   </div>
 </footer>
+<script>
+(function(){
+  // PLACEHOLDER COPY — replace each `would`, `body` and `settle` field with
+  // the verbatim write-up for that term. Structure and behaviour are final;
+  // only this data block needs real content.
+  var TERMS=[
+    {id:"exposed",name:"GDP share of tasks exposed",
+     would:"[Placeholder] what would have to be true for agentic AI to widen the share of GDP-weighted tasks exposed to automation.",
+     body:["[Placeholder body paragraph — replace with the verbatim write-up for GDP share of tasks exposed.]"],
+     settle:"[Placeholder] what evidence would settle whether this term has actually moved."},
+    {id:"automate",name:"Share profitable to automate",
+     would:"[Placeholder] what would have to be true for agentic AI to raise the share of exposed tasks that are profitable to automate.",
+     body:["[Placeholder body paragraph — replace with the verbatim write-up for share profitable to automate.]"],
+     settle:"[Placeholder] what evidence would settle whether this term has actually moved.",
+     link:{text:"See whether delegation is rising in easy or hard tasks",href:"occupations.html"}},
+    {id:"savings",name:"Average cost savings",
+     would:"[Placeholder] what would have to be true for agentic AI to change the average cost savings per automated task.",
+     body:["[Placeholder body paragraph — replace with the verbatim write-up for average cost savings.]"],
+     settle:"[Placeholder] what evidence would settle whether this term has actually moved."},
+    {id:"labshare",name:"AI-exposure-adjusted labour share",
+     would:"[Placeholder] what would have to be true for agentic AI to change the AI-exposure-adjusted labour share.",
+     body:["[Placeholder body paragraph — replace with the verbatim write-up for the labour share.]"],
+     settle:"[Placeholder] what evidence would settle whether this term has actually moved."}
+  ];
+
+  var nav=document.querySelector(".eqnav");
+  if(!nav)return;
+  var buttons=Array.prototype.slice.call(nav.querySelectorAll(".eqterm"));
+  var panel=document.getElementById("eqPanel");
+  var selected=null;
+  var reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function promptHTML(){
+    return '<p class="placeholder">Select a term above to see which assumption agentic AI would have to change, and what published evidence — if any — speaks to it.</p>';
+  }
+
+  function panelHTML(t){
+    var html="<h4>"+t.name+"</h4>";
+    html+='<p class="would">Would have to be true: '+t.would+"</p>";
+    html+='<div class="body-copy">'+t.body.map(function(p){return "<p>"+p+"</p>";}).join("")+"</div>";
+    if(t.link){
+      html+='<a class="btn" href="'+t.link.href+'"><span class="lab">'+t.link.text+'</span><span class="chip" aria-hidden="true">→</span></a>';
+    }
+    html+='<div class="settle"><b>What would settle it</b>'+t.settle+"</div>";
+    return html;
+  }
+
+  function swapPanel(html,isEmpty){
+    if(reduceMotion){
+      panel.innerHTML=html;
+      panel.classList.toggle("empty",isEmpty);
+      return;
+    }
+    var startH=panel.getBoundingClientRect().height;
+    panel.style.height=startH+"px";
+    panel.style.overflow="hidden";
+    requestAnimationFrame(function(){
+      panel.innerHTML=html;
+      panel.classList.toggle("empty",isEmpty);
+      var endH=panel.scrollHeight;
+      requestAnimationFrame(function(){
+        panel.style.height=endH+"px";
+      });
+    });
+    panel.addEventListener("transitionend",function te(e){
+      if(e.propertyName!=="height")return;
+      panel.style.height="";
+      panel.style.overflow="";
+      panel.removeEventListener("transitionend",te);
+    });
+  }
+
+  function selectTerm(id){
+    selected=id;
+    buttons.forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.term===id));});
+    var t=TERMS.filter(function(x){return x.id===id;})[0];
+    swapPanel(panelHTML(t),false);
+  }
+
+  function clearSelection(){
+    selected=null;
+    buttons.forEach(function(b){b.setAttribute("aria-pressed","false");});
+    swapPanel(promptHTML(),true);
+  }
+
+  buttons.forEach(function(b,i){
+    b.addEventListener("click",function(){
+      if(selected===b.dataset.term){clearSelection();}
+      else{selectTerm(b.dataset.term);}
+    });
+    b.addEventListener("keydown",function(e){
+      if(e.key==="ArrowRight"||e.key==="ArrowDown"){
+        e.preventDefault();
+        (buttons[i+1]||buttons[0]).focus();
+      }else if(e.key==="ArrowLeft"||e.key==="ArrowUp"){
+        e.preventDefault();
+        (buttons[i-1]||buttons[buttons.length-1]).focus();
+      }else if(e.key==="Escape"){
+        e.preventDefault();
+        clearSelection();
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -143,10 +143,10 @@ footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16p
 .layers button:hover{background:var(--pale)}
 .layers button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .layers button[aria-pressed=true]{background:var(--pale)}
-.layers button[data-layer=ai][aria-pressed=true]{border-top-color:var(--navy)}
-.layers button[data-layer=robotics][aria-pressed=true]{border-top-color:var(--maroon)}
-.layers button[data-layer=scarcity][aria-pressed=true]{border-top-color:var(--sage-dark)}
-.layers button[data-layer=tech][aria-pressed=true]{border-top-color:#2B3540}
+.layers button[data-layer=ai][aria-pressed=true]{border-top-color:#2054B3}
+.layers button[data-layer=robotics][aria-pressed=true]{border-top-color:#C60615}
+.layers button[data-layer=scarcity][aria-pressed=true]{border-top-color:#405731}
+.layers button[data-layer=tech][aria-pressed=true]{border-top-color:#EF5D00}
 
 /* ---------- toolbar ---------- */
 .maptools{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0 0 14px}
@@ -252,7 +252,7 @@ svg.world path:focus-visible{stroke:var(--blue);stroke-width:2}
   <div class="inner">
     <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
     <nav class="tabs">
-      <a href="index.html">Comparing TFP Equations</a>
+      <a href="index.html">TFP Estimates</a>
       <a href="world.html" aria-current="page">AI Throughout the World</a>
       <a href="agentic.html">Agentic AI</a>
       <a href="occupations.html">AI Throughout Occupations</a>
@@ -557,22 +557,22 @@ window.WORLD = [{"id":"004","name":"Afghanistan","d":"M666.4 115.5L667.8 115.5L6
     ai: {
       unit: "Share of employment in cognitive and routine-cognitive occupations exposed to AI (%).",
       note: "Exposure rises with the share of professional, managerial and clerical work, so this layer tends to favour richer countries. It says which existing jobs AI can touch — not whether they are lost.",
-      ramp: ["#DDE5F7","#A9BEEA","#6E8FD8","#3A5EB8","#15265B"]
+      ramp: ["#E0E7F4","#B0C2E4","#809ED4","#5079C3","#2054B3"]
     },
     robotics: {
       unit: "Share of employment in the routine-manual occupations robotics targets (%).",
       note: "Vulnerability, not adoption. Robots are installed overwhelmingly in rich countries and China, so a robot-density map would light up the same places as layer one. What this shows is where the targeted work is done.",
-      ramp: ["#F3E0E0","#DDAFAF","#C07A7C","#A34B4E","#8B2226"]
+      ramp: ["#F7DCDE","#EBA7AC","#DF717A","#D23C47","#C60615"]
     },
     scarcity: {
       unit: "Labour scarcity index (0–100). Higher means scarcer, costlier labour.",
       note: "Not a risk measure. Ageing, high-wage countries automate because labour is scarce; a country with a young workforce and low wages has neither the pressure nor the arithmetic. Use the weighting control to apply this to either exposure layer.",
-      ramp: ["#E6EBE1","#C8D5BE","#A8BC9A","#7E9770","#4E6642"]
+      ramp: ["#E4E7E2","#BBC3B6","#929F8A","#697B5D","#405731"]
     },
     tech: {
       unit: "Share of employment in the occupations this technology targets (%).",
       note: "Unweighted, this shows where the targeted work is done. Weighted by scarcity, it shows where the machine plausibly pencils out — usually somewhere else, because cheap labour is itself a defence.",
-      ramp: ["#E4E7EA","#BFC7CE","#8D9AA6","#5A6874","#2B3540"]
+      ramp: ["#FDE8DB","#F9C5A4","#F6A36E","#F28037","#EF5D00"]
     }
   };
 
