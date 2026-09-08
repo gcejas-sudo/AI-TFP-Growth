@@ -68,8 +68,8 @@ a{color:var(--blue)}
 .pill{display:inline-block;background:var(--maroon);color:var(--white);font-weight:700;font-size:.82rem;padding:7px 16px;border-radius:999px}
 .kicker{color:var(--sage-dark);font-weight:500;font-size:1rem}
 .intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
-h2.headline{font-weight:800;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1;letter-spacing:-.03em;margin:26px 0 20px;max-width:26ch}
-.standfirst{max-width:66ch;font-size:1.05rem;margin:0}
+h2.headline{font-weight:800;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1;letter-spacing:-.03em;margin:26px 0 20px;max-width:none}
+.standfirst{max-width:none;font-size:1.05rem;margin:0}
 .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-text)}
 .block{background:var(--white);padding:clamp(20px,3vw,34px);margin-top:32px}
 .block h3.sec{font-weight:800;font-size:clamp(1.35rem,2.8vw,1.95rem);letter-spacing:-.025em;line-height:1.05;margin:.35em 0 .4em}
@@ -145,11 +145,11 @@ footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16p
 .dialgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,24px);align-items:stretch}
 @media(max-width:720px){.dialgrid{grid-template-columns:1fr}}
 .dialgrid .dial{margin-bottom:0}
-.formula{background:var(--navy);color:#fff;margin:34px 0 40px;padding:20px clamp(14px,3vw,26px);font-family:var(--mono);font-size:clamp(.75rem,2vw,1rem);display:flex;flex-wrap:wrap;align-items:center;gap:.55em}
-.formula .v{font-weight:500;padding:.14em .4em;background:#ffffff1f;white-space:nowrap}
+.formula{background:var(--navy);color:#fff;margin:34px auto 40px;padding:16px clamp(14px,3vw,26px);font-family:var(--mono);font-size:clamp(.62rem,2.4vw,1.6rem);font-weight:700;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:.4em .5em;width:fit-content;max-width:100%}
+.formula .v{font-weight:700;padding:.14em .4em;background:#ffffff1f;white-space:nowrap}
 .formula .op{opacity:.55}
-.formula .out{margin-left:auto;white-space:nowrap}
-.formula .out b{background:var(--sage);color:var(--navy-deep);padding:.16em .5em;font-weight:700;font-size:1.5em}
+.formula .out{margin-left:.3em;white-space:nowrap}
+.formula .out b{background:var(--sage);color:var(--navy-deep);padding:.16em .5em;font-weight:800;font-size:1.5em}
 .dial{background:var(--white);padding:24px clamp(16px,2.4vw,26px);margin-bottom:14px}
 .dial-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
 .dial h3{font-weight:700;font-size:1.14rem;letter-spacing:-.015em;margin:0;color:var(--navy)}
@@ -167,11 +167,10 @@ footer.site .copy{border-top:1px solid #ffffff2e;margin-top:22px;padding-top:16p
 .tick{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:.68rem;white-space:nowrap;cursor:pointer;background:none;border:0;padding:2px 3px;color:var(--gray-text)}
 .tick::before{content:"";display:block;width:1px;height:6px;margin:0 auto 2px;background:currentColor}
 .tick:hover,.tick:focus-visible{text-decoration:underline}
-.tick.a{color:var(--navy)}
+.tick.a{color:var(--navy);transform:translateX(-100%)}
+.tick.a::before{margin:0 0 2px auto}
 .tick.g{color:var(--sage-dark)}
-.tick.a.near{transform:translateX(-100%)}
 .tick.g.near{transform:translateX(0)}
-.tick.a.near::before{margin:0 0 2px auto}
 .tick.g.near::before{margin:0 auto 2px 0}
 details.prov{margin-top:16px;border-top:1px solid var(--gray-line);padding-top:12px}
 details.prov summary{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);cursor:pointer;list-style:none;font-weight:500}
@@ -267,16 +266,18 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
 .rowzone:empty{display:none}
 .rowzone.above{margin-bottom:24px}
 .rowzone.below{margin-top:40px}
-.stem{position:absolute;width:2px;background:var(--lane);transform:translateX(-50%);pointer-events:none}
-.rowzone.above .stem{top:calc(100% - 9px);height:33px}
-.rowzone.below .stem{bottom:calc(100% - 9px);height:33px}
+.stem{position:absolute;width:2px;background:var(--lane);transform:translateX(-50%);pointer-events:none;z-index:3}
+.rowzone.above .stem{top:calc(100% - 9px);height:40px}
+.rowzone.below .stem{bottom:calc(100% - 9px);height:40px}
 
 /* a range's two circles each drop a leg to a shared crossbar, which then
-   carries a single stem up to the pill — point studies keep the plain stem */
-.leg{position:absolute;width:2px;background:var(--lane);transform:translateX(-50%);pointer-events:none}
-.rowzone.above .leg{top:calc(100% + 10px);height:14px}
-.rowzone.below .leg{bottom:calc(100% + 10px);height:14px}
-.bridge{position:absolute;height:2px;background:var(--lane);pointer-events:none}
+   carries a single stem up to the pill — point studies keep the plain stem.
+   z-index above the track (2) so each leg paints over the dot's white ring
+   instead of visibly stopping short of it. */
+.leg{position:absolute;width:2px;background:var(--lane);transform:translateX(-50%);pointer-events:none;z-index:3}
+.rowzone.above .leg{top:calc(100% + 10px);height:25px}
+.rowzone.below .leg{bottom:calc(100% + 10px);height:25px}
+.bridge{position:absolute;height:2px;background:var(--lane);pointer-events:none;z-index:3}
 .rowzone.above .bridge{top:calc(100% + 10px)}
 .rowzone.below .bridge{bottom:calc(100% + 10px)}
 
@@ -337,7 +338,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
 
 <div class="masthead">
   <div class="inner">
-    <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
+    <a class="sitename" href="index.html">AI, Productivity &amp; Work</a>
     <nav class="tabs">
       <a href="index.html" aria-current="page">TFP Estimates</a>
       <a href="world.html">AI Throughout the World</a>
@@ -357,11 +358,11 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
 <div class="wrap">
 
   <div class="intro">
-    <span class="pill">AI and Total Factor Productivity</span>
+    <span class="pill">Preliminary Draft Stone Center</span>
   </div>
 
-  <h2 class="headline">Acemoglu and Aghion use the same formula yet different assumptions lead to estimates 10 times apart</h2>
-  <p class="standfirst">Acemoglu (2024) and Aghion &amp; Bunel (2024) run an identical task-based equation for what AI does to US total factor productivity over a decade. Three inputs differ substantially, the fourth barely at all, and multiplication turns that into a tenfold gap. Turn the dials yourself.</p>
+  <h2 class="headline">Acemoglu and Aghion &amp; Bunel use the same formula yet different assumptions lead to TFP estimates 10 times apart</h2>
+  <p class="standfirst">Acemoglu (2024) and Aghion &amp; Bunel (2024) use the same framework to calculate TFP, yet three inputs differ substantially.</p>
 
   <section class="block">
     <p class="eyebrow">Published values</p>
@@ -374,15 +375,15 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
         <tr><td>GDP share of exposed tasks</td><td class="n ace">20%</td><td class="n agh">60%</td><td class="n">3.0×</td></tr>
         <tr><td>Share profitable to automate</td><td class="n ace">23%</td><td class="n agh">50%</td><td class="n">2.2×</td></tr>
         <tr><td>Average cost savings</td><td class="n ace">27%</td><td class="n agh">40%</td><td class="n">1.5×</td></tr>
-        <tr><td>AI-exposure-adjusted labour share</td><td class="n ace">53.5%</td><td class="n agh">57%</td><td class="n">1.07×</td></tr>
+        <tr><td>AI-exposure-adjusted labor share</td><td class="n ace">53.5%</td><td class="n agh">57%</td><td class="n">1.07×</td></tr>
         <tr><td>Resulting TFP gain</td><td class="n ace">0.07pp/yr</td><td class="n agh">0.68pp/yr</td><td class="n">≈10×</td></tr>
       </tbody>
     </table>
   </section>
 
   <div class="calc-head">
-    <h3 class="sec">Use your own values to calculate TFP growth from AI</h3>
-    <p class="lede">The dials below start at Acemoglu's parameters — the presets jump straight between his published set and Aghion &amp; Bunel's.</p>
+    <h3 class="sec">Use your own values to calculate TFP growth from AI within the next 10 years</h3>
+    <p class="lede">The dials below can be set at Acemoglu's, Aghion &amp; Bunel's, or your own values.</p>
   </div>
 
   <div class="formula" aria-hidden="true">
@@ -399,7 +400,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
         <div class="dial-head">
           <div>
             <h3>GDP share of exposed tasks</h3>
-            <p class="q">How much of the economy's work does AI touch at all?</p>
+            <p class="q">How do we measure an occupation's exposure to AI?</p>
           </div>
           <output class="readout" id="r-exposure">20.0%</output>
         </div>
@@ -409,7 +410,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             <div class="scale" aria-hidden="true"><span style="left:0%">0</span><span style="left:10%">10</span><span style="left:20%">20</span><span style="left:30%">30</span><span style="left:40%">40</span><span style="left:50%">50</span><span style="left:60%">60</span><span style="left:70%">70</span><span style="left:80%">80</span><span style="left:90%">90</span><span style="left:100%">100</span></div>
             <div class="ticks">
               <button class="tick a" data-set="exposure" data-val="20" style="left:20%">Acemoglu 20%</button>
-              <button class="tick g" data-set="exposure" data-val="60" style="left:60%">Aghion 60%</button>
+              <button class="tick g" data-set="exposure" data-val="60" style="left:60%">Aghion &amp; Bunel 60%</button>
             </div>
           </div>
           <input type="number" class="num" id="n-exposure" min="0" max="100" step="0.1" value="20" aria-label="GDP share of exposed tasks, percent, exact value">
@@ -420,15 +421,15 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             <div class="prov-card a">
               <p class="who">Acemoglu</p>
               <p class="val">20%</p>
-              <p>Tasks exposed to AI and computer vision, from Eloundou et al. (2024), combined into occupations using BLS wage bills. The wage-bill-weighted share of exposed occupations is read as a GDP share.</p>
+              <p>From Eloundou et al. (2024) and combined into occupations using wage bills from BLS - resulting in bill weighted share of exposed occupations. Interpreted as GDP share of tasks exposed to AI.</p>
             </div>
             <div class="prov-card g">
               <p class="who">Aghion &amp; Bunel</p>
               <p class="val">60%</p>
-              <p>Employment exposed to AI in the US, from Pizzinelli et al. (2023), who measure exposure by abilities. Abilities are weighted by prevalence and importance and aggregated to an AIOE score per occupation, then to employment shares by country. US-specific, and includes both high- and low-complementarity employment.</p>
+              <p>From Pizzinelli et al. (2023), who measure AI exposure by abilities. Abilities are weighted by prevalence and importance and aggregated to occupations (resulting in AIOE by occupation) and employment shares by country. The 60% is US-specific and includes both high and low complementarity employment.</p>
             </div>
           </div>
-          <p class="diff"><b>Key difference</b>Acemoglu uses task exposure, Aghion ability exposure. Aghion flags every occupation above the AIOE median as exposed; Acemoglu uses each occupation's share of exposed tasks and weights by wage bill to reach a GDP share. Aghion applies no weighting, assuming the GDP share of exposed tasks is similar in magnitude to the task share — despite working from abilities.</p>
+          <p class="diff"><b>Key difference</b>Acemoglu uses task exposure while Aghion &amp; Bunel uses ability exposure. Aghion &amp; Bunel flags occupations above the AIOE median as exposed to AI; Acemoglu uses each occupation's share of exposed tasks, then weights by wage bill to get a GDP share. Aghion &amp; Bunel applies no weighting, assuming the GDP share of tasks exposed to AI is similar in magnitude to the share of tasks exposed to AI (despite using abilities).</p>
         </details>
       </section>
 
@@ -436,7 +437,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
         <div class="dial-head">
           <div>
             <h3>Share profitable to automate</h3>
-            <p class="q">Of the computer-vision tasks AI touches, how many are feasible and profitable to hand over within ten years?</p>
+            <p class="q">How many tasks are worth automating?</p>
           </div>
           <output class="readout" id="r-automatable">23.0%</output>
         </div>
@@ -446,7 +447,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             <div class="scale" aria-hidden="true"><span style="left:0%">0</span><span style="left:10%">10</span><span style="left:20%">20</span><span style="left:30%">30</span><span style="left:40%">40</span><span style="left:50%">50</span><span style="left:60%">60</span><span style="left:70%">70</span><span style="left:80%">80</span><span style="left:90%">90</span><span style="left:100%">100</span></div>
             <div class="ticks">
               <button class="tick a" data-set="automatable" data-val="23" style="left:23%">Acemoglu 23%</button>
-              <button class="tick g" data-set="automatable" data-val="50" style="left:50%">Aghion 50%</button>
+              <button class="tick g" data-set="automatable" data-val="50" style="left:50%">Aghion &amp; Bunel 50%</button>
             </div>
           </div>
           <input type="number" class="num" id="n-automatable" min="0" max="100" step="0.1" value="23" aria-label="Share profitable to automate, percent, exact value">
@@ -457,15 +458,15 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             <div class="prov-card a">
               <p class="who">Acemoglu</p>
               <p class="val">23%</p>
-              <p>Svanberg et al. (2024), baseline scenario.</p>
+              <p>From Svanberg et al. (2024).</p>
             </div>
             <div class="prov-card g">
               <p class="who">Aghion &amp; Bunel</p>
               <p class="val">50%</p>
-              <p>Svanberg et al. (2024) cost-decline scenarios, under a 22% annual decline in computing costs from Besiroglu &amp; Hobbhahn (2022).</p>
+              <p>From Svanberg et al. (2024) cost-decline scenarios under a 22% annual decline from Besiroglu &amp; Hobbhahn (2022).</p>
             </div>
           </div>
-          <p class="diff"><b>Key difference</b>Aghion incorporates projected computing-cost declines. Acemoglu excludes them from his baseline, arguing that a doubling of GPU capacity will not necessarily translate into a 50% fall in costs, citing diminishing returns, bottlenecks from other inputs, and current architectural limits.</p>
+          <p class="diff"><b>Key difference</b>Aghion &amp; Bunel incorporates projected computing-cost declines. Acemoglu excludes them from his baseline, arguing a doubling of GPU capacity “will not necessarily translate into a 50% decline in costs, in general,” citing diminishing returns, bottlenecks from other inputs, and current architectural limits.</p>
         </details>
       </section>
 
@@ -473,20 +474,20 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
         <div class="dial-head">
           <div>
             <h3>Average cost savings</h3>
-            <p class="q">Where a task is automated, how much cheaper does the labour get?</p>
+            <p class="q">How much does AI save in labor costs?</p>
           </div>
           <output class="readout" id="r-savings">27.0%</output>
         </div>
         <div class="field">
           <div class="track">
-            <input type="range" id="s-savings" min="0" max="100" step="1" value="27" aria-label="Average labour cost savings, percent">
+            <input type="range" id="s-savings" min="0" max="100" step="1" value="27" aria-label="Average labor cost savings, percent">
             <div class="scale" aria-hidden="true"><span style="left:0%">0</span><span style="left:10%">10</span><span style="left:20%">20</span><span style="left:30%">30</span><span style="left:40%">40</span><span style="left:50%">50</span><span style="left:60%">60</span><span style="left:70%">70</span><span style="left:80%">80</span><span style="left:90%">90</span><span style="left:100%">100</span></div>
             <div class="ticks">
               <button class="tick a near" data-set="savings" data-val="27" style="left:27%">Acemoglu 27%</button>
-              <button class="tick g near" data-set="savings" data-val="40" style="left:40%">Aghion 40%</button>
+              <button class="tick g near" data-set="savings" data-val="40" style="left:40%">Aghion &amp; Bunel 40%</button>
             </div>
           </div>
-          <input type="number" class="num" id="n-savings" min="0" max="100" step="0.1" value="27" aria-label="Average labour cost savings, percent, exact value">
+          <input type="number" class="num" id="n-savings" min="0" max="100" step="0.1" value="27" aria-label="Average labor cost savings, percent, exact value">
         </div>
         <details class="prov">
           <summary>Where does this number come from? Nine studies</summary>
@@ -502,7 +503,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             <tbody>
               <tr>
                 <td class="check-cell"><input type="checkbox" id="study-noy" checked><label for="study-noy" class="sr-only">Include Noy and Zhang (2023) in the average</label></td>
-                <td><p class="sname">Noy and Zhang (2023)</p><p class="sdomain">Professional writing, ChatGPT-3.5</p></td>
+                <td><p class="sname">Noy and Zhang (2023)</p><p class="sdomain">Writing tasks assisted with Chat GPT</p></td>
                 <td class="n"><span class="sval">40%</span><span class="smeasure">speed</span></td>
                 <td><span class="usedby-list"><span class="usedby acemoglu">Acemoglu</span><span class="usedby aghion" title="Aghion &amp; Bunel (2024)">A&amp;B</span><span class="usedby pwbm" title="Penn Wharton Budget Model">PWBM</span></span></td>
               </tr>
@@ -510,25 +511,24 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
                 <td class="check-cell"><input type="checkbox" id="study-bryn" checked><label for="study-bryn" class="sr-only">Include Brynjolfsson et al. (2023) in the average</label></td>
                 <td>
                   <p class="sname">Brynjolfsson et al. (2023)</p>
-                  <p class="sdomain">Customer service assistant</p>
+                  <p class="sdomain">Customer support agents assisted with generative AI tool</p>
                   <div class="bryntoggle">
                     <button type="button" class="btoggle active" data-study="bryn" data-value="14" data-measure="task completion rate" aria-pressed="true">14% headline</button>
-                    <button type="button" class="btoggle" data-study="bryn" data-value="25" data-measure="task completion rate" aria-pressed="false">25% post-deployment</button>
+                    <button type="button" class="btoggle" data-study="bryn" data-value="25" data-measure="task completion rate" aria-pressed="false">three months post-deployment</button>
                   </div>
-                  <p class="bryntext">Brynjolfsson et al. report a 14% average productivity gain. Their event study shows resolutions per hour rising to about 25% from the first full month after deployment and holding there. Acemoglu and PWBM use the headline figure; Aghion and Bunel take the post-deployment plateau, on the grounds that a ten-year parameter should reflect the effect once the tool is in use.</p>
                 </td>
                 <td class="n"><span class="sval" id="bryn-sval">14%</span><span class="smeasure" id="bryn-smeasure">task completion rate</span></td>
                 <td><span class="usedby-list"><span class="usedby acemoglu">Acemoglu</span><span class="usedby aghion" title="Aghion &amp; Bunel (2024)">A&amp;B</span><span class="usedby pwbm" title="Penn Wharton Budget Model">PWBM</span><span class="usedby oecd" title="OECD (Filippucci, Gal &amp; Schief)">OECD</span></span></td>
               </tr>
               <tr>
                 <td class="check-cell"><input type="checkbox" id="study-peng"><label for="study-peng" class="sr-only">Include Peng et al. (2023) in the average</label></td>
-                <td><p class="sname">Peng et al. (2023)</p><p class="sdomain">JavaScript, GitHub Copilot</p></td>
+                <td><p class="sname">Peng et al. (2023)</p><p class="sdomain">Software developers implementing HTTP servers assisted with AI pair programmer</p></td>
                 <td class="n"><span class="sval">56%</span><span class="smeasure">speed</span></td>
                 <td><span class="usedby-list"><span class="usedby aghion" title="Aghion &amp; Bunel (2024)">A&amp;B</span><span class="usedby pwbm" title="Penn Wharton Budget Model">PWBM</span></span></td>
               </tr>
               <tr>
                 <td class="check-cell"><input type="checkbox" id="study-cui"><label for="study-cui" class="sr-only">Include Cui et al. (2025) in the average</label></td>
-                <td><p class="sname">Cui et al. (2025)</p><p class="sdomain">Software development, Copilot</p></td>
+                <td><p class="sname">Cui et al. (2025)</p><p class="sdomain">Software developers using AI-based coding assistant</p></td>
                 <td class="n"><span class="sval">26%</span><span class="smeasure">task completion rate</span></td>
                 <td><span class="usedby-list"><span class="usedby pwbm" title="Penn Wharton Budget Model">PWBM</span></span></td>
               </tr>
@@ -581,8 +581,6 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             </tbody>
           </table>
           <p class="study-mean" id="study-mean-caption">Mean of 2 selected: 27%</p>
-          <p class="study-note">Where a study reports several outcomes, authors take different ones. The toggles show which.</p>
-          <p class="study-note">Four papers, four selection rules over the same pool of experiments. Acemoglu excludes Peng et al. as too narrow to generalise. Aghion and Bunel include it. PWBM average everything available. The OECD reviews seven and keeps only the three with the tightest confidence intervals, regardless of setting.</p>
         </details>
         <details class="prov">
           <summary>How each economist gets there</summary>
@@ -590,36 +588,36 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             <div class="prov-card a">
               <p class="who">Acemoglu</p>
               <p class="val">27%</p>
-              <p>Average of two experimental studies: Noy &amp; Zhang (2023) and Brynjolfsson et al. (2023).</p>
+              <p>Labor cost reductions from AI averaged from two experimental studies: Noy &amp; Zhang (2023) and Brynjolfsson et al. (2023).</p>
             </div>
             <div class="prov-card g">
               <p class="who">Aghion &amp; Bunel</p>
               <p class="val">40%</p>
-              <p>Average of three: Noy &amp; Zhang (2023), Brynjolfsson et al. (2023) and Peng et al. (2023).</p>
+              <p>Labor cost reductions from AI averaged from three experimental studies: Noy &amp; Zhang (2023), Brynjolfsson et al. (2023), and Peng et al. (2023).</p>
             </div>
           </div>
-          <p class="diff"><b>Key difference</b>Aghion includes Peng et al. Acemoglu excludes it because he believes its setting — computer programmers using GitHub Copilot — is less likely to be relevant to other tasks and occupations.</p>
+          <p class="diff"><b>Key difference</b>Aghion &amp; Bunel includes Peng et al., which Acemoglu excludes because he believes their setting (computer programmers on GitHub Copilot) is “less likely to be relevant to other tasks and occupations.”</p>
         </details>
       </section>
 
       <section class="dial">
         <div class="dial-head">
           <div>
-            <h3>AI-exposure-adjusted labour share</h3>
-            <p class="q">Tasks run on labour and capital together, so only the labour slice of the cost can be saved.</p>
+            <h3>AI-exposure-adjusted labor share</h3>
+            <p class="q">How do labor cost savings become overall cost savings?</p>
           </div>
           <output class="readout" id="r-labshare">53.5%</output>
         </div>
         <div class="field">
           <div class="track">
-            <input type="range" id="s-labshare" min="0" max="100" step="0.5" value="53.5" aria-label="AI-exposure-adjusted labour share, percent">
+            <input type="range" id="s-labshare" min="0" max="100" step="0.5" value="53.5" aria-label="AI-exposure-adjusted labor share, percent">
             <div class="scale" aria-hidden="true"><span style="left:0%">0</span><span style="left:10%">10</span><span style="left:20%">20</span><span style="left:30%">30</span><span style="left:40%">40</span><span style="left:50%">50</span><span style="left:60%">60</span><span style="left:70%">70</span><span style="left:80%">80</span><span style="left:90%">90</span><span style="left:100%">100</span></div>
             <div class="ticks">
               <button class="tick a near" data-set="labshare" data-val="53.5" style="left:53.5%">Acemoglu 53.5%</button>
-              <button class="tick g near" data-set="labshare" data-val="57" style="left:57%">Aghion 57%</button>
+              <button class="tick g near" data-set="labshare" data-val="57" style="left:57%">Aghion &amp; Bunel 57%</button>
             </div>
           </div>
-          <input type="number" class="num" id="n-labshare" min="0" max="100" step="0.1" value="53.5" aria-label="AI-exposure-adjusted labour share, percent, exact value">
+          <input type="number" class="num" id="n-labshare" min="0" max="100" step="0.1" value="53.5" aria-label="AI-exposure-adjusted labor share, percent, exact value">
         </div>
         <details class="prov">
           <summary>How each economist gets there</summary>
@@ -627,15 +625,15 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
             <div class="prov-card a">
               <p class="who">Acemoglu</p>
               <p class="val">53.5%</p>
-              <p>Industry-level AI exposure from Eloundou et al. (2024) combined with industry labour shares from the BEA.</p>
+              <p>Industry-level AI exposure estimates from Eloundou et al. (2024) combined with industry labor shares from BEA.</p>
             </div>
             <div class="prov-card g">
               <p class="who">Aghion &amp; Bunel</p>
               <p class="val">57%</p>
-              <p>Taken straight from Acemoglu's April 2024 draft.</p>
+              <p>Value comes from Acemoglu's April 2024.</p>
             </div>
           </div>
-          <p class="diff"><b>Key difference</b>None in methodology — the same construction, one draft apart. This is the input the two sides effectively agree on, and the only place where the gap is rounding rather than argument.</p>
+          <p class="diff"><b>Key difference</b>No difference in methodology, Aghion &amp; Bunel uses value from Acemoglu's April draft.</p>
         </details>
       </section>
 
@@ -644,8 +642,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
   <section class="block beyond">
     <p class="eyebrow">Beyond Acemoglu and Aghion &amp; Bunel</p>
     <h3 class="sec">The rest of the field</h3>
-    <p class="lede">The two estimates above are the poles of one argument, not the whole literature. Select a growth metric to see the studies that measure it — a marker is a published figure, select one to read what it is and how it was built. The lanes matter because these studies do not all measure the same quantity, so a marker plotted for one metric cannot be compared against another.</p>
-    <p class="lede">These studies share a lineage but not a scope. Some price cost savings in tasks that already exist; others model sectors feeding each other, or research productivity, or what executives expect. Each card says what its framework includes — which is also why some of these figures cannot be loaded into the dials above.</p>
+    <p class="lede">The two estimates above are part of a growing field of literature. Select growth metrics below to see how other studies predict AI will change the economy. We are updating this page as new studies take place.</p>
 
     <div class="segwrap">
       <div class="metrictabs" id="metrictabs"></div>
@@ -667,15 +664,15 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
         <ul class="check-list">
           <li><b>0.53%</b> — hard-to-learn tasks. 72.6% of exposed tasks by wage bill are easy; cost savings on the rest assumed at 7% rather than 27%. The estimate he considers most reasonable.</li>
           <li><b>0.66%</b> — baseline. 4.6% of GDP impacted × 14.4% overall cost savings. He calls it an upper bound.</li>
-          <li><b>0.89%</b> — including Peng et al. Labour cost savings rise from 27% to 36%.</li>
+          <li><b>0.89%</b> — including Peng et al. Labor cost savings rise from 27% to 36%.</li>
           <li><b>0.90%</b> — rapid compute cost decline. Svanberg et al.'s 10%-a-year scenario lifts feasibly automated tasks to 30%.</li>
         </ul>
-        <p class="notes-sub">Aghion and Bunel's intervals</p>
+        <p class="notes-sub">Aghion &amp; Bunel's intervals</p>
         <ul class="check-list">
           <li><b>18.5%–68%</b> — share of GDP exposed.</li>
           <li><b>23%–80%</b> — share profitable to automate.</li>
           <li><b>27%–40%</b> — average cost savings.</li>
-          <li><b>57%</b> — labour share, fixed, taken from Acemoglu.</li>
+          <li><b>57%</b> — labor share, fixed, taken from Acemoglu.</li>
         </ul>
       </div>
       <div>
@@ -864,7 +861,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
   // real unit lives on the <small> line under each lane's name.
   // MAX/AXIS scale whichever lane is currently active — each lane can end
   // its line at a different point (e.g. TFP has nothing past 1.0, so its
-  // line ends at 1.2; labour productivity needs headroom to 1.8) — set at
+  // line ends at 1.2; labor productivity needs headroom to 1.8) — set at
   // the top of renderNumline() before anything gets positioned with pct().
   var MAX=2.0;
   var AXIS=buildAxis(MAX);
@@ -876,8 +873,8 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
   }
   var LANES=[
     {id:"tfp",name:"Total Factor Productivity",unit:"percentage points per year",color:"#2054B3",tint:"#E0E7F4",max:0.8,
-     def:"The efficiency residual left over once labour and capital are accounted for — not a directly observed quantity."},
-    {id:"lab",name:"Labour Productivity",unit:"percentage points per year",color:"#405731",tint:"#E4E7E2",max:2.0,step:0.5,
+     def:"The efficiency residual left over once labor and capital are accounted for — not a directly observed quantity."},
+    {id:"lab",name:"Labor Productivity",unit:"percentage points per year",color:"#405731",tint:"#E4E7E2",max:2.0,step:0.5,
      def:"Output per hour worked — includes capital deepening, unlike TFP."},
     {id:"gdp",name:"GDP Growth",unit:"percentage points per year",color:"#C60615",tint:"#F7DCDE",max:2.0,step:0.5,
      def:"The economy's total output growth — the broadest of the three, and the furthest from any single mechanism."}
@@ -888,7 +885,7 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
      cite:"Acemoglu (2024, 2025), NBER WP 32487; Economic Policy 40(121).",
      link:"https://www.nber.org/papers/w32487",
      body:"The estimate the dials above reproduce. Acemoglu agrees AI is promising, but gains will not be realized without a “fundamental reorientation of the industry, including perhaps a major change in the architecture of the most common generative AI models, such as the LLMs, in order to focus on reliable information that can increase the marginal productivity of different kinds of workers, rather than prioritizing the development of general human-like conversational tools.”",
-     includes:"The four-parameter form — exposure, share profitable to automate, cost savings, labour share — aggregated by Hulten's theorem under uniform assumptions. Prices cost savings in tasks that already exist, and treats reallocation across tasks and indirect price effects as second-order. His GDP figures add an investment response modelled on earlier automation technologies, giving an upper bound of 1.4–1.56%."},
+     includes:"The four-parameter form — exposure, share profitable to automate, cost savings, labor share — aggregated by Hulten's theorem under uniform assumptions. Prices cost savings in tasks that already exist, and treats reallocation across tasks and indirect price effects as second-order. His GDP figures add an investment response modelled on earlier automation technologies, giving an upper bound of 1.4–1.56%."},
     {id:"oecd",lane:"tfp",name:"OECD",type:"range",lo:0.25,hi:0.6,
      headline:"0.25–0.6pp per year",
      cite:"Filippucci, Gal &amp; Schief (2024), OECD AI Papers No. 29, “Miracle or Myth?”.",
@@ -899,31 +896,31 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
      headline:"0.68pp per year / 6.84% cumulative, 10 yr",
      cite:"Aghion &amp; Bunel (2024), AI and Growth: Where Do We Stand?",
      link:"https://www.frbsf.org/wp-content/uploads/AI-and-Growth-Aghion-Bunel.pdf",
-     body:"The optimistic pole of the same equation: three of the four parameters changed, and the labour share taken from Acemoglu's April draft rather than the published version.",
+     body:"The optimistic pole of the same equation: three of the four parameters changed, and the labor share taken from Acemoglu's April draft rather than the published version.",
      includes:"The same four parameters with three values changed. They also argue for an idea-generation channel, AI raising the productivity of research, though it sits outside the headline figure."},
     {id:"pwbm",lane:"tfp",name:"PWBM",type:"point",value:0.14,display:"≈0.14",
      headline:"≈0.14pp per year — our average, not their headline / 0.20pp peak, 2032 / 0.04pp permanent / +1.5% TFP and GDP levels by 2035",
      cite:"Arnon, Penn Wharton Budget Model (2025).",
-     body:"Predicts AI raises US TFP growth on a path that peaks at 0.20pp in 2032 before fading to a permanent 0.04pp, leaving TFP and GDP levels 1.5% higher by 2035. PWBM publishes that path and the level effect, not a decade average, so the ≈0.14pp/yr plotted here is our own average of their year-by-year series. Uses Acemoglu's same task-based equation but adds an AI adoption term extrapolated from how quickly PCs, the internet and cloud computing spread, counts Eloundou et al.'s middle exposure category as exposed where Acemoglu does not, and averages seven experimental studies for labour cost savings rather than two — the same seven laid out in the disclosure panel above.",
-     includes:"The four-parameter form plus a separate adoption term, extrapolated from PC, internet, smartphone and cloud diffusion. Keeps the single economy-wide exposure share and the labour share."},
+     body:"Predicts AI raises US TFP growth on a path that peaks at 0.20pp in 2032 before fading to a permanent 0.04pp, leaving TFP and GDP levels 1.5% higher by 2035. PWBM publishes that path and the level effect, not a decade average, so the ≈0.14pp/yr plotted here is our own average of their year-by-year series. Uses Acemoglu's same task-based equation but adds an AI adoption term extrapolated from how quickly PCs, the internet and cloud computing spread, counts Eloundou et al.'s middle exposure category as exposed where Acemoglu does not, and averages seven experimental studies for labor cost savings rather than two — the same seven laid out in the disclosure panel above.",
+     includes:"The four-parameter form plus a separate adoption term, extrapolated from PC, internet, smartphone and cloud diffusion. Keeps the single economy-wide exposure share and the labor share."},
     {id:"mckinsey",lane:"lab",name:"McKinsey",type:"range",lo:0.5,hi:0.9,
      headline:"0.5–0.9% per year / 3–4% per year combined with other automation",
      cite:"Chui et al., McKinsey Global Institute (2023), The economic potential of generative AI.",
      link:"https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier",
-     body:"Find that “generative AI has the potential to increase US labor productivity by 0.5 to 0.9 percentage points annually through 2030 in a midpoint adoption scenario.” Researchers use O*NET activities and match each to one or more of 18 technological capabilities to assess what AI could do, then screen for what's feasible on solution development timelines, the economics of automating versus paying wages, and time to adopt. Freed labour is assumed to rejoin the workforce, and the range comes from whether it rejoins at 2022 or 2030 productivity levels. Researchers also find that combining generative AI with other automation technologies could make potential productivity growth 3 to 4 percent annually in a midpoint adoption scenario.",
-     includes:"Hours freed by automation, valued only if redeployed: the 0.5–0.9 range is two assumptions about the productivity level at which displaced workers rejoin. Adoption is triggered per activity, per occupation, per country, when technology cost reaches parity with wages. A labour substitution effect only, with no other performance gains."},
+     body:"Find that “generative AI has the potential to increase US labor productivity by 0.5 to 0.9 percentage points annually through 2030 in a midpoint adoption scenario.” Researchers use O*NET activities and match each to one or more of 18 technological capabilities to assess what AI could do, then screen for what's feasible on solution development timelines, the economics of automating versus paying wages, and time to adopt. Freed labor is assumed to rejoin the workforce, and the range comes from whether it rejoins at 2022 or 2030 productivity levels. Researchers also find that combining generative AI with other automation technologies could make potential productivity growth 3 to 4 percent annually in a midpoint adoption scenario.",
+     includes:"Hours freed by automation, valued only if redeployed: the 0.5–0.9 range is two assumptions about the productivity level at which displaced workers rejoin. Adoption is triggered per activity, per occupation, per country, when technology cost reaches parity with wages. A labor substitution effect only, with no other performance gains."},
     {id:"oecd-lab",lane:"lab",name:"OECD",type:"range",lo:0.4,hi:1.3,
      headline:"0.4–1.3pp — United States, annual, 10-year horizon / 0.2–0.8pp — Japan and Italy",
      cite:"Filippucci, Gal, Laengle &amp; Schief (2025), OECD AI Papers No. 41, “Macroeconomic productivity gains from Artificial Intelligence in G7 economies”.",
      link:"https://www.oecd.org/en/publications/macroeconomic-productivity-gains-from-artificial-intelligence-in-g7-economies_a5319ab5-en.html",
-     body:"Annual labour productivity growth from AI over a ten-year horizon, across three scenarios. Slow adoption with baseline capabilities gives 0.2 to 0.4 percentage points across the G7; medium adoption with expanded capabilities gives 0.5 to 1; rapid adoption with expanded capabilities gives 0.8 to 1.3. The United States and United Kingdom sit at the top of each range, Japan and Italy at the bottom. Cross-country differences are driven mainly by sectoral composition — economies with a higher share of AI-exposed knowledge-intensive services such as finance and ICT gain more — and by differences in adoption speed.",
-     includes:"The same micro-to-macro framework as OECD No. 29: micro-level task gains, exposure of tasks within sectors, and adoption over time, aggregated through a multi-sector general equilibrium model with input-output linkages following Baqaee and Farhi. Extended from the United States to the G7, with current adoption rates harmonised across countries and future adoption paths updated. This supersedes the 0.4 to 0.9pp labour productivity range for the US in their 2024 paper."},
+     body:"Annual labor productivity growth from AI over a ten-year horizon, across three scenarios. Slow adoption with baseline capabilities gives 0.2 to 0.4 percentage points across the G7; medium adoption with expanded capabilities gives 0.5 to 1; rapid adoption with expanded capabilities gives 0.8 to 1.3. The United States and United Kingdom sit at the top of each range, Japan and Italy at the bottom. Cross-country differences are driven mainly by sectoral composition — economies with a higher share of AI-exposed knowledge-intensive services such as finance and ICT gain more — and by differences in adoption speed.",
+     includes:"The same micro-to-macro framework as OECD No. 29: micro-level task gains, exposure of tasks within sectors, and adoption over time, aggregated through a multi-sector general equilibrium model with input-output linkages following Baqaee and Farhi. Extended from the United States to the G7, with current adoption rates harmonised across countries and future adoption paths updated. This supersedes the 0.4 to 0.9pp labor productivity range for the US in their 2024 paper."},
     {id:"goldman-mar",lane:"lab",name:"Goldman Sachs",type:"point",value:1.5,display:"1.5",
-     headline:"1.5pp per year, labour productivity / +7% global GDP level",
+     headline:"1.5pp per year, labor productivity / +7% global GDP level",
      cite:"Briggs &amp; Kodnani, Goldman Sachs (March 2023), The Potentially Large Effects of AI on Economic Growth.",
      link:"https://www.gspublishing.com/content/research/en/reports/2023/03/27/d64e052b-0f6e-45d7-967b-d7be35fabd16.html",
-     body:"Researchers score exposure by task, classifying 13 of O*NET's 39 work activities as AI-exposed and assuming AI handles tasks up to difficulty 4 on O*NET's 7-point scale. An importance- and complexity-weighted average of each occupation's essential tasks gives its replaceable share, with outdoor and physical occupations excluded. Weighted by employment, one-fourth of US work tasks are automatable. Employment is split into 7% substituted, 63% complemented and 30% unaffected. The productivity gain comes from 3 channels — direct labour cost savings from the 7% of workers fully displaced, a productivity boost for the 63% who are complemented, and a composition effect as displaced workers are re-employed in slightly less productive roles.",
-     includes:"Three channels: labour cost savings on displaced work, new job creation, and a productivity boost for the majority of workers who are complemented rather than displaced. The third does most of the work in their estimate. Adoption timing is taken from the electric motor and the PC rather than modelled."},
+     body:"Researchers score exposure by task, classifying 13 of O*NET's 39 work activities as AI-exposed and assuming AI handles tasks up to difficulty 4 on O*NET's 7-point scale. An importance- and complexity-weighted average of each occupation's essential tasks gives its replaceable share, with outdoor and physical occupations excluded. Weighted by employment, one-fourth of US work tasks are automatable. Employment is split into 7% substituted, 63% complemented and 30% unaffected. The productivity gain comes from 3 channels — direct labor cost savings from the 7% of workers fully displaced, a productivity boost for the 63% who are complemented, and a composition effect as displaced workers are re-employed in slightly less productive roles.",
+     includes:"Three channels: labor cost savings on displaced work, new job creation, and a productivity boost for the majority of workers who are complemented rather than displaced. The third does most of the work in their estimate. Adoption timing is taken from the electric motor and the PC rather than modelled."},
     {id:"yotzov",lane:"lab",name:"Yotzov et al.",type:"point",value:0.47,display:"≈0.47",
      headline:"≈0.47pp per year — elaborated from a reported 1.4% over 3 yr, not stated as an annual rate",
      cite:"Firm Data on AI, Yotzov et al. (2026).",
@@ -941,47 +938,47 @@ table.compare tbody tr:last-child td{border-bottom:none;background:var(--pale);f
      cite:"Acemoglu (2024, 2025), NBER WP 32487; Economic Policy 40(121).",
      link:"https://www.nber.org/papers/w32487",
      body:"Converts his own TFP estimate into a GDP growth figure: GDP gains over ten years = TFP gains over ten years ÷ (1 − capital share). Applied to his 0.66% cumulative TFP estimate, this gives 1.16% cumulative GDP growth over the decade — his main estimate, plotted here as ≈0.12pp a year. Taking into account that some of the remaining exposed tasks are hard to learn, with no objective outcome measure to train on, he offers a lower estimate of 0.93% cumulative instead.",
-     includes:"The four-parameter form — exposure, share profitable to automate, cost savings, labour share — aggregated by Hulten's theorem under uniform assumptions. Prices cost savings in tasks that already exist, and treats reallocation across tasks and indirect price effects as second-order. His GDP figures add an investment response modelled on earlier automation technologies, giving an upper bound of 1.4–1.56%."},
+     includes:"The four-parameter form — exposure, share profitable to automate, cost savings, labor share — aggregated by Hulten's theorem under uniform assumptions. Prices cost savings in tasks that already exist, and treats reallocation across tasks and indirect price effects as second-order. His GDP figures add an investment response modelled on earlier automation technologies, giving an upper bound of 1.4–1.56%."},
     {id:"goldman-nov",lane:"gdp",name:"Goldman Sachs",type:"point",value:0.4,display:"0.4",
      headline:"0.4pp US, by 2034 / 0.3pp other developed / 0.2pp advanced emerging",
      cite:"Briggs &amp; Kodnani, Goldman Sachs (November 2023), Revised longer-run forecasts.",
      link:"https://www.gspublishing.com/content/research/en/reports/2023/10/30/2d567ebf-0e7d-4769-8f01-7c62e894a779.html",
      body:"The same authors cutting their March headline by roughly two-thirds, with around 25% of tasks automatable in advanced economies and 10–20% in emerging ones. Rarely cited alongside the earlier figure, though it is the more recent view — which is worth more to a reader than any single comparison, because it shows updating rather than two camps shouting.",
-     includes:"Three channels: labour cost savings on displaced work, new job creation, and a productivity boost for the majority of workers who are complemented rather than displaced. The third does most of the work in their estimate. Adoption timing is taken from the electric motor and the PC rather than modelled."}
+     includes:"Three channels: labor cost savings on displaced work, new job creation, and a productivity boost for the majority of workers who are complemented rather than displaced. The third does most of the work in their estimate. Adoption timing is taken from the electric motor and the PC rather than modelled."}
   ];
   var NOFIG=[
-    {id:"bick",name:"Bick, Blandin and Deming",title:"Bick, Blandin and Deming (2024)",year:2024,month:9,
+    {id:"bick",name:"Bick et al.",title:"Bick et al. (2024)",year:2024,month:9,
      headline:"1.1% aggregate productivity gain, level effect / 5.4% time savings among genAI work users / 1.4% time savings across all workers",
      cite:"The Rapid Adoption of Generative AI",
      link:"https://www.nber.org/papers/w32966",
      body:"The authors field a nationally representative US survey of generative AI use at work and at home. To estimate the effect on aggregate productivity, they ask users “how many additional hours they would have needed to complete the same amount of work in the previous week if they had not had access to genAI,” giving mean time savings of 5.4% among users and 1.4% across all workers including non-users. Fed into a standard model of aggregate production, that implies a potential aggregate productivity gain of 1.1% at “current levels of worker genAI usage.” The paper's other contributions are its measures of genAI adoption and of heterogeneity in adoption across workers, occupations and industries.",
      includes:"Realised adoption rather than projected exposure. Task shares and adoption rates come from survey data rather than from a rubric, and the figure is a level effect at usage as it stood, with no diffusion path. The authors note it is similar in magnitude to Acemoglu's 0.7%, reached by a different route."},
-    {id:"oecd-g7",name:"OECD — G7 economies",year:2025,month:6,
+    {id:"oecd-g7",name:"Filippucci et al.",year:2025,month:6,
      cite:"Filippucci, Gal, Laengle &amp; Schief (2025), OECD Working Paper.",
      link:"https://www.oecd.org/en/publications/macroeconomic-productivity-gains-from-artificial-intelligence-in-g7-economies_a5319ab5-en.html",
      body:"The country-by-country version of the sectoral framework, applied across the G7.",
      includes:"The same sectoral framework applied across countries, so national differences come from sectoral composition rather than from anything about the technology."},
-    {id:"oecd-cross",name:"OECD — cross-country distribution",year:2026,month:5,
+    {id:"oecd-cross",name:"SUERF",year:2026,month:5,
      cite:"Filippucci, Gal, Laengle, Schief &amp; Yildirim (2026), SUERF Policy Brief 1463.",
      link:"https://www.suerf.org/wp-content/uploads/2026/05/SUERF-Policy-Brief-1463_Filippucci-Gal-Laengle-Schief-Yildirim.pdf",
      body:"Global trade linkages and the distribution of AI gains across countries — the closest existing work to the country layers on the next tab, and worth reading before extending them.",
      includes:"The same sectoral framework applied across countries, so national differences come from sectoral composition rather than from anything about the technology."},
-    {id:"translation",name:"Translation scaling laws",year:2024,month:9, // arXiv 2409.02391 — the ID's YYMM prefix is the submission date
+    {id:"translation",name:"Merali",year:2024,month:9, // arXiv 2409.02391 — the ID's YYMM prefix is the submission date
      cite:"Scaling laws in LLM-assisted translation (2024), arXiv 2409.02391.",
      link:"https://arxiv.org/abs/2409.02391",
-     body:"Holds exposure at 19.9% and the labour share at 0.57 and moves only the cost-savings parameter, using its own experimental scaling-law estimates. The published precedent for what the dials on this page do, and confirmation that the four-parameter reading of the formula is standard.",
+     body:"Holds exposure at 19.9% and the labor share at 0.57 and moves only the cost-savings parameter, using its own experimental scaling-law estimates. The published precedent for what the dials on this page do, and confirmation that the four-parameter reading of the formula is standard.",
      includes:"Three of Acemoglu's parameters held fixed while one is re-estimated from experimental data. The published precedent for what the dials above do."},
-    {id:"haskel",name:"AI as innovation in innovation",year:2025,
+    {id:"haskel",name:"Bontadini et al.",year:2025,
      cite:"Haskel, Bontadini, Corrado &amp; Jona-Lasinio (2025), AI as an Innovation in the Method of Innovation.",
      link:"https://www.aeaweb.org/articles?id=10.1257/pandp.20261036",
      body:"A different channel entirely. If AI's main effect is on the productivity of research rather than on the cost of existing tasks, none of the exposure parameters on this page measure the thing that matters.",
      includes:"Research productivity rather than task cost. If AI's main effect is on how fast new ideas arrive, exposure, automation share and cost savings are measuring a different channel."},
     {id:"baslandze",name:"Baslandze et al.",title:"Baslandze et al. (2026)",year:2026,month:4,
-     headline:"0.6% implied labour productivity growth, 2025 realised / 1.8% expected, 2026",
+     headline:"0.6% implied labor productivity growth, 2025 realised / 1.8% expected, 2026",
      cite:"Baslandze et al. (2026), The CFO Survey (Duke, Richmond Fed &amp; Atlanta Fed).",
      body:"Survey of 734 corporate executives, mostly CFOs, through The CFO Survey run by Duke and the Richmond and Atlanta Feds. The figure is self-reported AI-attributed revenue growth minus AI-attributed employment growth, so it is revenue per employee rather than value added. Capital deepening accounts for only about 15% of it; the rest is revenue-based TFP. Gains are strongest in high-skill services and finance, and are associated with product development and customer reach rather than with cost cutting.",
      includes:"A survey-measured revenue-per-employee gain, not a task-exposure model: self-reported AI-attributed revenue growth net of AI-attributed employment growth, with capital deepening separated out from the rest. A 2025 realised figure and a 2026 expectation, not a forecast path — and revenue-based, so it moves with prices and markups as well as real output."},
-    {id:"pwc",name:"PwC — Value in Motion",title:"PwC (2025) — Value in Motion",year:2025,
+    {id:"pwc",name:"PWC",title:"PWC",year:2025,
      headline:"15% higher global GDP over 10 yr — favourable scenario / 8% — lower trust and cooperation / 1% — pessimistic case",
      cite:"PwC (2025), Value in Motion.",
      body:"Up to 15% higher global economic output over the next decade in their most favourable scenario, 8% under lower trust and cooperation, and 1% in their pessimistic case. A level effect on global GDP, not a growth rate.",
