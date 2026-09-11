@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI throughout the world — AI, Productivity &amp; Work</title>
-<meta name="description" content="Three layers of country-level exposure — AI and cognitive work, robotics and manual work, labour scarcity — plus a technology explorer.">
+<meta name="description" content="Three layers of country-level exposure — AI and cognitive work, robotics and manual work, labor scarcity — plus a technology explorer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -250,7 +250,7 @@ svg.world path:focus-visible{stroke:var(--blue);stroke-width:2}
 
 <div class="masthead">
   <div class="inner">
-    <a class="sitename" href="index.html">AI, Productivity &amp; Work<small>Working notes</small></a>
+    <a class="sitename" href="index.html">AI, Productivity &amp; Work</a>
     <nav class="tabs">
       <a href="index.html">TFP Estimates</a>
       <a href="world.html" aria-current="page">AI Throughout the World</a>
@@ -293,7 +293,7 @@ svg.world path:focus-visible{stroke:var(--blue);stroke-width:2}
       </button>
       <button data-layer="scarcity" aria-pressed="false">
         <span class="v">Version 3</span>
-        <span class="n">Labour scarcity</span>
+        <span class="n">Labor scarcity</span>
         <span class="d">Not a risk measure. Who has an incentive to automate at all.</span>
       </button>
       <button data-layer="tech" aria-pressed="false">
@@ -344,7 +344,7 @@ svg.world path:focus-visible{stroke:var(--blue);stroke-width:2}
       <select class="control" id="picker"><option value="">Select…</option></select>
       <label class="weight" id="weightWrap" for="weight">
         <input type="checkbox" id="weight">
-        <span>Weight by labour scarcity</span>
+        <span>Weight by labor scarcity</span>
       </label>
       <button class="btn" id="clear" type="button"><span class="lab">Clear</span><span class="chip" aria-hidden="true">×</span></button>
     </div>
@@ -427,8 +427,8 @@ svg.world path:focus-visible{stroke:var(--blue);stroke-width:2}
                 composite RTI here, it carries clerical work that
                 belongs in `ai`.
 
-     scarcity   Version 3. Labour scarcity / adoption pressure.
-                0-100, higher = scarcer labour, so more incentive
+     scarcity   Version 3. Labor scarcity / adoption pressure.
+                0-100, higher = scarcer labor, so more incentive
                 to automate. Candidate inputs: old-age dependency
                 ratio, working-age population growth (inverted),
                 manufacturing wage level, vacancy rates.
@@ -565,13 +565,13 @@ window.WORLD = [{"id":"004","name":"Afghanistan","d":"M666.4 115.5L667.8 115.5L6
       ramp: ["#F7DCDE","#EBA7AC","#DF717A","#D23C47","#C60615"]
     },
     scarcity: {
-      unit: "Labour scarcity index (0–100). Higher means scarcer, costlier labour.",
-      note: "Not a risk measure. Ageing, high-wage countries automate because labour is scarce; a country with a young workforce and low wages has neither the pressure nor the arithmetic. Use the weighting control to apply this to either exposure layer.",
+      unit: "Labor scarcity index (0–100). Higher means scarcer, costlier labor.",
+      note: "Not a risk measure. Ageing, high-wage countries automate because labor is scarce; a country with a young workforce and low wages has neither the pressure nor the arithmetic. Use the weighting control to apply this to either exposure layer.",
       ramp: ["#E4E7E2","#BBC3B6","#929F8A","#697B5D","#405731"]
     },
     tech: {
       unit: "Share of employment in the occupations this technology targets (%).",
-      note: "Unweighted, this shows where the targeted work is done. Weighted by scarcity, it shows where the machine plausibly pencils out — usually somewhere else, because cheap labour is itself a defence.",
+      note: "Unweighted, this shows where the targeted work is done. Weighted by scarcity, it shows where the machine plausibly pencils out — usually somewhere else, because cheap labor is itself a defence.",
       ramp: ["#FDE8DB","#F9C5A4","#F6A36E","#F28037","#EF5D00"]
     }
   };
@@ -687,7 +687,7 @@ window.WORLD = [{"id":"004","name":"Afghanistan","d":"M666.4 115.5L667.8 115.5L6
 
     var unit = awaiting
       ? 'Search for a technology above to shade the map.'
-      : L.unit + (state.weighted && weightable() ? ' Weighted by labour scarcity, so the figure is an index rather than a share.' : '');
+      : L.unit + (state.weighted && weightable() ? ' Weighted by labor scarcity, so the figure is an index rather than a share.' : '');
     document.getElementById('unit').textContent = unit;
 
     var noteText = awaiting ? '' : ((state.tech && state.tech.note) ? state.tech.note : L.note);
@@ -747,7 +747,7 @@ window.WORLD = [{"id":"004","name":"Afghanistan","d":"M666.4 115.5L667.8 115.5L6
     host.innerHTML = '';
     [['ai','AI and cognitive work',r.ai],
      ['robotics','Robotics and manual work',r.robotics],
-     ['scarcity','Labour scarcity',r.scarcity]].forEach(function(row){
+     ['scarcity','Labor scarcity',r.scarcity]].forEach(function(row){
       var d = document.createElement('div');
       if (state.layer === row[0]) d.className = 'on';
       var k = document.createElement('span'); k.className = 'k'; k.textContent = row[1];
